@@ -6,6 +6,7 @@ using Flow.DataAccess.Extensions;
 using Flow.Business.Extensions;
 using Flow.Api.Extensions;
 using FluentValidation.AspNetCore;
+using Flow.Api.Services.Health;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHealthChecks()
+    .AddCheck<DatabaseHealthCheck>("database");
+
 var app = builder.Build();
 
 app.ConfigureExceptionHandler();
@@ -44,6 +48,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthChecks("/health");
 
 app.MapControllers();
 

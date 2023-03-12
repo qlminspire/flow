@@ -48,6 +48,11 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public IAccountOperationRepository AccountOperations => _accountOperationRepository ??= new AccountOperationRepository(_context);
 
+    public Task<bool> CanConnectAsync(CancellationToken cancellationToken = default)
+    {
+        return _context.Database.CanConnectAsync(cancellationToken);
+    }
+
     public Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return _context.SaveChangesAsync(cancellationToken);

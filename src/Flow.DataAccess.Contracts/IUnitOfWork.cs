@@ -24,5 +24,7 @@ public interface IUnitOfWork
 
     IAccountOperationRepository AccountOperations { get; }
 
+    Task<bool> CanConnectAsync(CancellationToken cancellationToken = default);
+
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

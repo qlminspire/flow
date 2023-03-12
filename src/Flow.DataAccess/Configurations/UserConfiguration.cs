@@ -10,7 +10,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasAlternateKey(x => x.Email);
+        builder.HasIndex(x => x.Email).IsUnique();
         builder.Property(x => x.Email).HasMaxLength(DatabaseConstants.Length256);
     }
 }

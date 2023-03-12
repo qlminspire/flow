@@ -19,18 +19,19 @@ public class BanksController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetBankAsync")]
-    public async Task<BankResponse> GetBankAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IResult> GetBankAsync(Guid id, CancellationToken cancellationToken)
     {
         var bank = await _bankService.GetAsync(id, cancellationToken);
-        var bankResponse = _mapper.Map<BankResponse>(bank);
-        return bankResponse;
+        var response = _mapper.Map<BankResponse>(bank);
+        return Results.Ok(response);
     }
 
     [HttpGet]
-    public async Task<ICollection<BankResponse>> GetBanksAsync(CancellationToken cancellationToken)
+    public async Task<IResult> GetBanksAsync(CancellationToken cancellationToken)
     {
         var banks = await _bankService.GetAsync(cancellationToken);
-        return _mapper.Map<ICollection<BankResponse>>(banks);
+        var response = _mapper.Map<ICollection<BankResponse>>(banks);
+        return Results.Ok(response);
     }
 
     [HttpPost]
@@ -47,13 +48,13 @@ public class BanksController : BaseController
     {
         var dto = _mapper.Map<UpdateBankDto>(request);
         await _bankService.UpdateAsync(id, dto, cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IResult> DeleteBankAsync(Guid id, CancellationToken cancellationToken)
     {
         await _bankService.DeleteAsync(id, cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

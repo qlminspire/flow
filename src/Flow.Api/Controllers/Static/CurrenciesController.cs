@@ -19,17 +19,19 @@ public class CurrenciesController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetCurrencyAsync")]
-    public async Task<CurrencyResponse> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IResult> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
         var currency = await _currencyService.GetAsync(id, cancellationToken);
-        return _mapper.Map<CurrencyResponse>(currency);
+        var response = _mapper.Map<CurrencyResponse>(currency);
+        return Results.Ok(response);
     }
 
     [HttpGet]
-    public async Task<ICollection<CurrencyResponse>> GetCurrenciesAsync(CancellationToken cancellationToken)
+    public async Task<IResult> GetCurrenciesAsync(CancellationToken cancellationToken)
     {
         var currencies = await _currencyService.GetAllAsync(cancellationToken);
-        return _mapper.Map<ICollection<CurrencyResponse>>(currencies);
+        var response = _mapper.Map<ICollection<CurrencyResponse>>(currencies);
+        return Results.Ok(response);
     }
 
     [HttpPost]
@@ -46,13 +48,13 @@ public class CurrenciesController : BaseController
     {
         var updateCurrencyDto = _mapper.Map<UpdateCurrencyDto>(request);
         await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
         await _currencyService.DeleteAsync(id, cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

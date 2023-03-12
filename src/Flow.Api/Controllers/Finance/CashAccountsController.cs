@@ -19,17 +19,19 @@ public class CashAccountsController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetCashAccountAsync")]
-    public async Task<CashAccountResponse> GetCashAccountAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IResult> GetCashAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         var account = await _cashAccountService.GetAsync(UserId, id, cancellationToken);
-        return _mapper.Map<CashAccountResponse>(account);
+        var response = _mapper.Map<CashAccountResponse>(account);
+        return Results.Ok(response);
     }
 
     [HttpGet]
-    public async Task<ICollection<CashAccountResponse>> GetCashAccountsAsync(CancellationToken cancellationToken)
+    public async Task<IResult> GetCashAccountsAsync(CancellationToken cancellationToken)
     {
         var accounts = await _cashAccountService.GetAllAsync(UserId, cancellationToken);
-        return _mapper.Map<ICollection<CashAccountResponse>>(accounts);
+        var response = _mapper.Map<ICollection<CashAccountResponse>>(accounts);
+        return Results.Ok(response);
     }
 
     [HttpPost]

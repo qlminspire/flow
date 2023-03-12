@@ -19,24 +19,26 @@ public class BankAccountsController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetBankAccountAsync")]
-    public async Task<BankAccountResponse> GetBankAccountAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IResult> GetBankAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         var account = await _bankAccountService.GetAsync(UserId, id, cancellationToken);
-        return _mapper.Map<BankAccountResponse>(account);
+        var response = _mapper.Map<BankAccountResponse>(account);
+        return Results.Ok(response);
     }
 
     [HttpGet]
-    public async Task<ICollection<BankAccountResponse>> GetBankAccountsAsync(CancellationToken cancellationToken)
+    public async Task<IResult> GetBankAccountsAsync(CancellationToken cancellationToken)
     {
         var accounts = await _bankAccountService.GetAllAsync(UserId, cancellationToken);
-        return _mapper.Map<ICollection<BankAccountResponse>>(accounts);
+        var response = _mapper.Map<ICollection<BankAccountResponse>>(accounts);
+        return Results.Ok(response);
     }
 
     [HttpPost]
     public async Task<IResult> CreateBankAccountAsync(CreateBankAccountRequest request, CancellationToken cancellationToken)
     {
-        var createBankAccountDto = _mapper.Map<CreateBankAccountDto>(request);
-        var createdBankAccount = await _bankAccountService.CreateAsync(UserId, createBankAccountDto, cancellationToken);
+        var createDto = _mapper.Map<CreateBankAccountDto>(request);
+        var createdBankAccount = await _bankAccountService.CreateAsync(UserId, createDto, cancellationToken);
         var response = _mapper.Map<BankAccountResponse>(createdBankAccount);
         return Results.CreatedAtRoute("GetBankAccountAsync", new { response.Id }, response);
     }

@@ -19,17 +19,19 @@ public class SubscriptionsController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetSubscriptionAsync")]
-    public async Task<SubscriptionResponse> GetSubscriptionAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IResult> GetSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
         var subscription = await _subscriptionService.GetAsync(UserId, id, cancellationToken);
-        return _mapper.Map<SubscriptionResponse>(subscription);
+        var response = _mapper.Map<SubscriptionResponse>(subscription);
+        return Results.Ok(response);
     }
 
     [HttpGet]
-    public async Task<ICollection<SubscriptionResponse>> GetSubscriptionsAsync(CancellationToken cancellationToken)
+    public async Task<IResult> GetSubscriptionsAsync(CancellationToken cancellationToken)
     {
         var subscriptions = await _subscriptionService.GetAllAsync(UserId, cancellationToken);
-        return _mapper.Map<ICollection<SubscriptionResponse>>(subscriptions);
+        var response = _mapper.Map<ICollection<SubscriptionResponse>>(subscriptions);
+        return Results.Ok(response);
     }
 
     [HttpPost]
@@ -46,13 +48,13 @@ public class SubscriptionsController : BaseController
     {
         var updateSubscriptionDto = _mapper.Map<UpdateSubscriptionDto>(request);
         await _subscriptionService.UpdateAsync(UserId, id, updateSubscriptionDto, cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
         await _subscriptionService.DeleteAsync(UserId, id, cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }

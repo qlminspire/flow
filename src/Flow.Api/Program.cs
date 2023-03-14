@@ -1,12 +1,13 @@
 using FluentValidation;
+using FluentValidation.AspNetCore;
 
 using Microsoft.EntityFrameworkCore;
 
 using Flow.DataAccess.Extensions;
 using Flow.Business.Extensions;
 using Flow.Api.Extensions;
-using FluentValidation.AspNetCore;
 using Flow.Api.Services.Health;
+using Flow.Business.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddFlowDbContext(options =>
 });
 builder.Services.RegisterDataAccessServices()
     .RegisterBusinessServices();
+builder.Services.AddSingleton<IFlowApiConfiguration, FlowApiConfiguration>();
 
 builder.Services.AddControllers();
 
@@ -32,7 +34,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHealthChecks()
-    .AddCheck<DatabaseHealthCheck>("database");
+    .AddCheck<DatabaseHealthCheck>("database")
+    .AddCheck<RedisHealthCheck>("redis");
 
 var app = builder.Build();
 

@@ -73,6 +73,11 @@ internal sealed class CurrencyService : ICurrencyService
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
+    public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return _unitOfWork.Currencies.GetByCondition(x => x.Id == id).AnyAsync(cancellationToken);
+    }
+
     public Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default)
     {
         return _unitOfWork.Currencies.GetByCondition(x => x.Code == code).AnyAsync(cancellationToken);

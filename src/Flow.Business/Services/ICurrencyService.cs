@@ -13,6 +13,8 @@ public interface ICurrencyService
     Task UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default);
 
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    
+    Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default);
 }

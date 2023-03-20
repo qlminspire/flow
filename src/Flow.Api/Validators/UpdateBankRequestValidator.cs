@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Flow.Api.Validators;
 
-public class UpdateBankRequestValidator: AbstractValidator<UpdateBankRequest>
+public class UpdateBankRequestValidator : AbstractValidator<UpdateBankRequest>
 {
     public UpdateBankRequestValidator()
     {

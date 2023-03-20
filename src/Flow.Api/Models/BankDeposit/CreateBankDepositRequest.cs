@@ -1,4 +1,4 @@
-﻿using Flow.Entities.Core.Enums;
+﻿using Flow.Domain.Enums;
 
 namespace Flow.Api.Models.BankDeposit;
 

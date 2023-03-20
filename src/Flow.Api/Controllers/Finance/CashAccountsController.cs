@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-
 using Flow.Api.Models.CashAccount;
-using Flow.Business.Models.CashAccount;
-using Flow.Business.Services;
+using Flow.Application.Models.CashAccount;
+using Flow.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Finance;
 

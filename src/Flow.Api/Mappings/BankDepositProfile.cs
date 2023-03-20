@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using Flow.Api.Models.BankDeposit;
-using Flow.Business.Models.BankDeposit;
+using Flow.Application.Models.BankDeposit;
 
 namespace Flow.Api.Mappings;
 

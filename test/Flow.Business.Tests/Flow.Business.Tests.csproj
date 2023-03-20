@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Flow.Business\Flow.Business.csproj" />
+    <ProjectReference Include="..\..\src\Flow.Application\Flow.Application.csproj" />
   </ItemGroup>
 
 </Project>

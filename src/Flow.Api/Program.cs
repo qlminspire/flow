@@ -1,25 +1,24 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
-
-using Microsoft.EntityFrameworkCore;
-
-using Flow.DataAccess.Extensions;
-using Flow.Business.Extensions;
 using Flow.Api.Extensions;
 using Flow.Api.Services.Health;
+using Flow.Application;
 using Flow.Business.Configurations;
+using Flow.Infrastructure;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("FlowContext");
 
 // Add services to the container.
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddFlowDbContext(options =>
 {
     options.UseNpgsql(connectionString);
 });
-builder.Services.RegisterDataAccessServices()
-    .RegisterBusinessServices();
+
 builder.Services.AddSingleton<IFlowApiConfiguration, FlowApiConfiguration>();
 
 builder.Services.AddControllers();

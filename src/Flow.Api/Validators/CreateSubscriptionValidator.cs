@@ -1,13 +1,12 @@
-﻿using FluentValidation;
-
-using Flow.Business.Services;
-using Flow.Api.Models.Subscription;
+﻿using Flow.Api.Models.Subscription;
+using Flow.Application.Services;
+using FluentValidation;
 
 namespace Flow.Api.Validators;
 
-public class CreateSubscriptionValidator: AbstractValidator<CreateSubscriptionRequest>
+public class CreateSubscriptionValidator : AbstractValidator<CreateSubscriptionRequest>
 {
-	private readonly ICurrencyService _currencyService;
+    private readonly ICurrencyService _currencyService;
 
     public CreateSubscriptionValidator(ICurrencyService currencyService)
     {

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-
-using Flow.Api.Models;
-using Flow.Entities.Core.Exceptions;
+﻿using Flow.Api.Models;
+using Flow.Application.Common.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace Flow.Api.Extensions;
 

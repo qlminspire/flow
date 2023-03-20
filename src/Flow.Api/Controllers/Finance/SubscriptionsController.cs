@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-
 using Flow.Api.Models.Subscription;
-using Flow.Business.Services;
-using Flow.Business.Models.Subscription;
+using Flow.Application.Models.Subscription;
+using Flow.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Finance;
 

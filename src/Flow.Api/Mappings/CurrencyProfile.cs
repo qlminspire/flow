@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using Flow.Api.Models.Currency;
-using Flow.Business.Models.Currency;
+using Flow.Application.Models.Currency;
 
 namespace Flow.Api.Mappings;
 

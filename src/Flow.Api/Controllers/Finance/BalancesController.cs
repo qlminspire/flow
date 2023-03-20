@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-
 using Flow.Api.Models.Balance;
-using Flow.Business.Services;
+using Flow.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Finance;
 
-public class BalancesController: BaseController
+public class BalancesController : BaseController
 {
     private readonly ICalculatedBalanceService _balanceService;
     private readonly IMapper _mapper;

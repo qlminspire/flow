@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using Flow.Api.Models.Balance;
-using Flow.Business.Models.Balance;
+using Flow.Application.Models.Balance;
 
 namespace Flow.Api.Mappings;
 

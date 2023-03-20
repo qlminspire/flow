@@ -1,11 +1,10 @@
-﻿using FluentValidation;
-
-using Flow.Api.Models.Currency;
-using Flow.Business.Services;
+﻿using Flow.Api.Models.Currency;
+using Flow.Application.Services;
+using FluentValidation;
 
 namespace Flow.Api.Validators.Currency;
 
-public sealed class CreateCurrencyRequestValidator: AbstractValidator<CreateCurrencyRequest>
+public sealed class CreateCurrencyRequestValidator : AbstractValidator<CreateCurrencyRequest>
 {
     private readonly ICurrencyService _currencyService;
 

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 
 using Flow.Api.Models.Bank;
-using Flow.Business.Models.Bank;
+
+using Flow.Application.Models.Bank;
 
 namespace Flow.Api.Mappings;
 

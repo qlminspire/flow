@@ -1,7 +1,6 @@
-﻿using FluentValidation;
-
-using Flow.Api.Models.Currency;
-using Flow.Business.Services;
+﻿using Flow.Api.Models.Currency;
+using Flow.Application.Services;
+using FluentValidation;
 
 namespace Flow.Api.Validators.Currency;
 

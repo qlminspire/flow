@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-
-using Flow.Api.Models.AccountOperation;
-using Flow.Entities;
+using Flow.Application.Models.AccountOperation;
+using Flow.Domain.Entities;
 
 namespace Flow.Api.Mappings;
 

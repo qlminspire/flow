@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Flow.Business.Configurations;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using StackExchange.Redis;
-
-using Flow.Business.Configurations;
 
 namespace Flow.Api.Services.Health;
 

@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-
-using Flow.Business.Services;
 using Flow.Api.Models.Currency;
-using Flow.Business.Models.Currency;
+using Flow.Application.Models.Currency;
+using Flow.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Static;
 

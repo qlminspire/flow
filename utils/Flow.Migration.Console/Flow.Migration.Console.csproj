@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Flow.DataAccess\Flow.DataAccess.csproj" />
+    <ProjectReference Include="..\..\src\Flow.Application\Flow.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
-﻿using Flow.Business.Models.BankAccount;
-using Flow.Entities.Core.Enums;
+﻿using Flow.Application.Models.BankAccount;
+using Flow.Domain.Enums;
 
 namespace Flow.Api.Models.BankDeposit;
 

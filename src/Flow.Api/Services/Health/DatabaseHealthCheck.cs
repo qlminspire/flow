@@ -1,4 +1,4 @@
-﻿using Flow.DataAccess.Contracts;
+﻿using Flow.Application.Persistance;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Flow.Api.Services.Health;

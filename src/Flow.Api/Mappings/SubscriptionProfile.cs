@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 
 using Flow.Api.Models.Subscription;
-using Flow.Business.Models.Subscription;
+
+using Flow.Application.Models.Subscription;
 
 namespace Flow.Api.Mappings;
 

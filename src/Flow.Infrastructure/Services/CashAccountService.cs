@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Flow.Application.Common.Exceptions;
 using Flow.Application.Models.CashAccount;
-using Flow.Application.Persistance;
+using Flow.Application.Persistence;
 using Flow.Application.Services;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

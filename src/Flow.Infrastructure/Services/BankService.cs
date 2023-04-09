@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Flow.Domain.Entities;
 using Flow.Application.Models.Bank;
-using Flow.Application.Persistance;
 using Flow.Application.Services;
 using Flow.Application.Common.Exceptions;
+using Flow.Application.Persistence;
 
 namespace Flow.Infrastructure.Services;
 

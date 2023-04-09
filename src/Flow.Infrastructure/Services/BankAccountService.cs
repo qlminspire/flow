@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Flow.Application.Common.Exceptions;
 using Flow.Application.Models.BankAccount;
-using Flow.Application.Persistance;
+using Flow.Application.Persistence;
 using Flow.Application.Services;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +59,7 @@ internal sealed class BankAccountService : IBankAccountService
         throw new NotImplementedException();
     }
 
-    public Task ArchiveAsync(Guid userId, Guid accoutId, CancellationToken cancellationToken = default)
+    public Task ArchiveAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

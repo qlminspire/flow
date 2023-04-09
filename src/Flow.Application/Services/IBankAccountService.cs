@@ -12,5 +12,5 @@ public interface IBankAccountService
 
     Task UpdateAsync(Guid userId, Guid accountId, UpdateBankAccountDto updateBankAccountDto, CancellationToken cancellationToken = default);
 
-    Task ArchiveAsync(Guid userId, Guid accoutId, CancellationToken cancellationToken = default);
+    Task ArchiveAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default);
 }

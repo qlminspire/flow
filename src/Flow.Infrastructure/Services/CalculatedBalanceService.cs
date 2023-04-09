@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using Flow.Application.Models.Balance;
-using Flow.Application.Persistance;
 using Flow.Application.Services;
+using Flow.Application.Persistence;
 
 namespace Flow.Infrastructure.Services;
 

@@ -1,4 +1,4 @@
-﻿namespace Flow.Business.Configurations;
+﻿namespace Flow.Api.Configurations;
 
 public interface IFlowApiConfiguration
 {

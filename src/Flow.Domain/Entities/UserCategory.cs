@@ -1,4 +1,6 @@
-﻿namespace Flow.Domain.Entities;
+﻿using Flow.Domain.Entities.Auth;
+
+namespace Flow.Domain.Entities;
 
 public sealed class UserCategory : BaseEntity<Guid>, IHasDate
 {

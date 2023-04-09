@@ -1,4 +1,4 @@
-﻿using Flow.Business.Configurations;
+﻿using Flow.Api.Configurations;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using StackExchange.Redis;
 

@@ -2,10 +2,10 @@
 using AutoMapper.QueryableExtensions;
 using AutoMapper;
 using Flow.Application.Models.Currency;
-using Flow.Application.Persistance;
 using Flow.Application.Services;
 using Flow.Domain.Entities;
 using Flow.Application.Common.Exceptions;
+using Flow.Application.Persistence;
 
 namespace Flow.Infrastructure.Services;
 

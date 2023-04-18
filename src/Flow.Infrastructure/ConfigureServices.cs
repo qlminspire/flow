@@ -13,13 +13,16 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
         services.AddTransient<IBankService, BankService>()
-                .AddTransient<ICurrencyService, CurrencyService>()
-                .AddTransient<ISubscriptionService, SubscriptionService>()
-                .AddTransient<IBankAccountService, BankAccountService>()
-                .AddTransient<ICashAccountService, CashAccountService>()
-                .AddTransient<ICalculatedBalanceService, CalculatedBalanceService>()
-                .AddTransient<IBankDepositService, BankDepositService>()
-                .AddTransient<IAccountOperationService, AccountOperationService>();
+            .AddTransient<ICurrencyService, CurrencyService>()
+            .AddTransient<ISubscriptionService, SubscriptionService>()
+            .AddTransient<IBankAccountService, BankAccountService>()
+            .AddTransient<ICashAccountService, CashAccountService>()
+            .AddTransient<ICalculatedBalanceService, CalculatedBalanceService>()
+            .AddTransient<IBankDepositService, BankDepositService>()
+            .AddTransient<IAccountOperationService, AccountOperationService>()
+            .AddTransient<IPlannedExpenseService, PlannedExpenseService>()
+            .AddTransient<ICurrencyConversionRateService, CurrencyConversionRateService>()
+            .AddTransient<IDebtService, DebtService>();
 
         return services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

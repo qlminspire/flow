@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Flow.Api.Models;
 using Flow.Api.Models.BankAccount;
 using Flow.Application.Models.BankAccount;
 using Flow.Application.Services;
@@ -18,6 +19,9 @@ public class BankAccountsController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetBankAccountAsync")]
+    [ProducesResponseType(typeof(BankAccountResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetBankAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         var account = await _bankAccountService.GetAsync(UserId, id, cancellationToken);

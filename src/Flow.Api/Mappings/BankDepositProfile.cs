@@ -9,7 +9,8 @@ internal sealed class BankDepositProfile : Profile
 {
     public BankDepositProfile()
     {
-        CreateMap<BankDepositDto, BankDepositResponse>();
+        CreateMap<BankDepositDto, BankDepositResponse>()
+            .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code));
         CreateMap<CreateBankDepositRequest, CreateBankDepositDto>();
     }
 }

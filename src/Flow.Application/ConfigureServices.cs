@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Flow.Application.Common;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Flow.Application;
 
@@ -6,8 +7,10 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        var currencyProjectType = typeof(ConfigureServices);
-        services.AddAutoMapper(currencyProjectType);
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        var currentProjectType = typeof(ConfigureServices);
+        services.AddAutoMapper(currentProjectType);
         return services;
     }
 }

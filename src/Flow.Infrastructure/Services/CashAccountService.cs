@@ -57,7 +57,7 @@ internal sealed class CashAccountService : ICashAccountService
         throw new NotImplementedException();
     }
 
-    public Task ArchiveAsync(Guid userId, Guid accoutId, CancellationToken cancellationToken = default)
+    public Task ArchiveAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

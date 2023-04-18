@@ -7,4 +7,6 @@ public sealed class CalculatedBalanceDto
     public ICollection<BalanceDto> TotalCashAccounts { get; set; }
 
     public ICollection<BalanceDto> TotalDeposits { get; set; }
+
+    public ICollection<BalanceDto> TotalDebts { get; set; }
 }

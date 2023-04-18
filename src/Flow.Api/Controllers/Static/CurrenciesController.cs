@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Flow.Api.Models;
 using Flow.Api.Models.Currency;
 using Flow.Application.Models.Currency;
 using Flow.Application.Services;
@@ -18,6 +19,8 @@ public class CurrenciesController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetCurrencyAsync")]
+    [ProducesResponseType(typeof(CurrencyResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
         var currency = await _currencyService.GetAsync(id, cancellationToken);

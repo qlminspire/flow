@@ -10,7 +10,8 @@ internal sealed class SubscriptionProfile : Profile
 {
     public SubscriptionProfile()
     {
+        CreateMap<SubscriptionDto, SubscriptionResponse>()
+            .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code));
         CreateMap<CreateSubscriptionRequest, CreateSubscriptionDto>();
-        CreateMap<SubscriptionDto, SubscriptionResponse>();
     }
 }

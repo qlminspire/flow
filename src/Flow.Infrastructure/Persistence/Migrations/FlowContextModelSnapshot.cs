@@ -17,12 +17,12 @@ namespace Flow.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Flow.Entities.Account", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace Flow.DataAccess.Migrations
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("Flow.Entities.AccountOperation", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.AccountOperation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,36 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("AccountOperations");
                 });
 
-            modelBuilder.Entity("Flow.Entities.Bank", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Auth.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.Bank", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,7 +146,7 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("Banks");
                 });
 
-            modelBuilder.Entity("Flow.Entities.BankDeposit", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.BankDeposit", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +198,7 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("BankDeposits");
                 });
 
-            modelBuilder.Entity("Flow.Entities.Currency", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Currency", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -204,7 +233,78 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("Flow.Entities.Subscription", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Debt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Debts");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.PlannedExpense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("ExpenseDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PlannedExpenses");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.Subscription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -250,36 +350,7 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("Subscriptions");
                 });
 
-            modelBuilder.Entity("Flow.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset?>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset?>("UpdateDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Flow.Entities.UserCategory", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.UserCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -312,7 +383,7 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("UserCategories");
                 });
 
-            modelBuilder.Entity("Flow.Entities.UserIncome", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.UserIncome", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -344,9 +415,34 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("UserIncomes");
                 });
 
-            modelBuilder.Entity("Flow.Entities.BankAccount", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.UserPreferences", b =>
                 {
-                    b.HasBaseType("Flow.Entities.Account");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("BudgetingStartDay")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PreferedCurrencyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PreferedCurrencyId");
+
+                    b.ToTable("UserPreferences");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.BankAccount", b =>
+                {
+                    b.HasBaseType("Flow.Domain.Entities.Account");
 
                     b.Property<Guid>("BankId")
                         .HasColumnType("uuid");
@@ -361,9 +457,9 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("BankAccounts");
                 });
 
-            modelBuilder.Entity("Flow.Entities.CashAccount", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.CashAccount", b =>
                 {
-                    b.HasBaseType("Flow.Entities.Account");
+                    b.HasBaseType("Flow.Domain.Entities.Account");
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
@@ -372,20 +468,20 @@ namespace Flow.DataAccess.Migrations
                     b.ToTable("CashAccounts");
                 });
 
-            modelBuilder.Entity("Flow.Entities.Account", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Account", b =>
                 {
-                    b.HasOne("Flow.Entities.UserCategory", "Category")
+                    b.HasOne("Flow.Domain.Entities.UserCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Flow.Entities.Currency", "Currency")
+                    b.HasOne("Flow.Domain.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Flow.Entities.User", "User")
+                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -398,9 +494,9 @@ namespace Flow.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Flow.Entities.AccountOperation", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.AccountOperation", b =>
                 {
-                    b.HasOne("Flow.Entities.Account", "Account")
+                    b.HasOne("Flow.Domain.Entities.Account", "Account")
                         .WithMany("Operations")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -409,23 +505,23 @@ namespace Flow.DataAccess.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Flow.Entities.BankDeposit", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.BankDeposit", b =>
                 {
-                    b.HasOne("Flow.Entities.UserCategory", "Category")
+                    b.HasOne("Flow.Domain.Entities.UserCategory", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Flow.Entities.Currency", "Currency")
+                    b.HasOne("Flow.Domain.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Flow.Entities.BankAccount", "RefundAccount")
+                    b.HasOne("Flow.Domain.Entities.BankAccount", "RefundAccount")
                         .WithMany()
                         .HasForeignKey("RefundAccountId");
 
-                    b.HasOne("Flow.Entities.User", "User")
+                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -440,15 +536,15 @@ namespace Flow.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Flow.Entities.Subscription", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Debt", b =>
                 {
-                    b.HasOne("Flow.Entities.Currency", "Currency")
+                    b.HasOne("Flow.Domain.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Flow.Entities.User", "User")
+                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -459,9 +555,47 @@ namespace Flow.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Flow.Entities.UserCategory", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.PlannedExpense", b =>
                 {
-                    b.HasOne("Flow.Entities.User", "User")
+                    b.HasOne("Flow.Domain.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.Subscription", b =>
+                {
+                    b.HasOne("Flow.Domain.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.UserCategory", b =>
+                {
+                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -470,44 +604,55 @@ namespace Flow.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Flow.Entities.UserIncome", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.UserIncome", b =>
                 {
-                    b.HasOne("Flow.Entities.Account", "Account")
+                    b.HasOne("Flow.Domain.Entities.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Flow.Entities.UserIncome", "AccountId")
+                        .HasForeignKey("Flow.Domain.Entities.UserIncome", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Flow.Entities.BankAccount", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.UserPreferences", b =>
                 {
-                    b.HasOne("Flow.Entities.Bank", "Bank")
+                    b.HasOne("Flow.Domain.Entities.Currency", "PreferedCurrency")
+                        .WithMany()
+                        .HasForeignKey("PreferedCurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PreferedCurrency");
+                });
+
+            modelBuilder.Entity("Flow.Domain.Entities.BankAccount", b =>
+                {
+                    b.HasOne("Flow.Domain.Entities.Bank", "Bank")
                         .WithMany()
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Flow.Entities.Account", null)
+                    b.HasOne("Flow.Domain.Entities.Account", null)
                         .WithOne()
-                        .HasForeignKey("Flow.Entities.BankAccount", "Id")
+                        .HasForeignKey("Flow.Domain.Entities.BankAccount", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bank");
                 });
 
-            modelBuilder.Entity("Flow.Entities.CashAccount", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.CashAccount", b =>
                 {
-                    b.HasOne("Flow.Entities.Account", null)
+                    b.HasOne("Flow.Domain.Entities.Account", null)
                         .WithOne()
-                        .HasForeignKey("Flow.Entities.CashAccount", "Id")
+                        .HasForeignKey("Flow.Domain.Entities.CashAccount", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Flow.Entities.Account", b =>
+            modelBuilder.Entity("Flow.Domain.Entities.Account", b =>
                 {
                     b.Navigation("Operations");
                 });

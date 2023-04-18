@@ -36,6 +36,12 @@ public class FlowContext : DbContext
 
     public DbSet<UserIncome> UserIncomes { get; set; }
 
+    public DbSet<PlannedExpense> PlannedExpenses { get; set; }
+
+    public DbSet<UserPreferences> UserPreferences { get; set; }
+
+    public DbSet<Debt> Debts { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(FlowContext))!);

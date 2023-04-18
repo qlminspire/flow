@@ -23,7 +23,7 @@ internal sealed class CalculatedBalanceService : ICalculatedBalanceService
             .Select(x => new BalanceDto
             {
                 Currency = x.Key,
-                Amount = x.Sum(x => x.Amount)
+                Amount = x.Sum(y => y.Amount)
             }).ToListAsync(cancellationToken);
 
         var cashAccountsTotalBalance = await _unitOfWork.CashAccounts.GetByCondition(x => x.UserId == userId)
@@ -32,7 +32,7 @@ internal sealed class CalculatedBalanceService : ICalculatedBalanceService
             .Select(x => new BalanceDto
             {
                 Currency = x.Key,
-                Amount = x.Sum(x => x.Amount)
+                Amount = x.Sum(y => y.Amount)
             }).ToListAsync(cancellationToken);
 
         var depositsTotalBalance = await _unitOfWork.BankDeposits.GetByCondition(x => x.UserId == userId)
@@ -41,14 +41,24 @@ internal sealed class CalculatedBalanceService : ICalculatedBalanceService
             .Select(x => new BalanceDto
             {
                 Currency = x.Key,
-                Amount = x.Sum(x => x.Amount)
+                Amount = x.Sum(y => y.Amount)
+            }).ToListAsync(cancellationToken);
+
+        var debtsTotalBalance = await _unitOfWork.Debts.GetByCondition(x => x.UserId == userId)
+            .Include(x => x.Currency)
+            .GroupBy(x => x.Currency.Code)
+            .Select(x => new BalanceDto
+            {
+                Currency = x.Key,
+                Amount = x.Sum(y => y.Amount)
             }).ToListAsync(cancellationToken);
 
         return new CalculatedBalanceDto
         {
             TotalBankAccounts = bankAccountsTotalBalance,
             TotalCashAccounts = cashAccountsTotalBalance,
-            TotalDeposits = depositsTotalBalance
+            TotalDeposits = depositsTotalBalance,
+            TotalDebts = debtsTotalBalance
         };
     }
 }

@@ -23,6 +23,11 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     private IBankDepositRepository? _bankDepositRepository;
 
+    private IPlannedExpenseRepository? _plannedExpenseRepository;
+
+    private IUserPreferencesRepository? _userPreferencesRepository;
+    private IDebtRepository? _debtRepository;
+
     public UnitOfWork(FlowContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -47,6 +52,12 @@ internal sealed class UnitOfWork : IUnitOfWork
     public IBankDepositRepository BankDeposits => _bankDepositRepository ??= new BankDepositRepository(_context);
 
     public IAccountOperationRepository AccountOperations => _accountOperationRepository ??= new AccountOperationRepository(_context);
+
+    public IPlannedExpenseRepository PlannedExpenses => _plannedExpenseRepository ??= new PlannedExpenseRepository(_context);
+
+    public IUserPreferencesRepository UserPreferences => _userPreferencesRepository ??= new UserPreferencesRepository(_context);
+
+    public IDebtRepository Debts => _debtRepository ??= new DebtRepository(_context);
 
     public Task<bool> CanConnectAsync(CancellationToken cancellationToken = default)
     {

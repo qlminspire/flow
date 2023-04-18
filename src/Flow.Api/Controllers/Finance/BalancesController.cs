@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Flow.Api.Models;
 using Flow.Api.Models.Balance;
 using Flow.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,8 @@ public class BalancesController : BaseController
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(CalculatedBalanceResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     public async Task<IResult> GetCalculatedBalanceAsync(CancellationToken cancellationToken)
     {
         var calculatedBalance = await _balanceService.GetAsync(UserId, cancellationToken);

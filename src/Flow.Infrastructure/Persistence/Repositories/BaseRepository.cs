@@ -1,10 +1,11 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Flow.Application.Persistence.Repositories;
+using Flow.Domain.Common;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
+internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity<Guid>
 {
     protected readonly FlowContext Context;
     protected readonly DbSet<TEntity> All;
@@ -23,6 +24,11 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEn
     public IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false)
     {
         return GetAll(trackChanges).Where(expression);
+    }
+
+    public IQueryable<TEntity> GetById(Guid id)
+    {
+        return GetByCondition(x => x.Id == id, true);
     }
 
     public void Create(TEntity entity)

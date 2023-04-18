@@ -2,4 +2,4 @@
 
 namespace Flow.Application.Models.AccountOperation;
 
-public sealed record CreateAccountOperationDto(AccountOperationType type, Guid accountId, decimal Price);
+public sealed record CreateAccountOperationDto(AccountOperationType Type, Guid AccountId, decimal Price);

@@ -1,4 +1,5 @@
 ﻿using Flow.Application.Models.BankAccount;
+using Flow.Application.Models.Currency;
 using Flow.Domain.Enums;
 
 namespace Flow.Application.Models.BankDeposit;
@@ -9,7 +10,7 @@ public sealed class BankDepositDto
 
     public decimal Amount { get; set; }
 
-    public string Currency { get; set; }
+    public CurrencyDto Currency { get; set; }
 
     public DepositType Type { get; set; }
 

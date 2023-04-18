@@ -24,6 +24,12 @@ public interface IUnitOfWork
 
     IAccountOperationRepository AccountOperations { get; }
 
+    IPlannedExpenseRepository PlannedExpenses { get; }
+
+    IUserPreferencesRepository UserPreferences { get; }
+
+    IDebtRepository Debts { get; }
+
     Task<bool> CanConnectAsync(CancellationToken cancellationToken = default);
 
     Task SaveChangesAsync(CancellationToken cancellationToken = default);

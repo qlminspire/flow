@@ -8,8 +8,7 @@ internal class BankDepositProfile : Profile
 {
     public BankDepositProfile()
     {
-        CreateMap<BankDeposit, BankDepositDto>()
-            .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency!.Code));
+        CreateMap<BankDeposit, BankDepositDto>();
         CreateMap<CreateBankDepositDto, BankDeposit>();
         CreateMap<UpdateBankDepositDto, BankDeposit>();
     }

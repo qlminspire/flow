@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Flow.Application.Common;
 using Flow.Application.Common.Exceptions;
 using Flow.Application.Models.PlannedExpense;
 using Flow.Application.Persistence;
@@ -14,12 +15,14 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrencyConversionRateService _currencyConversionRateService;
     private readonly IMapper _mapper;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public PlannedExpenseService(IUnitOfWork unitOfWork, IMapper mapper, ICurrencyConversionRateService currencyConversionRateService)
+    public PlannedExpenseService(IUnitOfWork unitOfWork, IMapper mapper, ICurrencyConversionRateService currencyConversionRateService, IDateTimeProvider dateTimeProvider)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currencyConversionRateService = currencyConversionRateService;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<PlannedExpenseDto> GetAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
@@ -43,7 +46,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
     {
         const string defaultCurrency = "USD";
 
-        var currentDate = DateTimeOffset.UtcNow;
+        var currentDate = _dateTimeProvider.UtcNow;
         var startOfMonth = new DateOnly(currentDate.Year, currentDate.Month, 1);
         var plannedExpenses = await _unitOfWork.PlannedExpenses
             .GetByCondition(x => x.UserId == userId && x.ExpenseDate >= startOfMonth)

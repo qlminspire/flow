@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Flow.Api.Models;
 using Flow.Api.Models.Subscription;
 using Flow.Application.Models.Subscription;
 using Flow.Application.Services;
@@ -18,14 +19,17 @@ public class SubscriptionsController : BaseController
     }
 
     [HttpGet("{id:guid}", Name = "GetSubscriptionAsync")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
-        var subscription = await _subscriptionService.GetAsync(UserId, id, cancellationToken);
-        var response = _mapper.Map<SubscriptionResponse>(subscription);
-        return Results.Ok(response);
+        var subscriptionResult = await _subscriptionService.GetAsync(UserId, id, cancellationToken);
+        return subscriptionResult.Match(subscription => Results.Ok(_mapper.Map<SubscriptionResponse>(subscription)),
+                                                   _ => Results.NotFound());
     }
 
     [HttpGet]
+     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IResult> GetSubscriptionsAsync(CancellationToken cancellationToken)
     {
         var subscriptions = await _subscriptionService.GetAllAsync(UserId, cancellationToken);
@@ -46,14 +50,16 @@ public class SubscriptionsController : BaseController
     public async Task<IResult> UpdateSubscriptionAsync(Guid id, [FromBody] UpdateSubscriptionRequest request, CancellationToken cancellationToken)
     {
         var updateSubscriptionDto = _mapper.Map<UpdateSubscriptionDto>(request);
-        await _subscriptionService.UpdateAsync(UserId, id, updateSubscriptionDto, cancellationToken);
-        return Results.NoContent();
+        var results = await _subscriptionService.UpdateAsync(UserId, id, updateSubscriptionDto, cancellationToken);
+        return results.Match(_ => Results.NoContent(),
+                             _ => Results.NotFound());
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _subscriptionService.DeleteAsync(UserId, id, cancellationToken);
-        return Results.NoContent();
+        var results = await _subscriptionService.DeleteAsync(UserId, id, cancellationToken);
+        return results.Match(_ => Results.NoContent(),
+                             _ => Results.NotFound());
     }
 }

@@ -31,12 +31,12 @@ public class BanksController : BaseController
     /// <returns>The bank</returns>
     [HttpGet("{id:guid}", Name = "GetBankAsync")]
     [ProducesResponseType(typeof(BankResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetBankAsync(Guid id, CancellationToken cancellationToken)
     {
-        var bank = await _bankService.GetAsync(id, cancellationToken);
-        var response = _mapper.Map<BankResponse>(bank);
-        return Results.Ok(response);
+        var results = await _bankService.GetAsync(id, cancellationToken);
+        return results.Match(bank => Results.Ok(_mapper.Map<BankResponse>(bank)),
+                                _ => Results.NotFound());
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class BanksController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(ICollection<BankResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateBankAsync([FromBody] CreateBankRequest request, CancellationToken cancellationToken)
     {
         var dto = _mapper.Map<CreateBankDto>(request);
@@ -104,12 +104,13 @@ public class BanksController : BaseController
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> UpdateBankAsync(Guid id, [FromBody] UpdateBankRequest request, CancellationToken cancellationToken)
     {
         var dto = _mapper.Map<UpdateBankDto>(request);
-        await _bankService.UpdateAsync(id, dto, cancellationToken);
-        return Results.NoContent();
+        var results = await _bankService.UpdateAsync(id, dto, cancellationToken);
+        return results.Match(_ => Results.NoContent(),
+                             _ => Results.NotFound());
     }
 
     /// <summary>
@@ -126,10 +127,11 @@ public class BanksController : BaseController
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteBankAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _bankService.DeleteAsync(id, cancellationToken);
-        return Results.NoContent();
+        var results = await _bankService.DeleteAsync(id, cancellationToken);
+        return results.Match(_ => Results.NoContent(),
+                             _ => Results.NotFound());
     }
 }

@@ -23,9 +23,9 @@ public class CurrenciesController : BaseController
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
-        var currency = await _currencyService.GetAsync(id, cancellationToken);
-        var response = _mapper.Map<CurrencyResponse>(currency);
-        return Results.Ok(response);
+        var results = await _currencyService.GetAsync(id, cancellationToken);
+        return results.Match(currency => Results.Ok(_mapper.Map<CurrencyResponse>(currency)),
+                                    _ => Results.NotFound());
     }
 
     [HttpGet]
@@ -49,14 +49,16 @@ public class CurrenciesController : BaseController
     public async Task<IResult> UpdateCurrencyAsync(Guid id, [FromBody] UpdateCurrencyRequest request, CancellationToken cancellationToken)
     {
         var updateCurrencyDto = _mapper.Map<UpdateCurrencyDto>(request);
-        await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
-        return Results.NoContent();
+        var results = await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
+        return results.Match(_ => Results.NoContent(),
+                             _ => Results.NotFound());
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _currencyService.DeleteAsync(id, cancellationToken);
-        return Results.NoContent();
+        var results = await _currencyService.DeleteAsync(id, cancellationToken);
+        return results.Match(_ => Results.NoContent(),
+                             _ => Results.NotFound());
     }
 }

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using Flow.Domain.Entities;
-using Flow.Application.Models.Bank;
-using Flow.Application.Services;
 using Flow.Application.Common.Exceptions;
+using Flow.Application.Models.Bank;
 using Flow.Application.Persistence;
+using Flow.Application.Services;
+using Flow.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using OneOf;
+using OneOf.Types;
 
 namespace Flow.Infrastructure.Services;
 
@@ -22,11 +22,11 @@ internal sealed class BankService : IBankService
         _mapper = mapper;
     }
 
-    public async Task<BankDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<OneOf<BankDto, NotFound>> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var bank = await _unitOfWork.Banks.GetByCondition(x => x.Id == id).ProjectTo<BankDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken);
 
-        return bank ?? throw new BankNotFoundException(id);
+        return bank != null ? bank : new NotFound();
     }
 
     public Task<List<BankDto>> GetAsync(CancellationToken cancellationToken = default)
@@ -48,26 +48,30 @@ internal sealed class BankService : IBankService
         return _mapper.Map<BankDto>(bank);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default)
+    public async Task<OneOf<Success, NotFound>> UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default)
     {
         var existingBank = await _unitOfWork.Banks.GetByCondition(x => x.Id == id, true).FirstOrDefaultAsync(cancellationToken);
         if (existingBank == null)
-            throw new BankNotFoundException(id);
+            return new NotFound();
 
         _mapper.Map(dto, existingBank);
 
         _unitOfWork.Banks.Update(existingBank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new Success();
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<OneOf<Success, NotFound>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var existingBank = await _unitOfWork.Banks.GetByCondition(x => x.Id == id, true).FirstOrDefaultAsync(cancellationToken);
         if (existingBank == null)
-            throw new BankNotFoundException(id);
+            return new NotFound();
 
         _unitOfWork.Banks.Delete(existingBank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new Success();
     }
 
     public Task<bool> ExistsAsync(string name, CancellationToken cancellationToken = default)

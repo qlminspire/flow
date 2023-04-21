@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Flow.Application.Common;
 using Flow.Application.Common.Exceptions;
 using Flow.Application.Models.Bank;
 using Flow.Application.Persistence;
@@ -34,11 +35,11 @@ internal sealed class BankService : IBankService
         return _unitOfWork.Banks.GetAll().ProjectTo<BankDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
     }
 
-    public async Task<BankDto> CreateAsync(CreateBankDto dto, CancellationToken cancellationToken = default)
+    public async Task<OneOf<BankDto, ValidationFailed>> CreateAsync(CreateBankDto dto, CancellationToken cancellationToken = default)
     {
         var existingBank = await _unitOfWork.Banks.GetByCondition(x => x.Name == dto.Name).FirstOrDefaultAsync(cancellationToken);
         if (existingBank != null)
-            throw new DuplicatePreventionException();
+            return new ValidationFailed("The bank with same name already exists.");
 
         var bank = _mapper.Map<Bank>(dto);
 
@@ -48,7 +49,7 @@ internal sealed class BankService : IBankService
         return _mapper.Map<BankDto>(bank);
     }
 
-    public async Task<OneOf<Success, NotFound>> UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default)
+    public async Task<OneOf<Success, NotFound, ValidationFailed>> UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default)
     {
         var existingBank = await _unitOfWork.Banks.GetByCondition(x => x.Id == id, true).FirstOrDefaultAsync(cancellationToken);
         if (existingBank == null)

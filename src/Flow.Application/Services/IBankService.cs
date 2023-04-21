@@ -1,4 +1,5 @@
-﻿using Flow.Application.Models.Bank;
+﻿using Flow.Application.Common;
+using Flow.Application.Models.Bank;
 
 using OneOf;
 using OneOf.Types;
@@ -11,9 +12,9 @@ public interface IBankService
 
     Task<List<BankDto>> GetAsync(CancellationToken cancellationToken = default);
 
-    Task<BankDto> CreateAsync(CreateBankDto dto, CancellationToken cancellationToken = default);
+    Task<OneOf<BankDto, ValidationFailed>> CreateAsync(CreateBankDto dto, CancellationToken cancellationToken = default);
 
-    Task<OneOf<Success, NotFound>> UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default);
+    Task<OneOf<Success, NotFound, ValidationFailed>> UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default);
 
     Task<OneOf<Success, NotFound>> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 

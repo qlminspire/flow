@@ -2,8 +2,6 @@ using Flow.Api.Extensions;
 using Flow.Api.Services.Health;
 using Flow.Application.Extensions;
 using Flow.Infrastructure.Extensions;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -12,18 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
 
-builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
 builder.Services.AddFlowDbContext(options =>
 {
     options.UseNpgsql(connectionString);
 });
 
 builder.Services.AddControllers();
-
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddAutoMapper(typeof(Program));
 

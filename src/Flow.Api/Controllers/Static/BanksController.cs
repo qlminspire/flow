@@ -34,9 +34,8 @@ public class BanksController : BaseController
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetBankAsync(Guid id, CancellationToken cancellationToken)
     {
-        var result = await _bankService.GetAsync(id, cancellationToken);
-        return result.Match(bank => Results.Ok(_mapper.Map<BankResponse>(bank)),
-                               _ => Results.NotFound());
+        var bank = await _bankService.GetAsync(id, cancellationToken);
+        return Results.Ok(_mapper.Map<BankResponse>(bank));
     }
 
     /// <summary>
@@ -54,8 +53,7 @@ public class BanksController : BaseController
     public async Task<IResult> GetBanksAsync(CancellationToken cancellationToken)
     {
         var banks = await _bankService.GetAsync(cancellationToken);
-        var response = _mapper.Map<ICollection<BankResponse>>(banks);
-        return Results.Ok(response);
+        return Results.Ok(_mapper.Map<ICollection<BankResponse>>(banks));
     }
 
     /// <summary>
@@ -80,12 +78,11 @@ public class BanksController : BaseController
     public async Task<IResult> CreateBankAsync([FromBody] CreateBankRequest request, CancellationToken cancellationToken)
     {
         var dto = _mapper.Map<CreateBankDto>(request);
-        var result = await _bankService.CreateAsync(dto, cancellationToken);
-        return result.Match(bank =>
-        {
-            var response = _mapper.Map<BankResponse>(bank);
-            return Results.CreatedAtRoute("GetBankAsync", new { response.Id }, response);
-        }, validation => Results.BadRequest(validation.Message));
+
+        var bank = await _bankService.CreateAsync(dto, cancellationToken);
+
+        var response = _mapper.Map<BankResponse>(bank);
+        return Results.CreatedAtRoute("GetBankAsync", new { response.Id }, response);
     }
 
     /// <summary>
@@ -111,10 +108,8 @@ public class BanksController : BaseController
     public async Task<IResult> UpdateBankAsync(Guid id, [FromBody] UpdateBankRequest request, CancellationToken cancellationToken)
     {
         var dto = _mapper.Map<UpdateBankDto>(request);
-        var results = await _bankService.UpdateAsync(id, dto, cancellationToken);
-        return results.Match(_ => Results.NoContent(),
-                             _ => Results.NotFound(),
-                             (validation) => Results.BadRequest(validation.Message));
+        await _bankService.UpdateAsync(id, dto, cancellationToken);
+        return Results.NoContent();
     }
 
     /// <summary>
@@ -134,8 +129,7 @@ public class BanksController : BaseController
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteBankAsync(Guid id, CancellationToken cancellationToken)
     {
-        var results = await _bankService.DeleteAsync(id, cancellationToken);
-        return results.Match(_ => Results.NoContent(),
-                             _ => Results.NotFound());
+        await _bankService.DeleteAsync(id, cancellationToken);
+        return Results.NoContent();
     }
 }

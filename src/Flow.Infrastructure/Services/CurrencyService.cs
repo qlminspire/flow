@@ -2,13 +2,11 @@
 using AutoMapper.QueryableExtensions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
+using Flow.Application.Exceptions;
 using Flow.Application.Models.Currency;
 using Flow.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
-
-using OneOf;
-using OneOf.Types;
 
 namespace Flow.Infrastructure.Services;
 
@@ -23,12 +21,12 @@ internal sealed class CurrencyService : ICurrencyService
         _mapper = mapper;
     }
 
-    public async Task<OneOf<CurrencyDto, NotFound>> GetAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<CurrencyDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var currency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == id, trackChanges: true)
             .ProjectTo<CurrencyDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken);
-        return currency != null ? currency : new NotFound();
+        return currency is not null ? currency : throw new NotFoundException();
     }
 
     public Task<List<CurrencyDto>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -48,12 +46,12 @@ internal sealed class CurrencyService : ICurrencyService
         return _mapper.Map<CurrencyDto>(currency);
     }
 
-    public async Task<OneOf<Success, NotFound>> UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default)
     {
         var existingCurrency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == id, trackChanges: true)
             .FirstOrDefaultAsync(cancellationToken);
         if (existingCurrency == null)
-            return new NotFound();
+            throw new NotFoundException();
 
         existingCurrency.Code = dto.Code;
         existingCurrency.Name = dto.Name;
@@ -63,21 +61,17 @@ internal sealed class CurrencyService : ICurrencyService
 
         _unitOfWork.Currencies.Update(existingCurrency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return new Success();
     }
 
-    public async Task<OneOf<Success, NotFound>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var existingCurrency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == id, trackChanges: true)
             .FirstOrDefaultAsync(cancellationToken);
         if (existingCurrency == null)
-            return new NotFound();
+            throw new NotFoundException();
 
         _unitOfWork.Currencies.Delete(existingCurrency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return new Success();
     }
 
     public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)

@@ -23,9 +23,8 @@ public class CurrenciesController : BaseController
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
-        var results = await _currencyService.GetAsync(id, cancellationToken);
-        return results.Match(currency => Results.Ok(_mapper.Map<CurrencyResponse>(currency)),
-                                    _ => Results.NotFound());
+        var currency = await _currencyService.GetAsync(id, cancellationToken);
+        return Results.Ok(_mapper.Map<CurrencyResponse>(currency));
     }
 
     [HttpGet]
@@ -40,7 +39,9 @@ public class CurrenciesController : BaseController
     public async Task<IResult> CreateCurrencyAsync([FromBody] CreateCurrencyRequest request, CancellationToken cancellationToken)
     {
         var createCurrencyDto = _mapper.Map<CreateCurrencyDto>(request);
+
         var currency = await _currencyService.CreateAsync(createCurrencyDto, cancellationToken);
+
         var response = _mapper.Map<CurrencyResponse>(currency);
         return Results.CreatedAtRoute("GetCurrencyAsync", new { response.Id }, response);
     }
@@ -49,16 +50,16 @@ public class CurrenciesController : BaseController
     public async Task<IResult> UpdateCurrencyAsync(Guid id, [FromBody] UpdateCurrencyRequest request, CancellationToken cancellationToken)
     {
         var updateCurrencyDto = _mapper.Map<UpdateCurrencyDto>(request);
-        var results = await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
-        return results.Match(_ => Results.NoContent(),
-                             _ => Results.NotFound());
+
+        await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
+        return Results.NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
-        var results = await _currencyService.DeleteAsync(id, cancellationToken);
-        return results.Match(_ => Results.NoContent(),
-                             _ => Results.NotFound());
+        await _currencyService.DeleteAsync(id, cancellationToken);
+
+        return Results.NoContent();
     }
 }

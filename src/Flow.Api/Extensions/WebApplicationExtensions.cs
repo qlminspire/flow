@@ -1,6 +1,7 @@
 ﻿using Flow.Api.Models;
 using Flow.Application.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace Flow.Api.Extensions;
 
@@ -20,6 +21,7 @@ public static class WebApplicationExtensions
                     context.Response.StatusCode = contextFeature.Error switch
                     {
                         NotFoundException => StatusCodes.Status404NotFound,
+                        ValidationException => StatusCodes.Status400BadRequest,
                         _ => StatusCodes.Status500InternalServerError
                     };
 

@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-
-using Microsoft.EntityFrameworkCore;
-using Flow.Domain.Entities;
-using Flow.Application.Models.Subscription;
-using OneOf.Types;
-using OneOf;
-using Flow.Application.Contracts.Services;
 using Flow.Application.Contracts.Persistence;
+using Flow.Application.Contracts.Services;
+using Flow.Application.Exceptions;
+using Flow.Application.Models.Subscription;
+using Flow.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Services;
 
@@ -22,14 +20,14 @@ internal sealed class SubscriptionService : ISubscriptionService
         _mapper = mapper;
     }
 
-    public async Task<OneOf<SubscriptionDto, NotFound>> GetAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
+    public async Task<SubscriptionDto> GetAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
     {
         var subscription = await _unitOfWork.Subscriptions.GetByUser(userId, subscriptionId)
             .Include(x => x.Currency)
             .ProjectTo<SubscriptionDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken);
 
-        return subscription != null ? subscription : new NotFound();
+        return subscription is not null ? subscription : throw new NotFoundException();
     }
 
     public Task<List<SubscriptionDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
@@ -55,31 +53,27 @@ internal sealed class SubscriptionService : ISubscriptionService
         return _mapper.Map<SubscriptionDto>(subscription);
     }
 
-    public async Task<OneOf<Success, NotFound>> UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto dto, CancellationToken cancellationToken = default)
     {
         var existingSubscription = await _unitOfWork.Subscriptions.GetByUser(userId, userId)
             .FirstOrDefaultAsync(cancellationToken);
         if (existingSubscription == null)
-            return new NotFound();
+            throw new NotFoundException();
 
         _mapper.Map(dto, existingSubscription);
 
         _unitOfWork.Subscriptions.Update(existingSubscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return new Success();
     }
 
-    public async Task<OneOf<Success, NotFound>> DeleteAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
     {
         var subscription = await _unitOfWork.Subscriptions.GetByUser(userId, subscriptionId)
             .FirstOrDefaultAsync(cancellationToken);
         if (subscription == null)
-            return new NotFound();
+            throw new NotFoundException();
 
         _unitOfWork.Subscriptions.Delete(subscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return new Success();
     }
 }

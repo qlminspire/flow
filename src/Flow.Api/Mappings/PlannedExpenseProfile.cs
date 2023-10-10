@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Flow.Api.Models.PlannedExpense;
+using Flow.Api.Contracts.Requests.PlannedExpense;
+using Flow.Api.Contracts.Responses.PlannedExpense;
 using Flow.Application.Models.PlannedExpense;
 
 namespace Flow.Api.Mappings;

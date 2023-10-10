@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Flow.Api.Contracts.Requests.PlannedExpense;
+using Flow.Api.Contracts.Responses.PlannedExpense;
 using Flow.Api.Models;
-using Flow.Api.Models.PlannedExpense;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.PlannedExpense;
 using Microsoft.AspNetCore.Mvc;

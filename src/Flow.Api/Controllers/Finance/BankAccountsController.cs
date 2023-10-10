@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Flow.Api.Contracts.Requests.BankAccount;
+using Flow.Api.Contracts.Responses.BankAccount;
 using Flow.Api.Models;
-using Flow.Api.Models.BankAccount;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.BankAccount;
 using Microsoft.AspNetCore.Mvc;

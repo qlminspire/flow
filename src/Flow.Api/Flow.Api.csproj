@@ -38,6 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Flow.Api.Contracts\Flow.Api.Contracts.csproj" />
 		<ProjectReference Include="..\Flow.Infrastructure\Flow.Infrastructure.csproj" />
 	</ItemGroup>
 

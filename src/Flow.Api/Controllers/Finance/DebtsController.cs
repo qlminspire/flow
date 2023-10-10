@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Flow.Api.Models.Debt;
+using Flow.Api.Contracts.Requests.Debt;
+using Flow.Api.Contracts.Responses.Debt;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Debt;
 using Microsoft.AspNetCore.Mvc;

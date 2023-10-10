@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-
-using Flow.Api.Models.CashAccount;
+using Flow.Api.Contracts.Requests.CashAccount;
+using Flow.Api.Contracts.Responses.CashAccount;
 using Flow.Application.Models.CashAccount;
 
 namespace Flow.Api.Mappings;

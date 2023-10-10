@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Flow.Api.Contracts.Responses.Balance;
 using Flow.Api.Models;
-using Flow.Api.Models.Balance;
 using Flow.Application.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 

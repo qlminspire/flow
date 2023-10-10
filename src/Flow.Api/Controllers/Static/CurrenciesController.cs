@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Flow.Api.Contracts.Requests.Currency;
+using Flow.Api.Contracts.Responses.Currency;
 using Flow.Api.Models;
-using Flow.Api.Models.Currency;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Currency;
 using Microsoft.AspNetCore.Mvc;

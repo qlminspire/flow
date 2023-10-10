@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Flow.Api.Contracts.Requests.Subscription;
+using Flow.Api.Contracts.Responses.Subscription;
 using Flow.Api.Models;
-using Flow.Api.Models.Subscription;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Subscription;
 using Microsoft.AspNetCore.Mvc;

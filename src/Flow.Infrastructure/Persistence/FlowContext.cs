@@ -62,12 +62,15 @@ public class FlowContext : DbContext
 
     private void UpdateEntityDates()
     {
-        var addedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Added);
-        foreach (var entry in addedEntries)
-            ((IHasCreateDate)entry.Entity).CreateDate = DateTimeOffset.UtcNow;
+        var entries = ChangeTracker.Entries();
 
-        var updatedEntries = ChangeTracker.Entries().Where(x => x.State == EntityState.Modified);
-        foreach (var entry in updatedEntries)
-            ((IHasUpdateDate)entry.Entity).UpdateDate = DateTimeOffset.UtcNow;
+        foreach (var entry in entries)
+        {
+            if (entry.State == EntityState.Added)
+                ((IHasDate)entry.Entity).CreatedAt = DateTimeOffset.UtcNow;
+
+            if (entry.State == EntityState.Modified)
+                ((IHasDate)entry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+        }
     }
 }

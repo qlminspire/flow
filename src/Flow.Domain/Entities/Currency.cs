@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class Currency : BaseEntity<Guid>, IHasDate
+public sealed class Currency : BaseEntity, IHasDate
 {
     public string Name { get; set; } = null!;
 
@@ -8,7 +8,7 @@ public sealed class Currency : BaseEntity<Guid>, IHasDate
 
     public bool IsActive { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

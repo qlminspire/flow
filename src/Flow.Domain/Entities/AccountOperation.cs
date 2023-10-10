@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class AccountOperation : BaseEntity<Guid>, IHasDate
+public sealed class AccountOperation : BaseEntity, IHasDate
 {
     public AccountOperationType OperationType { get; set; }
 
@@ -10,7 +10,7 @@ public sealed class AccountOperation : BaseEntity<Guid>, IHasDate
 
     public Account? Account { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

@@ -1,5 +1,8 @@
 ﻿namespace Flow.Domain.Common;
 
-public interface IHasDate : IHasCreateDate, IHasUpdateDate
+public interface IHasDate
 {
+    DateTimeOffset CreatedAt { get; set; }
+
+    DateTimeOffset? UpdatedAt { get; set; }
 }

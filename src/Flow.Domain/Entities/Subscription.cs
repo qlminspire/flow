@@ -2,7 +2,7 @@
 
 namespace Flow.Domain.Entities;
 
-public sealed class Subscription : BaseEntity<Guid>, IHasDate
+public sealed class Subscription : BaseEntity, IHasDate
 {
     public string Service { get; set; } = null!;
 
@@ -22,7 +22,7 @@ public sealed class Subscription : BaseEntity<Guid>, IHasDate
 
     public bool? IsActive { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

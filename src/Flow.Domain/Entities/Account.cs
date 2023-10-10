@@ -2,7 +2,7 @@
 
 namespace Flow.Domain.Entities;
 
-public abstract class Account : BaseEntity<Guid>, IHasDate
+public abstract class Account : BaseEntity, IHasDate
 {
     public decimal Amount { get; set; }
 
@@ -20,7 +20,7 @@ public abstract class Account : BaseEntity<Guid>, IHasDate
 
     public ICollection<AccountOperation> Operations { get; set; } = new List<AccountOperation>();
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

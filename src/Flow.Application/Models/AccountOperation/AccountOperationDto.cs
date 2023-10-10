@@ -10,7 +10,7 @@ public class AccountOperationDto
 
     public decimal Price { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

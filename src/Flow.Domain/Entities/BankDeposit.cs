@@ -2,7 +2,7 @@
 
 namespace Flow.Domain.Entities;
 
-public sealed class BankDeposit : BaseEntity<Guid>, IHasDate
+public sealed class BankDeposit : BaseEntity, IHasDate
 {
     public decimal Amount { get; set; }
 
@@ -30,7 +30,7 @@ public sealed class BankDeposit : BaseEntity<Guid>, IHasDate
 
     public BankAccount? RefundAccount { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

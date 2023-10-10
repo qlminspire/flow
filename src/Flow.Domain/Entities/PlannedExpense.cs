@@ -2,7 +2,7 @@
 
 namespace Flow.Domain.Entities;
 
-public sealed class PlannedExpense : BaseEntity<Guid>, IHasDate
+public sealed class PlannedExpense : BaseEntity, IHasDate
 {
     public string Name { get; set; }
 
@@ -18,7 +18,7 @@ public sealed class PlannedExpense : BaseEntity<Guid>, IHasDate
 
     public DateOnly ExpenseDate { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

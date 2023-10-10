@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Common;
 
-public class BaseEntity<Tkey>
+public class BaseEntity
 {
-    public Tkey? Id { get; set; }
+    public Guid Id { get; set; }
 }

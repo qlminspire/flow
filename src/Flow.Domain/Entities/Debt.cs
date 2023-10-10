@@ -2,7 +2,7 @@
 
 namespace Flow.Domain.Entities;
 
-public sealed class Debt : BaseEntity<Guid>, IHasDate
+public sealed class Debt : BaseEntity, IHasDate
 {
     public string Name { get; set; }
 
@@ -16,7 +16,7 @@ public sealed class Debt : BaseEntity<Guid>, IHasDate
 
     public User User { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

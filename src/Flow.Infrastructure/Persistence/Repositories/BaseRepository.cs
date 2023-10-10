@@ -5,7 +5,7 @@ using Flow.Application.Contracts.Persistence.Repositories;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity<Guid>
+internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly FlowContext Context;
     protected readonly DbSet<TEntity> All;

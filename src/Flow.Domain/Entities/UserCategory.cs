@@ -2,7 +2,7 @@
 
 namespace Flow.Domain.Entities;
 
-public sealed class UserCategory : BaseEntity<Guid>, IHasDate
+public sealed class UserCategory : BaseEntity, IHasDate
 {
     public string Name { get; set; } = null!;
 
@@ -12,7 +12,7 @@ public sealed class UserCategory : BaseEntity<Guid>, IHasDate
 
     public User? User { get; set; } = null!;
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

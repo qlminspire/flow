@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class UserIncome : BaseEntity<Guid>, IHasDate
+public sealed class UserIncome : BaseEntity, IHasDate
 {
     public decimal Amount { get; set; }
 
@@ -12,7 +12,7 @@ public sealed class UserIncome : BaseEntity<Guid>, IHasDate
 
     public DateTimeOffset? Date { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

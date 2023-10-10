@@ -20,7 +20,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
             .RuleFor(x => x.Id, _ => Guid.NewGuid())
             .RuleFor(x => x.Email, x => x.Internet.Email())
             .RuleFor(x => x.PasswordHash, x => x.Internet.Password(10, true))
-            .RuleFor(x => x.CreateDate, x => x.Date.Between(new DateTime(2021, 11, 01), new DateTime(2023, 02, 01)));
+            .RuleFor(x => x.CreatedAt, x => x.Date.Between(new DateTime(2021, 11, 01), new DateTime(2023, 02, 01)));
         var users = userFaker.Generate(15);
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
@@ -62,7 +62,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         return _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    private List<Currency> GetCurrencies()
+    private static List<Currency> GetCurrencies()
     {
         return new List<Currency>
         {
@@ -84,7 +84,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         };
     }
 
-    private List<Bank> GetBanks()
+    private static List<Bank> GetBanks()
     {
         return new List<Bank>
         {

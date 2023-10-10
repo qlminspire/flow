@@ -1,14 +1,14 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class UserPreferences : BaseEntity<Guid>, IHasDate
+public sealed class UserPreferences : BaseEntity, IHasDate
 {
-    public Guid PreferedCurrencyId { get; set; }
+    public Guid CurrencyId { get; set; }
 
-    public Currency PreferedCurrency { get; set; }
+    public Currency Currency { get; set; }
 
     public int BudgetingStartDay { get; set; }
 
-    public DateTimeOffset? CreateDate { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdateDate { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Flow.Application.Contracts.Persistence.Repositories;
 
-public interface IRepository<TEntity> where TEntity : BaseEntity<Guid>
+public interface IRepository<TEntity> where TEntity : BaseEntity
 {
     IQueryable<TEntity> GetAll(bool trackChanges = false);
 

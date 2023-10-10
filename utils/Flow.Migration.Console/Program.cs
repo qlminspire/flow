@@ -17,7 +17,7 @@ var builder = Host.CreateDefaultBuilder(args)
                         opts.UseNpgsql(connectionString)
                            .LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted });
                     });
-                    services.AddInfrastructureServices();
+                    services.AddFlowInfrastructure();
                     services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
                 });
 

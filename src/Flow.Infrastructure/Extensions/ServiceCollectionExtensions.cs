@@ -10,7 +10,7 @@ namespace Flow.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection AddFlowInfrastructure(this IServiceCollection services)
     {
         services.AddTransient<IBankService, BankService>()
                 .AddTransient<ICurrencyService, CurrencyService>()

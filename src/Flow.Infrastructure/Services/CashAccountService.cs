@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Flow.Application.Common.Exceptions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
+using Flow.Application.Exceptions;
 using Flow.Application.Models.CashAccount;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +26,7 @@ internal sealed class CashAccountService : ICashAccountService
             .Include(x => x.Currency)
             .ProjectTo<CashAccountDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken);
-        return cashAccount ?? throw new AccountNotFoundException(userId, accountId);
+        return cashAccount ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
     }
 
     public Task<List<CashAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)

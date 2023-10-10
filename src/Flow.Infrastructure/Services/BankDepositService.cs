@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
-using Flow.Domain.Entities;
-using Flow.Application.Models.BankDeposit;
-using Flow.Application.Common.Exceptions;
-using Flow.Application.Contracts.Services;
 using Flow.Application.Contracts.Persistence;
+using Flow.Application.Contracts.Services;
+using Flow.Application.Exceptions;
+using Flow.Application.Models.BankDeposit;
+using Flow.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Services;
 
@@ -28,7 +28,7 @@ internal class BankDepositService : IBankDepositService
              .ProjectTo<BankDepositDto>(_mapper.ConfigurationProvider)
              .FirstOrDefaultAsync(cancellationToken);
 
-        return bankDeposit ?? throw new BankDepositNotFoundException(userId, depositId);
+        return bankDeposit ?? throw new NotFoundException(nameof(depositId), depositId.ToString());
     }
 
     public Task<List<BankDepositDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken)

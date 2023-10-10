@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Flow.Application.Common.Exceptions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
+using Flow.Application.Exceptions;
 using Flow.Application.Models.Debt;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +26,7 @@ internal sealed class DebtService : IDebtService
             .Include(x => x.Currency)
             .ProjectTo<DebtDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken);
-        return debt ?? throw new AccountNotFoundException(userId, debtId);
+        return debt ?? throw new NotFoundException(nameof(debtId), debtId.ToString());
     }
 
     public Task<List<DebtDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)

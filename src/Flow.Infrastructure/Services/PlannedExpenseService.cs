@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Flow.Application.Common;
-using Flow.Application.Common.Exceptions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
+using Flow.Application.Exceptions;
 using Flow.Application.Models.PlannedExpense;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +31,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
             .Include(x => x.Currency)
             .ProjectTo<PlannedExpenseDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken);
-        return plannedExpense ?? throw new PlannedExpenseNotFoundException(userId, plannedExpenseId);
+        return plannedExpense ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
     }
 
     public Task<List<PlannedExpenseDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
@@ -94,10 +94,10 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var plannedExpense = await _unitOfWork.PlannedExpenses.GetByCondition(x => x.UserId == userId && x.Id == plannedExpenseId, true)
             .FirstOrDefaultAsync(cancellationToken);
         if (plannedExpense == null)
-            throw new PlannedExpenseNotFoundException(userId, plannedExpenseId);
+            throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         plannedExpense.Name = dto.Name;
-        plannedExpense.Amount = dto.Amount; 
+        plannedExpense.Amount = dto.Amount;
         plannedExpense.CurrencyId = dto.CurrencyId;
         plannedExpense.ExpenseDate = dto.ExpenseDate;
 
@@ -114,7 +114,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var plannedExpense = await _unitOfWork.PlannedExpenses.GetByCondition(x => x.UserId == userId && x.Id == plannedExpenseId, true)
             .FirstOrDefaultAsync(cancellationToken);
         if (plannedExpense == null)
-            throw new PlannedExpenseNotFoundException(userId, plannedExpenseId);
+            throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         _unitOfWork.PlannedExpenses.Delete(plannedExpense);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

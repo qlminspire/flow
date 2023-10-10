@@ -1,7 +1,7 @@
 using Flow.Api.Extensions;
 using Flow.Api.Services.Health;
-using Flow.Application;
-using Flow.Infrastructure;
+using Flow.Application.Extensions;
+using Flow.Infrastructure.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;

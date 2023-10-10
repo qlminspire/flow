@@ -1,15 +1,15 @@
 ﻿using Flow.Application.Common;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Flow.Application;
+namespace Flow.Application.Extensions;
 
-public static class ConfigureServices
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-        var currentProjectType = typeof(ConfigureServices);
+        var currentProjectType = typeof(ServiceCollectionExtensions);
         services.AddAutoMapper(currentProjectType);
         return services;
     }

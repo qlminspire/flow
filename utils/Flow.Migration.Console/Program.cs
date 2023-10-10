@@ -1,4 +1,4 @@
-﻿using Flow.Infrastructure;
+﻿using Flow.Infrastructure.Extensions;
 using Flow.Infrastructure.Persistence;
 using Flow.Migration.Console.Seed;
 

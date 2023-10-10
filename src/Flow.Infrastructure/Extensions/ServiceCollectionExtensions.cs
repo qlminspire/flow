@@ -6,9 +6,9 @@ using Flow.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Flow.Infrastructure;
+namespace Flow.Infrastructure.Extensions;
 
-public static class ConfigureServices
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {

@@ -2,9 +2,9 @@
 using AutoMapper.QueryableExtensions;
 using Flow.Application.Common;
 using Flow.Application.Common.Exceptions;
+using Flow.Application.Contracts.Persistence;
+using Flow.Application.Contracts.Services;
 using Flow.Application.Models.PlannedExpense;
-using Flow.Application.Persistence;
-using Flow.Application.Services;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

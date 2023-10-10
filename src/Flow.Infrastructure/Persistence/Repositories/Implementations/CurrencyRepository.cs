@@ -1,6 +1,5 @@
-﻿using Flow.Application.Persistence.Repositories;
+﻿using Flow.Application.Contracts.Persistence.Repositories;
 using Flow.Domain.Entities;
-using Flow.Infrastructure.Persistence.Repositories;
 
 namespace Flow.Infrastructure.Persistence.Repositories.Implementations;
 

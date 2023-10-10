@@ -1,4 +1,4 @@
-﻿using Flow.Application.Persistence.Repositories;
+﻿using Flow.Application.Contracts.Persistence.Repositories;
 using Flow.Domain.Entities.Auth;
 using Microsoft.EntityFrameworkCore;
 

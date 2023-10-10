@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Flow.Application.Persistence;
+using Flow.Application.Contracts.Persistence;
 using Flow.Domain.Entities;
 using Flow.Domain.Entities.Auth;
 
@@ -25,26 +25,11 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
 
-        var banksNames = new List<string> { "Альфабанк", "Приорбанк", "МТБ", "Беларусбанк" };
-        var banks = banksNames.Select(x => new Bank { Id = Guid.NewGuid(), Name = x, IsActive = true }).ToList();
+        var banks = GetBanks();
         var banksIds = banks.Select(x => x.Id).ToList();
         _unitOfWork.Banks.CreateMany(banks);
 
-        var currencies = new List<Currency>
-        {
-            new Currency
-            {
-                Id = Guid.NewGuid(),
-                Code = "USD",
-                Name = "Доллар США"
-            },
-            new Currency
-            {
-                Id = Guid.NewGuid(),
-                Code = "BYN",
-                Name = "Беларуский рубль"
-            }
-        };
+        var currencies = GetCurrencies();
         var currenciesIds = currencies.Select(x => x.Id).ToList();
         _unitOfWork.Currencies.CreateMany(currencies);
 
@@ -75,5 +60,58 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         _unitOfWork.Subscriptions.CreateMany(subscriptions);
 
         return _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    private List<Currency> GetCurrencies()
+    {
+        return new List<Currency>
+        {
+            new() {
+                Id = new Guid("657DF0A1-15E1-4048-A03A-5311AA3D03DF"),
+                Code = "USD",
+                Name = "Доллар США"
+            },
+            new() {
+                Id = new Guid("9576670B-4D7B-400D-9A8F-30DEBA74E189"),
+                Code = "BYN",
+                Name = "Беларуский рубль"
+            },
+            new() {
+                Id = new Guid("076EA5EA-92DC-4E73-BCB9-CF5DAC5FF165"),
+                Code = "EUR",
+                Name = "Евро"
+            }
+        };
+    }
+
+    private List<Bank> GetBanks()
+    {
+        return new List<Bank>
+        {
+            new()
+            {
+                Id = new Guid("AC95BB73-FD1E-4107-9277-588264C3D906"),
+                Name = "Альфабанк",
+                IsActive = true
+            },
+            new()
+            {
+                Id = new Guid("8E7DC274-FA0C-430F-B6F0-F629259B734B"),
+                Name = "Приорбанк",
+                IsActive = true
+            },
+            new()
+            {
+                Id = new Guid("DCC144C9-0BE0-4B5C-A939-B2E21CC1A0D4"),
+                Name = "МТБ",
+                IsActive = true
+            },
+            new()
+            {
+                Id = new Guid("37AD5D8C-1653-4973-AB3A-4337061CFF5F"),
+                Name = "Беларусбанк",
+                IsActive = false
+            }
+        };
     }
 }

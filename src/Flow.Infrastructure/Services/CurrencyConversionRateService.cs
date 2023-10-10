@@ -1,4 +1,4 @@
-﻿using Flow.Application.Services;
+﻿using Flow.Application.Contracts.Services;
 
 namespace Flow.Infrastructure.Services;
 

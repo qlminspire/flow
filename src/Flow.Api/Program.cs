@@ -1,28 +1,23 @@
-using System.Reflection;
-using Flow.Api.Configurations;
 using Flow.Api.Extensions;
 using Flow.Api.Services.Health;
-using Flow.Api.Swagger;
 using Flow.Application;
 using Flow.Infrastructure;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("FlowContext");
+var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
 
-// Add services to the container.
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddFlowDbContext(options =>
 {
     options.UseNpgsql(connectionString);
 });
-
-builder.Services.AddSingleton<IFlowApiConfiguration, FlowApiConfiguration>();
 
 builder.Services.AddControllers();
 
@@ -31,7 +26,7 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddAutoMapper(typeof(Program));
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 
 const string apiVersion = "v1";
@@ -53,8 +48,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddHealthChecks()
-    .AddCheck<DatabaseHealthCheck>("database")
-    .AddCheck<RedisHealthCheck>("redis");
+    .AddCheck<DatabaseHealthCheck>("database");
 
 var app = builder.Build();
 
@@ -76,7 +70,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

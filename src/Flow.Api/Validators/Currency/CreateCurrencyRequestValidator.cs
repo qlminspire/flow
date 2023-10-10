@@ -1,5 +1,5 @@
 ﻿using Flow.Api.Models.Currency;
-using Flow.Application.Services;
+using Flow.Application.Contracts.Services;
 using FluentValidation;
 
 namespace Flow.Api.Validators.Currency;

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Flow.Application.Common.Exceptions;
+using Flow.Application.Contracts.Persistence;
+using Flow.Application.Contracts.Services;
 using Flow.Application.Models.BankAccount;
-using Flow.Application.Persistence;
-using Flow.Application.Services;
 using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

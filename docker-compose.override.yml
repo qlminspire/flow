@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  flow.api:
+    container_name: flow.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+      - "DatabaseSettings:ConnectionString=Server=flow.db;Port=5432;Database=Flow;User Id=admin;Password=admin1234;"
+    ports:
+      # - "80"
+      # - "443"
+      - "8080:80"
+    # volumes:
+      # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      # - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - flow.db
+
+  flow.db:
+    container_name: flow.db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=Flow
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  
+  pgadmin:
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=vladislavqlm@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=3535690
+      - POSTGRES_DB=Flow
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8081:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data

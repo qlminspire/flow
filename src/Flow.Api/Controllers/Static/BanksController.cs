@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Flow.Api.Models;
 using Flow.Api.Models.Bank;
+using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Bank;
-using Flow.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Static;

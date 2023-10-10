@@ -4,10 +4,10 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Flow.Domain.Entities;
 using Flow.Application.Models.Subscription;
-using Flow.Application.Services;
-using Flow.Application.Persistence;
 using OneOf.Types;
 using OneOf;
+using Flow.Application.Contracts.Services;
+using Flow.Application.Contracts.Persistence;
 
 namespace Flow.Infrastructure.Services;
 

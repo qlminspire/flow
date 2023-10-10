@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Flow.Application.Persistence.Repositories;
 using Flow.Domain.Common;
+using Flow.Application.Contracts.Persistence.Repositories;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 

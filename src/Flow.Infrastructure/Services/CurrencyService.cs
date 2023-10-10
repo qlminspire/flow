@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-
+using Flow.Application.Contracts.Persistence;
+using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Currency;
-using Flow.Application.Persistence;
-using Flow.Application.Services;
 using Flow.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;

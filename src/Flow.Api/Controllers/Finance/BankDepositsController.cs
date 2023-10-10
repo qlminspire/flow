@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Flow.Api.Models.BankDeposit;
+using Flow.Application.Contracts.Services;
 using Flow.Application.Models.BankDeposit;
-using Flow.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Finance;

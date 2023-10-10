@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Flow.Application\Flow.Application.csproj" />
+    <ProjectReference Include="..\..\src\Flow.Infrastructure\Flow.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

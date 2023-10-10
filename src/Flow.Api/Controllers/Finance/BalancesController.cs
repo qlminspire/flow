@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Flow.Api.Models;
 using Flow.Api.Models.Balance;
-using Flow.Application.Services;
+using Flow.Application.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Finance;

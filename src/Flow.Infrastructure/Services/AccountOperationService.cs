@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-
+using Flow.Application.Contracts.Persistence;
+using Flow.Application.Contracts.Services;
 using Flow.Application.Models.AccountOperation;
-using Flow.Application.Persistence;
-using Flow.Application.Services;
 
 using Flow.Domain.Entities;
 

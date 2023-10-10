@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  flow.api:
+    image: ${DOCKER_REGISTRY-}flowapi
+    build:
+      context: .
+      dockerfile: src/Flow.Api/Dockerfile
+
+  flow.db:
+    image: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  portainer:
+    image: portainer/portainer-ce
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+  portainer_data:

@@ -11,31 +11,31 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <NoWarn>1701;1702;1591</NoWarn>
+		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <NoWarn>1701;1702;1591</NoWarn>
+		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Models\AccountOperation\**" />
-	  <Content Remove="Models\AccountOperation\**" />
-	  <EmbeddedResource Remove="Models\AccountOperation\**" />
-	  <None Remove="Models\AccountOperation\**" />
+		<Compile Remove="Models\AccountOperation\**" />
+		<Content Remove="Models\AccountOperation\**" />
+		<EmbeddedResource Remove="Models\AccountOperation\**" />
+		<None Remove="Models\AccountOperation\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation" Version="11.5.1" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using Flow.Application.Contracts.Persistence;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Flow.Api.Services.Health;
+namespace Flow.Api.HealthChecks;
 
 public sealed class DatabaseHealthCheck : IHealthCheck
 {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace Ordering.Application.Exceptions;
+namespace Flow.Application.Exceptions;
 
 [Serializable]
 public class ValidationException : ApplicationException

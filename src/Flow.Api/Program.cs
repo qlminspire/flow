@@ -1,5 +1,5 @@
 using Flow.Api.Extensions;
-using Flow.Api.Services.Health;
+using Flow.Api.HealthChecks;
 using Flow.Application.Extensions;
 using Flow.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;

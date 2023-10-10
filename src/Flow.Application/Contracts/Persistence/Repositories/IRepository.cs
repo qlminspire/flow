@@ -6,11 +6,23 @@ namespace Flow.Application.Contracts.Persistence.Repositories;
 
 public interface IRepository<TEntity> where TEntity : BaseEntity
 {
-    IQueryable<TEntity> GetAll(bool trackChanges = false);
+    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
-    IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> expression, bool trackChanges = false);
+    Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
-    IQueryable<TEntity> GetById(Guid id);
+    Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
+                                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                 string? includes = null,
+                                 bool disableTracking = true,
+                                 CancellationToken cancellationToken = default);
+
+    Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
+                                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                 List<Expression<Func<TEntity, object>>>? includes = null,
+                                 bool disableTracking = true,
+                                 CancellationToken cancellationToken = default);
+
+    Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     void Create(TEntity entity);
 
@@ -20,4 +32,5 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
 
     void Delete(TEntity entity);
 
+    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 }

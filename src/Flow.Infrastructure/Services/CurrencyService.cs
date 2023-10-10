@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Exceptions;
 using Flow.Application.Models.Currency;
 using Flow.Domain.Entities;
-
-using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Services;
 
@@ -23,17 +20,15 @@ internal sealed class CurrencyService : ICurrencyService
 
     public async Task<CurrencyDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == id, trackChanges: true)
-            .ProjectTo<CurrencyDto>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(cancellationToken);
-        return currency is not null ? currency : throw new NotFoundException();
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException();
+        return _mapper.Map<CurrencyDto>(currency);
     }
 
-    public Task<List<CurrencyDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<List<CurrencyDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.Currencies.GetAll()
-            .ProjectTo<CurrencyDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+        var currencies = await _unitOfWork.Currencies.GetAllAsync(cancellationToken);
+        return _mapper.Map<List<CurrencyDto>>(currencies);
     }
 
     public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto dto, CancellationToken cancellationToken = default)
@@ -48,10 +43,8 @@ internal sealed class CurrencyService : ICurrencyService
 
     public async Task UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default)
     {
-        var existingCurrency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == id, trackChanges: true)
-            .FirstOrDefaultAsync(cancellationToken);
-        if (existingCurrency == null)
-            throw new NotFoundException();
+        var existingCurrency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException();
 
         existingCurrency.Code = dto.Code;
         existingCurrency.Name = dto.Name;
@@ -65,10 +58,8 @@ internal sealed class CurrencyService : ICurrencyService
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var existingCurrency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == id, trackChanges: true)
-            .FirstOrDefaultAsync(cancellationToken);
-        if (existingCurrency == null)
-            throw new NotFoundException();
+        var existingCurrency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException();
 
         _unitOfWork.Currencies.Delete(existingCurrency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -76,11 +67,11 @@ internal sealed class CurrencyService : ICurrencyService
 
     public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.Currencies.GetByCondition(x => x.Id == id).AnyAsync(cancellationToken);
+        return _unitOfWork.Currencies.ExistsAsync(x => x.Id == id, cancellationToken);
     }
 
     public Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.Currencies.GetByCondition(x => x.Code == code).AnyAsync(cancellationToken);
+        return _unitOfWork.Currencies.ExistsAsync(x => x.Code == code, cancellationToken);
     }
 }

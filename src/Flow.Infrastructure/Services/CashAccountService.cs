@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Exceptions;
 using Flow.Application.Models.CashAccount;
 using Flow.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Services;
 
@@ -22,19 +20,15 @@ internal sealed class CashAccountService : ICashAccountService
 
     public async Task<CashAccountDto> GetAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
     {
-        var cashAccount = await _unitOfWork.CashAccounts.GetByCondition(x => x.UserId == userId && x.Id == accountId, true)
-            .Include(x => x.Currency)
-            .ProjectTo<CashAccountDto>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(cancellationToken);
-        return cashAccount ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
+        var cashAccount = await _unitOfWork.CashAccounts.GetByIdAsync(accountId, cancellationToken)
+            ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
+        return _mapper.Map<CashAccountDto>(cashAccount);
     }
 
-    public Task<List<CashAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<CashAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.CashAccounts.GetByCondition(x => x.UserId == userId, false)
-            .Include(x => x.Currency)
-            .ProjectTo<CashAccountDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+        var cashAccounts = await _unitOfWork.CashAccounts.GetAsync(x => x.UserId == userId, cancellationToken);
+        return _mapper.Map<List<CashAccountDto>>(cashAccounts);
     }
 
     public async Task<CashAccountDto> CreateAsync(Guid userId, CreateCashAccountDto createDto, CancellationToken cancellationToken = default)
@@ -45,8 +39,7 @@ internal sealed class CashAccountService : ICashAccountService
         _unitOfWork.CashAccounts.Create(cashAccount);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var currency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == cashAccount.CurrencyId, false)
-            .FirstOrDefaultAsync(CancellationToken.None);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(cashAccount.CurrencyId, CancellationToken.None);
         cashAccount.Currency = currency;
 
         return _mapper.Map<CashAccountDto>(cashAccount);

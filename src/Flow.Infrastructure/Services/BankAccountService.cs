@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Exceptions;
 using Flow.Application.Models.BankAccount;
 using Flow.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Services;
 
@@ -22,21 +20,15 @@ internal sealed class BankAccountService : IBankAccountService
 
     public async Task<BankAccountDto> GetAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
     {
-        var bankAccount = await _unitOfWork.BankAccounts.GetByCondition(x => x.UserId == userId && x.Id == accountId, true)
-            .Include(x => x.Bank)
-            .Include(x => x.Currency)
-            .ProjectTo<BankAccountDto>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(cancellationToken);
-        return bankAccount ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
+        var bankAccount = await _unitOfWork.BankAccounts.GetByIdAsync(accountId, cancellationToken)
+            ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
+        return _mapper.Map<BankAccountDto>(bankAccount);
     }
 
-    public Task<List<BankAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<BankAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.BankAccounts.GetByCondition(x => x.UserId == userId, false)
-            .Include(x => x.Bank)
-            .Include(x => x.Currency)
-            .ProjectTo<BankAccountDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+        var banks = await _unitOfWork.BankAccounts.GetAsync(x => x.UserId == userId, cancellationToken);
+        return _mapper.Map<List<BankAccountDto>>(banks);
     }
 
     public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createDto, CancellationToken cancellationToken = default)
@@ -47,8 +39,7 @@ internal sealed class BankAccountService : IBankAccountService
         _unitOfWork.BankAccounts.Create(bankAccount);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var currency = await _unitOfWork.Currencies.GetByCondition(x => x.Id == bankAccount.CurrencyId)
-            .FirstOrDefaultAsync(CancellationToken.None);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(bankAccount.CurrencyId, CancellationToken.None);
         bankAccount.Currency = currency;
 
         return _mapper.Map<BankAccountDto>(bankAccount);

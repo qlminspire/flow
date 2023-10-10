@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
 
         var currentProjectType = typeof(ServiceCollectionExtensions);
         services.AddAutoMapper(currentProjectType);
+
         return services;
     }
 }

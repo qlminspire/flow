@@ -1,4 +1,5 @@
-﻿using Flow.Api.Models;
+﻿using Flow.Api.Constants;
+using Flow.Api.Models;
 using Flow.Application.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
@@ -12,7 +13,7 @@ public static class WebApplicationExtensions
         {
             appError.Run(async context =>
             {
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = ApiContants.ContentType.ApplicationJson;
 
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                 if (contextFeature is not null)

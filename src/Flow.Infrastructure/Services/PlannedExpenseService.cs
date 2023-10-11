@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Flow.Application.Common;
-using Flow.Application.Contracts.Persistence;
+﻿using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Exceptions;
+using Flow.Application.Mapperly;
 using Flow.Application.Models.PlannedExpense;
-using Flow.Domain.Entities;
 
 namespace Flow.Infrastructure.Services;
 
@@ -12,35 +10,40 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrencyConversionRateService _currencyConversionRateService;
-    private readonly IMapper _mapper;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly TimeProvider _timeProvider;
 
-    public PlannedExpenseService(IUnitOfWork unitOfWork, IMapper mapper, ICurrencyConversionRateService currencyConversionRateService, IDateTimeProvider dateTimeProvider)
+    private readonly PlannedExpenseMapper _mapper;
+
+    public PlannedExpenseService(IUnitOfWork unitOfWork, ICurrencyConversionRateService currencyConversionRateService, TimeProvider timeProvider)
     {
+        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _currencyConversionRateService = currencyConversionRateService;
-        _dateTimeProvider = dateTimeProvider;
+        _timeProvider = timeProvider;
+
+        _mapper = new PlannedExpenseMapper();
     }
 
     public async Task<PlannedExpenseDto> GetAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
     {
         var plannedExpense = await _unitOfWork.PlannedExpenses.GetByIdAsync(plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
-        return _mapper.Map<PlannedExpenseDto>(plannedExpense);
+
+        return _mapper.Map(plannedExpense);
     }
 
     public async Task<List<PlannedExpenseDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         var plannedExpenses = await _unitOfWork.PlannedExpenses.GetAsync(x => x.UserId == userId, cancellationToken);
-        return _mapper.Map<List<PlannedExpenseDto>>(plannedExpenses);
+        return _mapper.Map(plannedExpenses);
     }
 
     public async Task<MonthlyPlannedExpensesDto> GetAllForMonthAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         const string defaultCurrency = "USD";
 
-        var currentDate = _dateTimeProvider.UtcNow;
+        var currentDate = _timeProvider.GetUtcNow();
         var startOfMonth = new DateOnly(currentDate.Year, currentDate.Month, 1);
         var plannedExpenses = await _unitOfWork.PlannedExpenses.GetAggregatedByCurrencyAsync(userId, startOfMonth, cancellationToken);
 
@@ -61,7 +64,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto dto, CancellationToken cancellationToken = default)
     {
-        var plannedExpense = _mapper.Map<PlannedExpense>(dto);
+        var plannedExpense = _mapper.Map(dto);
         plannedExpense.UserId = userId;
 
         _unitOfWork.PlannedExpenses.Create(plannedExpense);
@@ -70,7 +73,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, CancellationToken.None);
         plannedExpense.Currency = currency;
 
-        return _mapper.Map<PlannedExpenseDto>(plannedExpense);
+        return _mapper.Map(plannedExpense);
     }
 
     public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto dto, CancellationToken cancellationToken = default)

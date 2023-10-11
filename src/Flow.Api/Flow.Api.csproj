@@ -26,6 +26,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
 		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.AspNetCore" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />

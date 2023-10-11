@@ -1,44 +1,46 @@
-﻿using AutoMapper;
-using Flow.Application.Contracts.Persistence;
+﻿using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Exceptions;
+using Flow.Application.Mapperly;
 using Flow.Application.Models.Currency;
-using Flow.Domain.Entities;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class CurrencyService : ICurrencyService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+    private readonly CurrencyMapper _mapper;
 
-    public CurrencyService(IUnitOfWork unitOfWork, IMapper mapper)
+    public CurrencyService(IUnitOfWork unitOfWork)
     {
+        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
+        _mapper = new CurrencyMapper();
     }
 
     public async Task<CurrencyDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException();
-        return _mapper.Map<CurrencyDto>(currency);
+
+        return _mapper.Map(currency);
     }
 
     public async Task<List<CurrencyDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var currencies = await _unitOfWork.Currencies.GetAllAsync(cancellationToken);
-        return _mapper.Map<List<CurrencyDto>>(currencies);
+        return _mapper.Map(currencies);
     }
 
     public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto dto, CancellationToken cancellationToken = default)
     {
-        var currency = _mapper.Map<Currency>(dto);
+        var currency = _mapper.Map(dto);
 
         _unitOfWork.Currencies.Create(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<CurrencyDto>(currency);
+        return _mapper.Map(currency);
     }
 
     public async Task UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default)

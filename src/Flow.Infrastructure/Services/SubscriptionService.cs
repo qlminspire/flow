@@ -1,39 +1,42 @@
-﻿using AutoMapper;
-using Flow.Application.Contracts.Persistence;
+﻿using Flow.Application.Contracts.Persistence;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Exceptions;
+using Flow.Application.Mapperly;
 using Flow.Application.Models.Subscription;
-using Flow.Domain.Entities;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class SubscriptionService : ISubscriptionService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public SubscriptionService(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly SubscriptionMapper _mapper;
+
+    public SubscriptionService(IUnitOfWork unitOfWork)
     {
+        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
+
+        _mapper = new SubscriptionMapper();
     }
 
     public async Task<SubscriptionDto> GetAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
     {
         var subscription = await _unitOfWork.Subscriptions.GetByIdAsync(subscriptionId, cancellationToken)
             ?? throw new NotFoundException();
-        return _mapper.Map<SubscriptionDto>(subscription);
+        return _mapper.Map(subscription);
     }
 
     public async Task<List<SubscriptionDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var subscription = await _unitOfWork.Subscriptions.GetAsync(x => x.UserId == userId, cancellationToken);
-        return _mapper.Map<List<SubscriptionDto>>(subscription);
+        var subscriptions = await _unitOfWork.Subscriptions.GetAsync(x => x.UserId == userId, cancellationToken);
+        return _mapper.Map(subscriptions);
     }
 
     public async Task<SubscriptionDto> CreateAsync(Guid userId, CreateSubscriptionDto createSubscriptionDto, CancellationToken cancellationToken = default)
     {
-        var subscription = _mapper.Map<Subscription>(createSubscriptionDto);
+        var subscription = _mapper.Map(createSubscriptionDto);
         subscription.UserId = userId;
 
         _unitOfWork.Subscriptions.Create(subscription);
@@ -42,7 +45,7 @@ internal sealed class SubscriptionService : ISubscriptionService
         var currency = await _unitOfWork.Currencies.GetByIdAsync(subscription.CurrencyId, cancellationToken);
         subscription.Currency = currency!;
 
-        return _mapper.Map<SubscriptionDto>(subscription);
+        return _mapper.Map(subscription);
     }
 
     public async Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto dto, CancellationToken cancellationToken = default)
@@ -50,7 +53,7 @@ internal sealed class SubscriptionService : ISubscriptionService
         var existingSubscription = await _unitOfWork.Subscriptions.GetByIdAsync(subscriptionId, cancellationToken)
             ?? throw new NotFoundException();
 
-        _mapper.Map(dto, existingSubscription);
+        _mapper.Map(existingSubscription, dto);
 
         _unitOfWork.Subscriptions.Update(existingSubscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

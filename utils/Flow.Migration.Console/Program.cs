@@ -1,11 +1,13 @@
-﻿using Flow.Infrastructure.Extensions;
-using Flow.Infrastructure.Persistence;
-using Flow.Migration.Console.Seed;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using Flow.Infrastructure.Extensions;
+using Flow.Infrastructure.Persistence;
+
+using Flow.Migration.Console.Extensions;
+using Flow.Migration.Console.Seed;
 
 var builder = Host.CreateDefaultBuilder(args)
         .ConfigureServices(
@@ -23,13 +25,4 @@ var builder = Host.CreateDefaultBuilder(args)
 
 var host = builder.Build();
 
-using var scope = host.Services.CreateScope();
-var context = scope.ServiceProvider.GetRequiredService<FlowContext>();
-
-await context.Database.MigrateAsync();
-Console.WriteLine("Database migration applied");
-
-var seeder = scope.ServiceProvider.GetService<IDatabaseSeeder>();
-await seeder!.SeedAsync();
-
-Console.WriteLine("Database seeded");
+await host.MigrateDatabaseAsync<FlowContext>();

@@ -20,7 +20,7 @@ public class BanksController : BaseController
     }
 
     /// <summary>
-    /// Gets bank
+    /// Get bank
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -58,7 +58,7 @@ public class BanksController : BaseController
     }
 
     /// <summary>
-    /// Creates bank
+    /// Create bank
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -87,12 +87,12 @@ public class BanksController : BaseController
     }
 
     /// <summary>
-    /// Updates bank
+    /// Update bank
     /// </summary>
     /// <remarks>
     /// Sample request:
     /// 
-    ///     POST: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
+    ///     PUT: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     ///     {
     ///        "name": "Alphabank",
     ///        "isActive": false
@@ -114,7 +114,7 @@ public class BanksController : BaseController
     }
 
     /// <summary>
-    /// Deletes bank
+    /// Delete bank
     /// </summary>
     /// <remarks>
     /// Sample request:

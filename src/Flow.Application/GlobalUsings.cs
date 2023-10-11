@@ -1,0 +1,1 @@
+﻿global using Flow.Domain.Entities;

@@ -1,5 +1,4 @@
 ﻿using Flow.Application.Models.PlannedExpense;
-using Flow.Domain.Entities;
 
 namespace Flow.Application.Contracts.Persistence.Repositories;
 

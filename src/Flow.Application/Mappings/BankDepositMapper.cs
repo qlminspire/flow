@@ -1,8 +1,7 @@
 ﻿using Flow.Application.Models.BankDeposit;
-using Flow.Domain.Entities;
 using Riok.Mapperly.Abstractions;
 
-namespace Flow.Application.Mapperly;
+namespace Flow.Application.Mappings;
 
 [Mapper]
 public partial class BankDepositMapper

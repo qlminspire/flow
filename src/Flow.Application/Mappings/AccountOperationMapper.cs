@@ -1,5 +1,4 @@
 ﻿using Flow.Application.Models.AccountOperation;
-using Flow.Domain.Entities;
 using Riok.Mapperly.Abstractions;
 
 namespace Flow.Application.Mappings;

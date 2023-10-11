@@ -1,10 +1,11 @@
-﻿using Flow.Application.Models.Subscription;
-using Riok.Mapperly.Abstractions;
+﻿using Riok.Mapperly.Abstractions;
 
-namespace Flow.Application.Mappings;
+using Flow.Application.Models.Subscription;
+
+namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-public partial class SubscriptionMapper
+internal partial class SubscriptionMapper
 {
     public partial SubscriptionDto Map(Subscription subscription);
 

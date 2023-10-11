@@ -1,10 +1,11 @@
-﻿using Flow.Application.Models.Currency;
-using Riok.Mapperly.Abstractions;
+﻿using Riok.Mapperly.Abstractions;
 
-namespace Flow.Application.Mappings;
+using Flow.Application.Models.Currency;
+
+namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-public partial class CurrencyMapper
+internal partial class CurrencyMapper
 {
     public partial CurrencyDto Map(Currency currency);
 

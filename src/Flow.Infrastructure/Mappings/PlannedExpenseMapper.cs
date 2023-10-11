@@ -1,10 +1,11 @@
-﻿using Flow.Application.Models.PlannedExpense;
-using Riok.Mapperly.Abstractions;
+﻿using Riok.Mapperly.Abstractions;
 
-namespace Flow.Application.Mappings;
+using Flow.Application.Models.PlannedExpense;
+
+namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-public partial class PlannedExpenseMapper
+internal partial class PlannedExpenseMapper
 {
     public partial PlannedExpenseDto Map(PlannedExpense plannedExpense);
 

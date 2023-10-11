@@ -1,10 +1,11 @@
-﻿using Flow.Application.Models.Debt;
-using Riok.Mapperly.Abstractions;
+﻿using Riok.Mapperly.Abstractions;
 
-namespace Flow.Application.Mappings;
+using Flow.Application.Models.Debt;
+
+namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-public partial class DebtMapper
+internal partial class DebtMapper
 {
     public partial DebtDto Map(Debt debt);
 

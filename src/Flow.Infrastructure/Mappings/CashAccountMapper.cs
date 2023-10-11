@@ -1,10 +1,11 @@
-﻿using Flow.Application.Models.CashAccount;
-using Riok.Mapperly.Abstractions;
+﻿using Riok.Mapperly.Abstractions;
 
-namespace Flow.Application.Mappings;
+using Flow.Application.Models.CashAccount;
+
+namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-public partial class CashAccountMapper
+internal partial class CashAccountMapper
 {
     public partial CashAccountDto Map(CashAccount cashAccount);
 

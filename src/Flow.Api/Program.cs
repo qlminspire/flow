@@ -24,7 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddFlowSwagger();
 
 builder.Services.AddHealthChecks()
-    .AddCheck<DatabaseHealthCheck>("database");
+    .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
 
 var app = builder.Build();
 
@@ -41,7 +41,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
-app.UseHealthChecks("/health");
+app.UseHealthChecks("/_health");
 
 app.MapControllers();
 

@@ -5,6 +5,8 @@ namespace Flow.Api.HealthChecks;
 
 public sealed class DatabaseHealthCheck : IHealthCheck
 {
+    public const string Name = "database";
+
     private readonly IUnitOfWork _unitOfWork;
 
     public DatabaseHealthCheck(IUnitOfWork unitOfWork)

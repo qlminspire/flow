@@ -2,6 +2,7 @@
 
 using Flow.Api.Contracts.Requests.Bank;
 using Flow.Api.Contracts.Responses.Bank;
+
 using Flow.Application.Models.Bank;
 
 namespace Flow.Api.Mappings;

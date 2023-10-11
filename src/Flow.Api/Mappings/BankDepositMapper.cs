@@ -2,6 +2,7 @@
 
 using Flow.Api.Contracts.Requests.BankDeposit;
 using Flow.Api.Contracts.Responses.BankDeposit;
+
 using Flow.Application.Models.BankDeposit;
 
 namespace Flow.Api.Mappings;

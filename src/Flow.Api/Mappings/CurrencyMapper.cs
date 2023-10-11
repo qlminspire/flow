@@ -2,6 +2,7 @@
 
 using Flow.Api.Contracts.Requests.Currency;
 using Flow.Api.Contracts.Responses.Currency;
+
 using Flow.Application.Models.Currency;
 
 namespace Flow.Api.Mappings;

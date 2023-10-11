@@ -1,6 +1,4 @@
-﻿using Flow.Application.Contracts.Services;
-
-namespace Flow.Infrastructure.Services;
+﻿namespace Flow.Infrastructure.Services;
 
 internal sealed class CurrencyConversionRateService : ICurrencyConversionRateService
 {

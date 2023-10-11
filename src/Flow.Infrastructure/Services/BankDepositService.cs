@@ -1,8 +1,4 @@
-﻿using Flow.Application.Contracts.Persistence;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Exceptions;
-using Flow.Application.Mapperly;
-using Flow.Application.Models.BankDeposit;
+﻿using Flow.Application.Models.BankDeposit;
 
 namespace Flow.Infrastructure.Services;
 

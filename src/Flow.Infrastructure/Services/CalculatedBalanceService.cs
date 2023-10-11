@@ -1,6 +1,4 @@
-﻿using Flow.Application.Contracts.Persistence;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Models.Balance;
+﻿using Flow.Application.Models.Balance;
 
 namespace Flow.Infrastructure.Services;
 

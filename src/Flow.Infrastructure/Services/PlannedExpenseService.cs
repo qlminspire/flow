@@ -1,8 +1,4 @@
-﻿using Flow.Application.Contracts.Persistence;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Exceptions;
-using Flow.Application.Mapperly;
-using Flow.Application.Models.PlannedExpense;
+﻿using Flow.Application.Models.PlannedExpense;
 
 namespace Flow.Infrastructure.Services;
 

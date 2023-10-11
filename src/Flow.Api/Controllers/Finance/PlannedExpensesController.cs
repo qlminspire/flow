@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Flow.Api.Contracts.Requests.PlannedExpense;
+﻿using Flow.Api.Contracts.Requests.PlannedExpense;
 using Flow.Api.Contracts.Responses.PlannedExpense;
+using Flow.Api.Mappings;
 using Flow.Api.Models;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.PlannedExpense;
@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Finance;
 
-public class PlannedExpensesController: BaseController
+public class PlannedExpensesController : BaseController
 {
     private readonly IPlannedExpenseService _plannedExpenseService;
-    private readonly IMapper _mapper;
+    private readonly PlannedExpenseMapper _mapper;
 
-    public PlannedExpensesController(IPlannedExpenseService plannedExpenseService, IMapper mapper)
+    public PlannedExpensesController(IPlannedExpenseService plannedExpenseService)
     {
         _plannedExpenseService = plannedExpenseService;
-        _mapper = mapper;
+        _mapper = new();
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class PlannedExpensesController: BaseController
     public async Task<IResult> GetPlannedExpenseAsync(Guid id, CancellationToken cancellationToken)
     {
         var plannedExpense = await _plannedExpenseService.GetAsync(UserId, id, cancellationToken);
-        var response = _mapper.Map<PlannedExpenseResponse>(plannedExpense);
+        var response = _mapper.Map(plannedExpense);
         return Results.Ok(response);
     }
 
@@ -55,7 +55,7 @@ public class PlannedExpensesController: BaseController
     public async Task<IResult> GetPlannedExpensesAsync(CancellationToken cancellationToken)
     {
         var plannedExpenses = await _plannedExpenseService.GetAllAsync(UserId, cancellationToken);
-        var response = _mapper.Map<ICollection<PlannedExpenseResponse>>(plannedExpenses);
+        var response = _mapper.Map(plannedExpenses);
         return Results.Ok(response);
     }
 
@@ -75,7 +75,7 @@ public class PlannedExpensesController: BaseController
     public async Task<IResult> GetMonthlyPlannedExpensesAsync(CancellationToken cancellationToken)
     {
         var plannedExpenses = await _plannedExpenseService.GetAllForMonthAsync(UserId, cancellationToken);
-        var response = _mapper.Map<MonthlyPlannedExpensesResponse>(plannedExpenses);
+        var response = _mapper.Map(plannedExpenses);
         return Results.Ok(response);
     }
 
@@ -102,9 +102,9 @@ public class PlannedExpensesController: BaseController
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreatePlannedExpenseAsync([FromBody] CreatePlannedExpenseRequest request, CancellationToken cancellationToken)
     {
-        var createPlannedExpenseDto = _mapper.Map<CreatePlannedExpenseDto>(request);
+        var createPlannedExpenseDto = _mapper.Map(request);
         var plannedExpense = await _plannedExpenseService.CreateAsync(UserId, createPlannedExpenseDto, cancellationToken);
-        var response = _mapper.Map<PlannedExpenseResponse>(plannedExpense);
+        var response = _mapper.Map(plannedExpense);
         return Results.CreatedAtRoute("GetPlannedExpenseAsync", new { response.Id }, response);
     }
 
@@ -132,7 +132,7 @@ public class PlannedExpensesController: BaseController
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> UpdatePlannedExpenseAsync(Guid id, [FromBody] UpdatePlannedExpenseRequest request, CancellationToken cancellationToken)
     {
-        var updatePlannedExpenseDto = _mapper.Map<UpdatePlannedExpenseDto>(request);
+        var updatePlannedExpenseDto = _mapper.Map(request);
         await _plannedExpenseService.UpdateAsync(UserId, id, updatePlannedExpenseDto, cancellationToken);
         return Results.NoContent();
     }

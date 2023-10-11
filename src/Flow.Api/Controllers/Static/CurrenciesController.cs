@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Flow.Api.Contracts.Requests.Currency;
+﻿using Flow.Api.Contracts.Requests.Currency;
 using Flow.Api.Contracts.Responses.Currency;
+using Flow.Api.Mappings;
 using Flow.Api.Models;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Currency;
@@ -11,12 +11,12 @@ namespace Flow.Api.Controllers.Static;
 public class CurrenciesController : BaseController
 {
     private readonly ICurrencyService _currencyService;
-    private readonly IMapper _mapper;
+    private readonly CurrencyMapper _mapper;
 
-    public CurrenciesController(ICurrencyService currencyService, IMapper mapper)
+    public CurrenciesController(ICurrencyService currencyService)
     {
         _currencyService = currencyService;
-        _mapper = mapper;
+        _mapper = new();
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class CurrenciesController : BaseController
     public async Task<IResult> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
         var currency = await _currencyService.GetAsync(id, cancellationToken);
-        return Results.Ok(_mapper.Map<CurrencyResponse>(currency));
+        return Results.Ok(_mapper.Map(currency));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class CurrenciesController : BaseController
     public async Task<IResult> GetCurrenciesAsync(CancellationToken cancellationToken)
     {
         var currencies = await _currencyService.GetAllAsync(cancellationToken);
-        var response = _mapper.Map<ICollection<CurrencyResponse>>(currencies);
+        var response = _mapper.Map(currencies);
         return Results.Ok(response);
     }
 
@@ -76,11 +76,11 @@ public class CurrenciesController : BaseController
     [HttpPost]
     public async Task<IResult> CreateCurrencyAsync([FromBody] CreateCurrencyRequest request, CancellationToken cancellationToken)
     {
-        var createCurrencyDto = _mapper.Map<CreateCurrencyDto>(request);
+        var createCurrencyDto = _mapper.Map(request);
 
         var currency = await _currencyService.CreateAsync(createCurrencyDto, cancellationToken);
 
-        var response = _mapper.Map<CurrencyResponse>(currency);
+        var response = _mapper.Map(currency);
         return Results.CreatedAtRoute("GetCurrencyAsync", new { response.Id }, response);
     }
 
@@ -104,7 +104,7 @@ public class CurrenciesController : BaseController
     [HttpPut("{id:guid}")]
     public async Task<IResult> UpdateCurrencyAsync(Guid id, [FromBody] UpdateCurrencyRequest request, CancellationToken cancellationToken)
     {
-        var updateCurrencyDto = _mapper.Map<UpdateCurrencyDto>(request);
+        var updateCurrencyDto = _mapper.Map(request);
 
         await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
         return Results.NoContent();

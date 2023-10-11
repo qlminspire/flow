@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Flow.Api.Contracts.Requests.Subscription;
+﻿using Flow.Api.Contracts.Requests.Subscription;
 using Flow.Api.Contracts.Responses.Subscription;
+using Flow.Api.Mappings;
 using Flow.Api.Models;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Subscription;
@@ -11,12 +11,12 @@ namespace Flow.Api.Controllers.Finance;
 public class SubscriptionsController : BaseController
 {
     private readonly ISubscriptionService _subscriptionService;
-    private readonly IMapper _mapper;
+    private readonly SubscriptionMapper _mapper;
 
-    public SubscriptionsController(ISubscriptionService subscriptionService, IMapper mapper)
+    public SubscriptionsController(ISubscriptionService subscriptionService)
     {
         _subscriptionService = subscriptionService;
-        _mapper = mapper;
+        _mapper = new();
     }
 
     [HttpGet("{id:guid}", Name = "GetSubscriptionAsync")]
@@ -25,7 +25,7 @@ public class SubscriptionsController : BaseController
     public async Task<IResult> GetSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
         var subscription = await _subscriptionService.GetAsync(UserId, id, cancellationToken);
-        return Results.Ok(_mapper.Map<SubscriptionResponse>(subscription));
+        return Results.Ok(_mapper.Map(subscription));
     }
 
     [HttpGet]
@@ -33,23 +33,23 @@ public class SubscriptionsController : BaseController
     public async Task<IResult> GetSubscriptionsAsync(CancellationToken cancellationToken)
     {
         var subscriptions = await _subscriptionService.GetAllAsync(UserId, cancellationToken);
-        var response = _mapper.Map<ICollection<SubscriptionResponse>>(subscriptions);
+        var response = _mapper.Map(subscriptions);
         return Results.Ok(response);
     }
 
     [HttpPost]
     public async Task<IResult> CreateSubscriptionAsync([FromBody] CreateSubscriptionRequest request, CancellationToken cancellationToken)
     {
-        var createSubscriptionDto = _mapper.Map<CreateSubscriptionDto>(request);
+        var createSubscriptionDto = _mapper.Map(request);
         var subscription = await _subscriptionService.CreateAsync(UserId, createSubscriptionDto, cancellationToken);
-        var response = _mapper.Map<SubscriptionResponse>(subscription);
+        var response = _mapper.Map(subscription);
         return Results.CreatedAtRoute("GetSubscriptionAsync", new { response.Id }, response);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<IResult> UpdateSubscriptionAsync(Guid id, [FromBody] UpdateSubscriptionRequest request, CancellationToken cancellationToken)
     {
-        var updateSubscriptionDto = _mapper.Map<UpdateSubscriptionDto>(request);
+        var updateSubscriptionDto = _mapper.Map(request);
         await _subscriptionService.UpdateAsync(UserId, id, updateSubscriptionDto, cancellationToken);
         return Results.NoContent();
     }

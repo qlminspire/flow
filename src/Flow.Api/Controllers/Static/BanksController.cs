@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using Flow.Api.Contracts.Requests.Bank;
+﻿using Flow.Api.Contracts.Requests.Bank;
 using Flow.Api.Contracts.Responses.Bank;
+using Flow.Api.Mappings;
 using Flow.Api.Models;
 using Flow.Application.Contracts.Services;
-using Flow.Application.Models.Bank;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Static;
@@ -11,12 +10,12 @@ namespace Flow.Api.Controllers.Static;
 public class BanksController : BaseController
 {
     private readonly IBankService _bankService;
-    private readonly IMapper _mapper;
+    private readonly BankMapper _mapper;
 
-    public BanksController(IBankService bankService, IMapper mapper)
+    public BanksController(IBankService bankService)
     {
         _bankService = bankService;
-        _mapper = mapper;
+        _mapper = new();
     }
 
     /// <summary>
@@ -36,7 +35,7 @@ public class BanksController : BaseController
     public async Task<IResult> GetBankAsync(Guid id, CancellationToken cancellationToken)
     {
         var bank = await _bankService.GetAsync(id, cancellationToken);
-        return Results.Ok(_mapper.Map<BankResponse>(bank));
+        return Results.Ok(_mapper.Map(bank));
     }
 
     /// <summary>
@@ -54,7 +53,7 @@ public class BanksController : BaseController
     public async Task<IResult> GetBanksAsync(CancellationToken cancellationToken)
     {
         var banks = await _bankService.GetAsync(cancellationToken);
-        return Results.Ok(_mapper.Map<ICollection<BankResponse>>(banks));
+        return Results.Ok(_mapper.Map(banks));
     }
 
     /// <summary>
@@ -78,11 +77,11 @@ public class BanksController : BaseController
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateBankAsync([FromBody] CreateBankRequest request, CancellationToken cancellationToken)
     {
-        var dto = _mapper.Map<CreateBankDto>(request);
+        var dto = _mapper.Map(request);
 
         var bank = await _bankService.CreateAsync(dto, cancellationToken);
 
-        var response = _mapper.Map<BankResponse>(bank);
+        var response = _mapper.Map(bank);
         return Results.CreatedAtRoute("GetBankAsync", new { response.Id }, response);
     }
 
@@ -108,7 +107,7 @@ public class BanksController : BaseController
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> UpdateBankAsync(Guid id, [FromBody] UpdateBankRequest request, CancellationToken cancellationToken)
     {
-        var dto = _mapper.Map<UpdateBankDto>(request);
+        var dto = _mapper.Map(request);
         await _bankService.UpdateAsync(id, dto, cancellationToken);
         return Results.NoContent();
     }

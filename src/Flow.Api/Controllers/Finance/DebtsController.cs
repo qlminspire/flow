@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Flow.Api.Contracts.Requests.Debt;
+﻿using Flow.Api.Contracts.Requests.Debt;
 using Flow.Api.Contracts.Responses.Debt;
+using Flow.Api.Mappings;
 using Flow.Application.Contracts.Services;
 using Flow.Application.Models.Debt;
 using Microsoft.AspNetCore.Mvc;
@@ -10,19 +10,19 @@ namespace Flow.Api.Controllers.Finance;
 public class DebtsController : BaseController
 {
     private readonly IDebtService _debtService;
-    private readonly IMapper _mapper;
+    private readonly DebtMapper _mapper;
 
-    public DebtsController(IDebtService debtService, IMapper mapper)
+    public DebtsController(IDebtService debtService)
     {
         _debtService = debtService;
-        _mapper = mapper;
+        _mapper = new();
     }
 
     [HttpGet("{id:guid}", Name = "GetDebtAsync")]
     public async Task<IResult> GetDebtAsync(Guid id, CancellationToken cancellationToken)
     {
         var debt = await _debtService.GetAsync(UserId, id, cancellationToken);
-        var response = _mapper.Map<DebtResponse>(debt);
+        var response = _mapper.Map(debt);
         return Results.Ok(response);
     }
 
@@ -30,16 +30,16 @@ public class DebtsController : BaseController
     public async Task<IResult> GetDebtsAsync(CancellationToken cancellationToken)
     {
         var debts = await _debtService.GetAllAsync(UserId, cancellationToken);
-        var response = _mapper.Map<ICollection<DebtResponse>>(debts);
+        var response = _mapper.Map(debts);
         return Results.Ok(response);
     }
 
     [HttpPost]
     public async Task<IResult> CreateDebtAsync(CreateDebtRequest request, CancellationToken cancellationToken)
     {
-        var createDebtDto = _mapper.Map<CreateDebtDto>(request);
+        var createDebtDto = _mapper.Map(request);
         var createdDebt = await _debtService.CreateAsync(UserId, createDebtDto, cancellationToken);
-        var response = _mapper.Map<DebtResponse>(createdDebt);
+        var response = _mapper.Map(createdDebt);
         return Results.CreatedAtRoute("GetDebtAsync", new { response.Id }, response);
     }
 }

@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Flow.Api.Contracts.Responses.Balance;
+﻿using Flow.Api.Contracts.Responses.Balance;
+using Flow.Api.Mappings;
 using Flow.Api.Models;
 using Flow.Application.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +9,12 @@ namespace Flow.Api.Controllers.Finance;
 public class BalancesController : BaseController
 {
     private readonly ICalculatedBalanceService _balanceService;
-    private readonly IMapper _mapper;
+    private readonly BalanceMapper _mapper;
 
-    public BalancesController(ICalculatedBalanceService balanceService, IMapper mapper)
+    public BalancesController(ICalculatedBalanceService balanceService)
     {
         _balanceService = balanceService;
-        _mapper = mapper;
+        _mapper = new();
     }
 
     [HttpGet]
@@ -23,7 +23,7 @@ public class BalancesController : BaseController
     public async Task<IResult> GetCalculatedBalanceAsync(CancellationToken cancellationToken)
     {
         var calculatedBalance = await _balanceService.GetAsync(UserId, cancellationToken);
-        var response = _mapper.Map<CalculatedBalanceResponse>(calculatedBalance);
+        var response = _mapper.Map(calculatedBalance);
         return Results.Ok(response);
     }
 }

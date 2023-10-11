@@ -1,6 +1,4 @@
-﻿using Flow.Domain.Entities.Auth;
-
-namespace Flow.Domain.Entities;
+﻿namespace Flow.Domain.Entities;
 
 public abstract class Account : BaseEntity, IHasDate
 {

@@ -1,8 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+
 using Flow.Api.Extensions;
 using Flow.Api.HealthChecks;
 using Flow.Application.Extensions;
 using Flow.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,9 +1,7 @@
-﻿using Flow.Api.Contracts.Requests.Bank;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Flow.Api.Contracts.Requests.Bank;
 using Flow.Api.Contracts.Responses.Bank;
-using Flow.Api.Mappings;
-using Flow.Api.Models;
-using Flow.Application.Contracts.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Static;
 

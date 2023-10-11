@@ -1,9 +1,6 @@
-﻿using Flow.Api.Contracts.Requests.CashAccount;
-using Flow.Api.Contracts.Responses.CashAccount;
-using Flow.Api.Mappings;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Models.CashAccount;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Flow.Api.Contracts.Requests.CashAccount;
 
 namespace Flow.Api.Controllers.Finance;
 

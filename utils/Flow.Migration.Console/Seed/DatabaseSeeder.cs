@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using Flow.Application.Contracts.Persistence;
 using Flow.Domain.Entities;
-using Flow.Domain.Entities.Auth;
 
 namespace Flow.Migration.Console.Seed;
 

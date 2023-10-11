@@ -18,7 +18,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         _currencyConversionRateService = currencyConversionRateService;
         _timeProvider = timeProvider;
 
-        _mapper = new PlannedExpenseMapper();
+        _mapper = new();
     }
 
     public async Task<PlannedExpenseDto> GetAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)

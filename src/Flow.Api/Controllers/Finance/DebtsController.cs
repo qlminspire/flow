@@ -1,9 +1,6 @@
-﻿using Flow.Api.Contracts.Requests.Debt;
-using Flow.Api.Contracts.Responses.Debt;
-using Flow.Api.Mappings;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Models.Debt;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Flow.Api.Contracts.Requests.Debt;
 
 namespace Flow.Api.Controllers.Finance;
 

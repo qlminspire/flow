@@ -13,7 +13,7 @@ internal sealed class BankService : IBankService
         ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
 
         _unitOfWork = unitOfWork;
-        _mapper = new BankMapper();
+        _mapper = new();
     }
 
     public async Task<BankDto> GetAsync(Guid id, CancellationToken cancellationToken = default)

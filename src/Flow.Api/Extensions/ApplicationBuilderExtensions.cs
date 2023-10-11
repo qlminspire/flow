@@ -1,6 +1,4 @@
-﻿using Flow.Api.Constants;
-
-namespace Flow.Api.Extensions;
+﻿namespace Flow.Api.Extensions;
 
 public static class ApplicationBuilderExtensions
 {

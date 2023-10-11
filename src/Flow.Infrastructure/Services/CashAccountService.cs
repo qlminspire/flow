@@ -13,7 +13,7 @@ internal sealed class CashAccountService : ICashAccountService
         ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
 
         _unitOfWork = unitOfWork;
-        _mapper = new CashAccountMapper();
+        _mapper = new();
     }
 
     public async Task<CashAccountDto> GetAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)

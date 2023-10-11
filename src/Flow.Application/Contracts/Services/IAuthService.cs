@@ -1,6 +1,4 @@
-﻿using Flow.Domain.Entities.Auth;
-
-namespace Flow.Application.Contracts.Services;
+﻿namespace Flow.Application.Contracts.Services;
 
 public interface IAuthService
 {

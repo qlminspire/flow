@@ -12,7 +12,7 @@ internal sealed class CurrencyService : ICurrencyService
         ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
 
         _unitOfWork = unitOfWork;
-        _mapper = new CurrencyMapper();
+        _mapper = new();
     }
 
     public async Task<CurrencyDto> GetAsync(Guid id, CancellationToken cancellationToken = default)

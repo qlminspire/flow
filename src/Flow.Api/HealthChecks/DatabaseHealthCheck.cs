@@ -1,5 +1,6 @@
-﻿using Flow.Application.Contracts.Persistence;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+
+using Flow.Application.Contracts.Persistence;
 
 namespace Flow.Api.HealthChecks;
 

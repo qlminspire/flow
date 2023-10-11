@@ -1,4 +1,4 @@
-﻿namespace Flow.Domain.Entities.Auth;
+﻿namespace Flow.Domain.Entities;
 
 public sealed class User : BaseEntity, IHasDate
 {

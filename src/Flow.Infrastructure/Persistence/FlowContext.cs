@@ -3,8 +3,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using Flow.Domain.Common;
-using Flow.Domain.Entities;
-using Flow.Domain.Entities.Auth;
 
 namespace Flow.Infrastructure.Persistence;
 
@@ -66,11 +64,15 @@ public class FlowContext : DbContext
 
         foreach (var entry in entries)
         {
-            if (entry.State == EntityState.Added)
-                ((IHasDate)entry.Entity).CreatedAt = DateTimeOffset.UtcNow;
-
-            if (entry.State == EntityState.Modified)
-                ((IHasDate)entry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    ((IHasDate)entry.Entity).CreatedAt = DateTimeOffset.UtcNow;
+                    break;
+                case EntityState.Modified:
+                    ((IHasDate)entry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+                    break;
+            }
         }
     }
 }

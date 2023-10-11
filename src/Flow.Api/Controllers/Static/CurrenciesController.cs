@@ -1,10 +1,7 @@
-﻿using Flow.Api.Contracts.Requests.Currency;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Flow.Api.Contracts.Requests.Currency;
 using Flow.Api.Contracts.Responses.Currency;
-using Flow.Api.Mappings;
-using Flow.Api.Models;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Models.Currency;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers.Static;
 

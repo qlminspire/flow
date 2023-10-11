@@ -1,4 +1,4 @@
-﻿namespace Flow.Domain.Entities.Auth;
+﻿namespace Flow.Domain.Entities;
 
 public record Token(string AccessToken, string RefreshToken, string TokenType, string Resource)
 {

@@ -14,7 +14,7 @@ internal sealed class SubscriptionService : ISubscriptionService
 
         _unitOfWork = unitOfWork;
 
-        _mapper = new SubscriptionMapper();
+        _mapper = new();
     }
 
     public async Task<SubscriptionDto> GetAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)

@@ -14,7 +14,7 @@ internal class BankDepositService : IBankDepositService
 
         _unitOfWork = unitOfWork;
 
-        _mapper = new BankDepositMapper();
+        _mapper = new();
     }
 
     public async Task<BankDepositDto> GetAsync(Guid userId, Guid depositId, CancellationToken cancellationToken = default)

@@ -1,8 +1,9 @@
-﻿using Flow.Infrastructure.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+using Flow.Infrastructure.Persistence;
 using Flow.Infrastructure.Persistence.Repositories;
 using Flow.Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Flow.Infrastructure.Extensions;
 

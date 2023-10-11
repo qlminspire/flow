@@ -13,7 +13,7 @@ internal sealed class AccountOperationService : IAccountOperationService
         ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
 
         _unitOfWork = unitOfWork;
-        _mapper = new AccountOperationMapper();
+        _mapper = new();
     }
 
     public async Task<AccountOperationDto> CreateAsync(Guid userId, CreateAccountOperationDto createAccountOperationDto, CancellationToken cancellationToken)

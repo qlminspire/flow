@@ -1,7 +1,8 @@
-﻿using Flow.Api.Contracts.Requests.CashAccount;
+﻿using Riok.Mapperly.Abstractions;
+
+using Flow.Api.Contracts.Requests.CashAccount;
 using Flow.Api.Contracts.Responses.CashAccount;
 using Flow.Application.Models.CashAccount;
-using Riok.Mapperly.Abstractions;
 
 namespace Flow.Api.Mappings;
 

@@ -1,5 +1,4 @@
 ﻿using Flow.Application.Contracts.Persistence.Repositories;
-using Flow.Domain.Entities.Auth;
 
 namespace Flow.Infrastructure.Persistence.Repositories.Implementations;
 

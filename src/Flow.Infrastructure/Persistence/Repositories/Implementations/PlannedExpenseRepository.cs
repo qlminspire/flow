@@ -1,6 +1,5 @@
 ﻿using Flow.Application.Contracts.Persistence.Repositories;
 using Flow.Application.Models.PlannedExpense;
-using Flow.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Persistence.Repositories.Implementations;

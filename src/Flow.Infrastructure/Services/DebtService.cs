@@ -14,7 +14,7 @@ internal sealed class DebtService : IDebtService
 
         _unitOfWork = unitOfWork;
 
-        _mapper = new DebtMapper();
+        _mapper = new();
     }
 
     public async Task<DebtDto> GetAsync(Guid userId, Guid debtId, CancellationToken cancellationToken = default)

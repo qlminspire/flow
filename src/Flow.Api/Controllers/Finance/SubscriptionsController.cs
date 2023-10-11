@@ -1,10 +1,6 @@
-﻿using Flow.Api.Contracts.Requests.Subscription;
-using Flow.Api.Contracts.Responses.Subscription;
-using Flow.Api.Mappings;
-using Flow.Api.Models;
-using Flow.Application.Contracts.Services;
-using Flow.Application.Models.Subscription;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Flow.Api.Contracts.Requests.Subscription;
 
 namespace Flow.Api.Controllers.Finance;
 

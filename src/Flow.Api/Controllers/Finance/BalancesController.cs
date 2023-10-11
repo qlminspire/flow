@@ -1,8 +1,6 @@
-﻿using Flow.Api.Contracts.Responses.Balance;
-using Flow.Api.Mappings;
-using Flow.Api.Models;
-using Flow.Application.Contracts.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Flow.Api.Contracts.Responses.Balance;
 
 namespace Flow.Api.Controllers.Finance;
 

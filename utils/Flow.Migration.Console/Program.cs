@@ -26,12 +26,8 @@ var host = builder.Build();
 using var scope = host.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<FlowContext>();
 
-var databaseCreated = await context.Database.EnsureCreatedAsync();
-if (!databaseCreated)
-{
-    await context.Database.MigrateAsync();
-    Console.WriteLine("Database migration applied");
-}
+await context.Database.MigrateAsync();
+Console.WriteLine("Database migration applied");
 
 var seeder = scope.ServiceProvider.GetService<IDatabaseSeeder>();
 await seeder!.SeedAsync();

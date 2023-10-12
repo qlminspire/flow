@@ -8,15 +8,15 @@ services:
       # - ASPNETCORE_URLS=https://+:443;http://+:80
       - "DatabaseSettings:ConnectionString=Server=flow.db;Port=5432;Database=Flow;User Id=admin;Password=admin1234;"
     ports:
-      # - "80"
-      # - "443"
-      - "8080:8080"
+       - "80:8080"
+       # - "443"
     # volumes:
       # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       # - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
     depends_on:
       - flow.db
-
+    
   flow.db:
     container_name: flow.db
     environment:

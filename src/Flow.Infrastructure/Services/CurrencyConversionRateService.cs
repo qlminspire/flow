@@ -2,7 +2,7 @@
 
 internal sealed class CurrencyConversionRateService : ICurrencyConversionRateService
 {
-    private readonly IDictionary<string, decimal> _conversionRates = new Dictionary<string, decimal>()
+    private readonly Dictionary<string, decimal> _conversionRates = new()
     {
         { "EUR/USD", 1.0831M },
         { "BYN/USD", 0.4M }

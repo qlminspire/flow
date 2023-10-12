@@ -19,7 +19,7 @@ public sealed class LowerCaseDocumentFilter : IDocumentFilter
 
     private static string ToLowercase(string key)
     {
-        var parts = key.Split('/').Select(part => part.Contains("}") ? part : part.ToLowerInvariant());
+        var parts = key.Split('/').Select(part => part.Contains('}', StringComparison.Ordinal) ? part : part.ToLowerInvariant());
         return string.Join('/', parts);
     }
 }

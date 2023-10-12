@@ -2,7 +2,7 @@
 
 using Flow.Api.Contracts.Requests.Debt;
 
-namespace Flow.Api.Controllers.Finance;
+namespace Flow.Api.Controllers;
 
 public class DebtsController : BaseController
 {

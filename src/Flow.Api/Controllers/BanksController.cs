@@ -3,7 +3,7 @@
 using Flow.Api.Contracts.Requests.Bank;
 using Flow.Api.Contracts.Responses.Bank;
 
-namespace Flow.Api.Controllers.Static;
+namespace Flow.Api.Controllers;
 
 public class BanksController : BaseController
 {

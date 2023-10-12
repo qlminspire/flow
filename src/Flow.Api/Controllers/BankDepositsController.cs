@@ -2,7 +2,7 @@
 
 using Flow.Api.Contracts.Requests.BankDeposit;
 
-namespace Flow.Api.Controllers.Finance;
+namespace Flow.Api.Controllers;
 
 public sealed class BankDepositsController : BaseController
 {

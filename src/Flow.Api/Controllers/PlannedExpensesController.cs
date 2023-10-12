@@ -3,7 +3,7 @@
 using Flow.Api.Contracts.Requests.PlannedExpense;
 using Flow.Api.Contracts.Responses.PlannedExpense;
 
-namespace Flow.Api.Controllers.Finance;
+namespace Flow.Api.Controllers;
 
 public class PlannedExpensesController : BaseController
 {

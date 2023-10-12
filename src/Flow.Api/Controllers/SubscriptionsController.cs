@@ -2,7 +2,7 @@
 
 using Flow.Api.Contracts.Requests.Subscription;
 
-namespace Flow.Api.Controllers.Finance;
+namespace Flow.Api.Controllers;
 
 public class SubscriptionsController : BaseController
 {

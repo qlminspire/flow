@@ -2,7 +2,7 @@
 
 using Flow.Api.Contracts.Responses.Balance;
 
-namespace Flow.Api.Controllers.Finance;
+namespace Flow.Api.Controllers;
 
 public class BalancesController : BaseController
 {

@@ -3,7 +3,7 @@
 using Flow.Api.Contracts.Requests.Currency;
 using Flow.Api.Contracts.Responses.Currency;
 
-namespace Flow.Api.Controllers.Static;
+namespace Flow.Api.Controllers;
 
 public class CurrenciesController : BaseController
 {

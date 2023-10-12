@@ -32,7 +32,7 @@ public static class HostExtensions
 
             if (retry < retryAmount)
             {
-                Thread.Sleep(2000);
+                await Task.Delay(2000, cancellationToken);
                 await MigrateDatabaseAsync<TContext>(host, retry + 1, retryAmount, cancellationToken);
             }
         }

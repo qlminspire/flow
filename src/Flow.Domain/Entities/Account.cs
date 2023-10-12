@@ -16,7 +16,7 @@ public abstract class Account : BaseEntity, IHasDate
 
     public UserCategory? Category { get; set; }
 
-    public ICollection<AccountOperation> Operations { get; set; } = new List<AccountOperation>();
+    public ICollection<AccountOperation> Operations { get; set; } = Array.Empty<AccountOperation>();
 
     public DateTimeOffset CreatedAt { get; set; }
 

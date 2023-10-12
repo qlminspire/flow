@@ -10,11 +10,13 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Packages.props", "."]
+COPY ["Directory.Build.props", "."]
 COPY ["nuget.config", "."]
 COPY ["src/Flow.Api/Flow.Api.csproj", "src/Flow.Api/"]
+COPY ["src/Flow.Api.Contracts/Flow.Api.Contracts.csproj", "src/Flow.Api.Contracts/"]
+COPY ["src/Flow.Domain/Flow.Domain.csproj", "src/Flow.Domain/"]
 COPY ["src/Flow.Infrastructure/Flow.Infrastructure.csproj", "src/Flow.Infrastructure/"]
 COPY ["src/Flow.Application/Flow.Application.csproj", "src/Flow.Application/"]
-COPY ["src/Flow.Domain/Flow.Domain.csproj", "src/Flow.Domain/"]
 RUN dotnet restore "src/Flow.Api/Flow.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Flow.Api"

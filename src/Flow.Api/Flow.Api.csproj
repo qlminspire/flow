@@ -19,13 +19,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Models\AccountOperation\**" />
-		<Content Remove="Models\AccountOperation\**" />
-		<EmbeddedResource Remove="Models\AccountOperation\**" />
-		<None Remove="Models\AccountOperation\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.AspNetCore" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />

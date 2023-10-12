@@ -12,33 +12,33 @@ public class FlowContext : DbContext
     {
     }
 
-    public DbSet<Account> Accounts { get; set; }
+    public DbSet<Account> Accounts { get; set; } = default!;
 
-    public DbSet<AccountOperation> AccountOperations { get; set; }
+    public DbSet<AccountOperation> AccountOperations { get; set; } = default!;
 
-    public DbSet<Bank> Banks { get; set; }
+    public DbSet<Bank> Banks { get; set; } = default!;
 
-    public DbSet<BankAccount> BankAccounts { get; set; }
+    public DbSet<BankAccount> BankAccounts { get; set; } = default!;
 
-    public DbSet<BankDeposit> BankDeposits { get; set; }
+    public DbSet<BankDeposit> BankDeposits { get; set; } = default!;
 
-    public DbSet<CashAccount> CashAccounts { get; set; }
+    public DbSet<CashAccount> CashAccounts { get; set; } = default!;
 
-    public DbSet<Currency> Currencies { get; set; }
+    public DbSet<Currency> Currencies { get; set; } = default!;
 
-    public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; } = default!;
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; } = default!;
 
-    public DbSet<UserCategory> UserCategories { get; set; }
+    public DbSet<UserCategory> UserCategories { get; set; } = default!;
 
-    public DbSet<UserIncome> UserIncomes { get; set; }
+    public DbSet<UserIncome> UserIncomes { get; set; } = default!;
 
-    public DbSet<PlannedExpense> PlannedExpenses { get; set; }
+    public DbSet<PlannedExpense> PlannedExpenses { get; set; } = default!;
 
-    public DbSet<UserPreferences> UserPreferences { get; set; }
+    public DbSet<UserPreferences> UserPreferences { get; set; } = default!;
 
-    public DbSet<Debt> Debts { get; set; }
+    public DbSet<Debt> Debts { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

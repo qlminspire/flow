@@ -1,0 +1,7 @@
+﻿@Flow.Api_HostAddress = http://localhost:8080
+
+GET {{Flow.Api_HostAddress}}/banks
+
+###
+
+GET {{Flow.Api_HostAddress}}/banks/8e7dc274-fa0c-430f-b6f0-f629259b734b

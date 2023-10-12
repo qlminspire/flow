@@ -10,7 +10,7 @@ internal sealed class DebtService : IDebtService
 
     public DebtService(IUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
 

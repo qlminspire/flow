@@ -19,6 +19,6 @@ internal sealed class CurrencyConversionRateService : ICurrencyConversionRateSer
         if (_conversionRates.TryGetValue($"{destinationCurrency}/{sourceCurrency}", out rate))
             return 1 / rate;
 
-        return 1.0M; // TODO: Fix
+        return 1.0M;
     }
 }

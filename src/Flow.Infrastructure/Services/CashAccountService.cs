@@ -10,7 +10,7 @@ internal sealed class CashAccountService : ICashAccountService
 
     public CashAccountService(IUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
         _mapper = new();

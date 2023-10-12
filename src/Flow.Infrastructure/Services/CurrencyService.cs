@@ -9,7 +9,7 @@ internal sealed class CurrencyService : ICurrencyService
 
     public CurrencyService(IUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
         _mapper = new();

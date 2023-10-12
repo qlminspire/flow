@@ -10,7 +10,7 @@ internal class BankDepositService : IBankDepositService
 
     public BankDepositService(IUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
 

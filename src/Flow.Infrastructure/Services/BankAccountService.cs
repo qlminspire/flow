@@ -10,7 +10,7 @@ internal sealed class BankAccountService : IBankAccountService
 
     public BankAccountService(IUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
         _mapper = new();

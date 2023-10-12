@@ -8,12 +8,12 @@ internal sealed class CalculatedBalanceService : ICalculatedBalanceService
 
     public CalculatedBalanceService(IUnitOfWork unitOfWork)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CalculatedBalanceDto> GetAsync(Guid userId, CancellationToken cancellationToken = default)
+    public Task<CalculatedBalanceDto> GetAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
 

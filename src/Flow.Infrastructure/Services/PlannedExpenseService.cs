@@ -12,7 +12,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public PlannedExpenseService(IUnitOfWork unitOfWork, ICurrencyConversionRateService currencyConversionRateService, TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork, nameof(unitOfWork));
+        ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
         _currencyConversionRateService = currencyConversionRateService;

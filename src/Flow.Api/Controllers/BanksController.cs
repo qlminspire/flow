@@ -8,11 +8,15 @@ namespace Flow.Api.Controllers;
 public class BanksController : BaseController
 {
     private readonly IBankService _bankService;
+    private readonly ILogger<BanksController> _logger;
+
     private readonly BankMapper _mapper;
 
-    public BanksController(IBankService bankService)
+    public BanksController(IBankService bankService, ILogger<BanksController> logger)
     {
         _bankService = bankService;
+        _logger = logger;
+
         _mapper = new();
     }
 
@@ -51,6 +55,7 @@ public class BanksController : BaseController
     public async Task<IResult> GetBanksAsync(CancellationToken cancellationToken)
     {
         var banks = await _bankService.GetAsync(cancellationToken);
+        _logger.LogInformation("The total banks amount is {@amount}. Banks: {@banks}", banks.Count, banks);
         return Results.Ok(_mapper.Map(banks));
     }
 

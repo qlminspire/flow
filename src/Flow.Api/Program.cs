@@ -1,3 +1,5 @@
+using Serilog;
+
 using Microsoft.EntityFrameworkCore;
 
 using Flow.Api.Extensions;
@@ -24,6 +26,11 @@ builder.Services.AddFlowSwagger();
 
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
 
 var app = builder.Build();
 

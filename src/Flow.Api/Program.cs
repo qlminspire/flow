@@ -5,10 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 using Flow.Api.Extensions;
 using Flow.Api.HealthChecks;
+using Flow.Api.Settings;
 using Flow.Application.Extensions;
 using Flow.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOptions<DatabaseSettings>()
+    .BindConfiguration(nameof(DatabaseSettings))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
 var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
 
@@ -42,7 +48,6 @@ app.ConfigureExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
     app.UseFlowSwagger();
-
 }
 
 //app.UseHttpsRedirection();

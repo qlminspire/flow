@@ -2,7 +2,7 @@
   "profiles": {
     "Flow.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "docs/api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

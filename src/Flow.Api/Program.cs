@@ -12,7 +12,7 @@ using Flow.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOptions<DatabaseSettings>()
-    .BindConfiguration(nameof(DatabaseSettings))
+    .BindConfiguration(DatabaseSettings.ConfigurationSection)
     .ValidateDataAnnotations()
     .ValidateOnStart();
 

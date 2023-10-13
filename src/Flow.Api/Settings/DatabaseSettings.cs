@@ -4,6 +4,8 @@ namespace Flow.Api.Settings;
 
 public class DatabaseSettings
 {
+    public const string ConfigurationSection = "DatabaseSettings";
+
     [Required]
-    public string ConnectionString { get; set; } = default!;
+    public string ConnectionString { get; set; } = string.Empty;
 }

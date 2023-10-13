@@ -1,3 +1,4 @@
+using System.Text;
 using Serilog;
 
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ builder.Host.UseSerilog((context, configuration) =>
 {
     configuration.ReadFrom.Configuration(context.Configuration);
 });
+Console.OutputEncoding = Encoding.UTF8;
 
 var app = builder.Build();
 

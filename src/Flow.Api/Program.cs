@@ -44,10 +44,11 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseHealthChecks("/_health");
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
-
-app.UseHealthChecks("/_health");
 
 app.MapControllers();
 

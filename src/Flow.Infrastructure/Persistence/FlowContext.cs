@@ -60,17 +60,17 @@ public class FlowContext : DbContext
 
     private void UpdateEntityDates()
     {
-        var entries = ChangeTracker.Entries();
+        var entries = ChangeTracker.Entries<IHasDate>();
 
         foreach (var entry in entries)
         {
             switch (entry.State)
             {
                 case EntityState.Added:
-                    ((IHasDate)entry.Entity).CreatedAt = DateTimeOffset.UtcNow;
+                    entry.Entity.CreatedAt = DateTimeOffset.UtcNow;
                     break;
                 case EntityState.Modified:
-                    ((IHasDate)entry.Entity).UpdatedAt = DateTimeOffset.UtcNow;
+                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
                     break;
             }
         }

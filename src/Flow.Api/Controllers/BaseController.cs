@@ -7,5 +7,5 @@ namespace Flow.Api.Controllers;
 [Produces(ApiContants.ContentType.ApplicationJson)]
 public abstract class BaseController : ControllerBase
 {
-    public Guid UserId => new("4563ee5c-6fbc-4270-a7bc-c6b5cb7d2bf8");
+    public Guid UserId => new("fc8129ce-2ffa-4c99-b6ab-8f525ef8653f");
 }

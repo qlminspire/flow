@@ -15,12 +15,23 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
 
     public Task SeedAsync(CancellationToken cancellationToken = default)
     {
+        var testingUser = new User
+        {
+            Id = new Guid("fc8129ce-2ffa-4c99-b6ab-8f525ef8653f"),
+            Email = "vladislavq@gmail.com",
+            PasswordHash = "1234567",
+            CreatedAt = DateTimeOffset.Now,
+        };
+
         var userFaker = new Faker<User>()
             .RuleFor(x => x.Id, _ => Guid.NewGuid())
             .RuleFor(x => x.Email, x => x.Internet.Email())
             .RuleFor(x => x.PasswordHash, x => x.Internet.Password(10, true))
             .RuleFor(x => x.CreatedAt, x => x.Date.Between(new DateTime(2021, 11, 01), new DateTime(2023, 02, 01)));
+
         var users = userFaker.Generate(15);
+        users.Add(testingUser);
+
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
 

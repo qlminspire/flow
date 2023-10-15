@@ -159,9 +159,6 @@ dotnet_diagnostic.CA2229.severity = none
 # CA1058: Types should not extend certain base types
 dotnet_diagnostic.CA1058.severity = none
 
-# Default severity for all analyzer diagnostics
-dotnet_analyzer_diagnostic.severity = none
-
 # CA1002: Do not expose generic lists
 dotnet_diagnostic.CA1002.severity = suggestion
 
@@ -185,3 +182,15 @@ dotnet_diagnostic.CS8618.severity = suggestion # TODO: CHANGE TO WARNING !!!
 
 # CS8601: Possible null reference assignment.
 dotnet_diagnostic.CS8601.severity = suggestion # TODO: CHANGE TO WARNING !!!
+
+# CA1036: Override methods on comparable types
+dotnet_diagnostic.CA1036.severity = suggestion
+
+# S1210: "Equals" and the comparison operators should be overridden when implementing "IComparable"
+dotnet_diagnostic.S1210.severity = suggestion
+
+# S3925: "ISerializable" should be implemented correctly
+dotnet_diagnostic.S3925.severity = suggestion
+
+# S6562: Always set the "DateTimeKind" when creating new "DateTime" instances
+dotnet_diagnostic.S6562.severity = suggestion

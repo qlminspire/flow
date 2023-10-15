@@ -4,14 +4,14 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class CalculatedBalanceService : ICalculatedBalanceService
 {
-    private readonly IUnitOfWork _unitOfWork;
+    //private readonly IUnitOfWork _unitOfWork;
 
-    public CalculatedBalanceService(IUnitOfWork unitOfWork)
-    {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
+    //public CalculatedBalanceService(IUnitOfWork unitOfWork)
+    //{
+    //    ArgumentNullException.ThrowIfNull(unitOfWork);
 
-        _unitOfWork = unitOfWork;
-    }
+    //    _unitOfWork = unitOfWork;
+    //}
 
     public Task<CalculatedBalanceDto> GetAsync(Guid userId, CancellationToken cancellationToken = default)
     {

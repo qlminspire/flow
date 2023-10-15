@@ -44,12 +44,12 @@ internal sealed class SubscriptionService : ISubscriptionService
         return _mapper.Map(subscription);
     }
 
-    public async Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto updateSubscriptionDto, CancellationToken cancellationToken = default)
     {
         var existingSubscription = await _unitOfWork.Subscriptions.GetByIdAsync(subscriptionId, cancellationToken)
             ?? throw new NotFoundException();
 
-        _mapper.Map(existingSubscription, dto);
+        _mapper.Map(existingSubscription, updateSubscriptionDto);
 
         _unitOfWork.Subscriptions.Update(existingSubscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -8,5 +8,5 @@ public interface IDebtService
 
     Task<List<DebtDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default);
 
-    Task<DebtDto> CreateAsync(Guid userId, CreateDebtDto dto, CancellationToken cancellationToken = default);
+    Task<DebtDto> CreateAsync(Guid userId, CreateDebtDto createDebtDto, CancellationToken cancellationToken = default);
 }

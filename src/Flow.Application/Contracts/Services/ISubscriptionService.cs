@@ -8,9 +8,9 @@ public interface ISubscriptionService
 
     Task<List<SubscriptionDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default);
 
-    Task<SubscriptionDto> CreateAsync(Guid userId, CreateSubscriptionDto dto, CancellationToken cancellationToken = default);
+    Task<SubscriptionDto> CreateAsync(Guid userId, CreateSubscriptionDto createSubscriptionDto, CancellationToken cancellationToken = default);
 
-    Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto dto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto updateSubscriptionDto, CancellationToken cancellationToken = default);
 
     Task DeleteAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default);
 }

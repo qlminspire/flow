@@ -31,9 +31,9 @@ internal sealed class DebtService : IDebtService
         return _mapper.Map(debts);
     }
 
-    public async Task<DebtDto> CreateAsync(Guid userId, CreateDebtDto createDto, CancellationToken cancellationToken = default)
+    public async Task<DebtDto> CreateAsync(Guid userId, CreateDebtDto createDebtDto, CancellationToken cancellationToken = default)
     {
-        var debt = _mapper.Map(createDto);
+        var debt = _mapper.Map(createDebtDto);
         debt.UserId = userId;
 
         _unitOfWork.Debts.Create(debt);

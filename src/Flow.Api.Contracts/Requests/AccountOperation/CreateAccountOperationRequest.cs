@@ -1,9 +1,7 @@
-﻿namespace Flow.Application.Models.AccountOperation;
+﻿namespace Flow.Api.Contracts.Requests.AccountOperation;
 
-public sealed class AccountOperationDto
+public sealed class CreateAccountOperationRequest
 {
-    public Guid Id { get; init; }
-
     public Guid FromAccountId { get; init; }
 
     public Guid ToAccountId { get; init; }

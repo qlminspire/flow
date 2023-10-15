@@ -14,6 +14,7 @@ internal sealed class UnitOfWork : IUnitOfWork
     private IBankRepository? _bankRepository;
     private ICurrencyRepository? _currencyRepository;
 
+    private IAccountRepository? _accountRepository;
     private IBankAccountRepository? _bankAccountRepository;
     private ICashAccountRepository? _cashAccountRepository;
     private IAccountOperationRepository? _accountOperationRepository;
@@ -35,6 +36,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     public IUserRepository Users => _userRepository ??= new UserRepository(_context);
 
     public IBankRepository Banks => _bankRepository ??= new BankRepository(_context);
+
+    public IAccountRepository Accounts => _accountRepository ??= new AccountRepository(_context);
 
     public IBankAccountRepository BankAccounts => _bankAccountRepository ??= new BankAccountRepository(_context);
 

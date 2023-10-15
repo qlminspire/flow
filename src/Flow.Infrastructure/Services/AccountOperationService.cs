@@ -16,11 +16,50 @@ internal sealed class AccountOperationService : IAccountOperationService
         _mapper = new();
     }
 
-    public async Task<AccountOperationDto> CreateAsync(Guid userId, CreateAccountOperationDto createAccountOperationDto, CancellationToken cancellationToken)
+    public async Task<AccountOperationDto> GetAsync(Guid userId, Guid operationId,
+        CancellationToken cancellationToken = default)
     {
+        var accountOperation =
+            await _unitOfWork.AccountOperations.GetForUserAsync(userId, operationId, cancellationToken);
+        if (accountOperation is null)
+            throw new NotFoundException(nameof(accountOperation), operationId.ToString());
+
+        return _mapper.Map(accountOperation);
+    }
+
+    public async Task<AccountOperationDto> CreateAsync(Guid userId, CreateAccountOperationDto createAccountOperationDto, CancellationToken cancellationToken = default)
+    {
+        var (fromAccountId, toAccountId, amount) = createAccountOperationDto;
+
+        if (amount <= 0)
+            throw new NotImplementedException("Validation should be here");
+
+        if (fromAccountId == Guid.Empty || toAccountId == Guid.Empty)
+            throw new NotImplementedException("Validation should be here");
+
+        if (fromAccountId == toAccountId)
+            throw new NotImplementedException("Validation should be here");
+
+        var fromBankAccount = await
+            _unitOfWork.Accounts.GetByIdAsync(fromAccountId, cancellationToken);
+        if (fromBankAccount is null)
+            throw new NotImplementedException("Validation should be here");
+
+        var toBankAccount = await
+            _unitOfWork.Accounts.GetByIdAsync(toAccountId, cancellationToken);
+        if (toBankAccount is null)
+            throw new NotImplementedException("Validation should be here");
+
+        if (fromBankAccount.Amount < amount)
+            throw new NotImplementedException("Validation should be here");
+
         var accountOperation = _mapper.Map(createAccountOperationDto);
 
         _unitOfWork.AccountOperations.Create(accountOperation);
+
+        fromBankAccount.Amount -= accountOperation.Amount;
+        toBankAccount.Amount += accountOperation.Amount;
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map(accountOperation);

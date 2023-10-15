@@ -1,7 +1,4 @@
-﻿using Flow.Application.Models.Bank;
-using Flow.Application.Models.Currency;
-
-namespace Flow.Application.Models.BankAccount;
+﻿namespace Flow.Application.Models.BankAccount;
 
 public sealed class BankAccountDto
 {
@@ -9,9 +6,9 @@ public sealed class BankAccountDto
 
     public string Iban { get; set; }
 
-    public BankDto Bank { get; set; }
+    public Guid BankId { get; set; }
 
     public decimal Amount { get; set; }
 
-    public CurrencyDto Currency { get; set; }
+    public Guid CurrencyId { get; set; }
 }

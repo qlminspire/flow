@@ -16,6 +16,8 @@ public interface IUnitOfWork
 
     ICurrencyRepository Currencies { get; }
 
+    IAccountRepository Accounts { get; }
+
     IBankAccountRepository BankAccounts { get; }
 
     ICashAccountRepository CashAccounts { get; }

@@ -12,11 +12,11 @@ public class FlowContext : DbContext
     {
     }
 
+    public DbSet<Bank> Banks { get; set; } = default!;
+
     public DbSet<Account> Accounts { get; set; } = default!;
 
     public DbSet<AccountOperation> AccountOperations { get; set; } = default!;
-
-    public DbSet<Bank> Banks { get; set; } = default!;
 
     public DbSet<BankAccount> BankAccounts { get; set; } = default!;
 

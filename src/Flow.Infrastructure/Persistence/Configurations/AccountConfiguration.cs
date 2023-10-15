@@ -12,6 +12,5 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasOne(x => x.Currency).WithMany().OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.Category).WithMany().OnDelete(DeleteBehavior.SetNull);
-        builder.HasMany(x => x.Operations).WithOne(x => x.Account).OnDelete(DeleteBehavior.NoAction);
     }
 }

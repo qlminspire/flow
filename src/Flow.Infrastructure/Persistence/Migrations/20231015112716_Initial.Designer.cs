@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Flow.Infrastructure.Migrations
+namespace Flow.Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(FlowContext))]
-    [Migration("20231010204656_Initial")]
+    [Migration("20231015112716_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -68,55 +68,28 @@ namespace Flow.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("OperationType")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.ToTable("AccountOperations");
-                });
-
-            modelBuilder.Entity("Flow.Domain.Entities.Auth.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                    b.Property<Guid>("FromAccountId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("ToAccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.HasIndex("FromAccountId");
 
-                    b.ToTable("Users");
+                    b.HasIndex("ToAccountId");
+
+                    b.ToTable("AccountOperations");
                 });
 
             modelBuilder.Entity("Flow.Domain.Entities.Bank", b =>
@@ -353,6 +326,35 @@ namespace Flow.Infrastructure.Migrations
                     b.ToTable("Subscriptions");
                 });
 
+            modelBuilder.Entity("Flow.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Flow.Domain.Entities.UserCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -484,7 +486,7 @@ namespace Flow.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                    b.HasOne("Flow.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -499,13 +501,21 @@ namespace Flow.Infrastructure.Migrations
 
             modelBuilder.Entity("Flow.Domain.Entities.AccountOperation", b =>
                 {
-                    b.HasOne("Flow.Domain.Entities.Account", "Account")
-                        .WithMany("Operations")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("Flow.Domain.Entities.Account", "FromAccount")
+                        .WithMany()
+                        .HasForeignKey("FromAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.HasOne("Flow.Domain.Entities.Account", "ToAccount")
+                        .WithMany()
+                        .HasForeignKey("ToAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FromAccount");
+
+                    b.Navigation("ToAccount");
                 });
 
             modelBuilder.Entity("Flow.Domain.Entities.BankDeposit", b =>
@@ -524,7 +534,7 @@ namespace Flow.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("RefundAccountId");
 
-                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                    b.HasOne("Flow.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -547,7 +557,7 @@ namespace Flow.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                    b.HasOne("Flow.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -566,7 +576,7 @@ namespace Flow.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                    b.HasOne("Flow.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -585,7 +595,7 @@ namespace Flow.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                    b.HasOne("Flow.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -598,7 +608,7 @@ namespace Flow.Infrastructure.Migrations
 
             modelBuilder.Entity("Flow.Domain.Entities.UserCategory", b =>
                 {
-                    b.HasOne("Flow.Domain.Entities.Auth.User", "User")
+                    b.HasOne("Flow.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -653,11 +663,6 @@ namespace Flow.Infrastructure.Migrations
                         .HasForeignKey("Flow.Domain.Entities.CashAccount", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Flow.Domain.Entities.Account", b =>
-                {
-                    b.Navigation("Operations");
                 });
 #pragma warning restore 612, 618
         }

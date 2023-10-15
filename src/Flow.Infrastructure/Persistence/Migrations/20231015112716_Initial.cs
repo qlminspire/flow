@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Flow.Infrastructure.Migrations
+namespace Flow.Infrastructure.Persistance.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -231,9 +231,9 @@ namespace Flow.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OperationType = table.Column<int>(type: "integer", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    FromAccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ToAccountId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
@@ -241,10 +241,17 @@ namespace Flow.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AccountOperations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AccountOperations_Accounts_AccountId",
-                        column: x => x.AccountId,
+                        name: "FK_AccountOperations_Accounts_FromAccountId",
+                        column: x => x.FromAccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountOperations_Accounts_ToAccountId",
+                        column: x => x.ToAccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -358,9 +365,14 @@ namespace Flow.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountOperations_AccountId",
+                name: "IX_AccountOperations_FromAccountId",
                 table: "AccountOperations",
-                column: "AccountId");
+                column: "FromAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountOperations_ToAccountId",
+                table: "AccountOperations",
+                column: "ToAccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CategoryId",

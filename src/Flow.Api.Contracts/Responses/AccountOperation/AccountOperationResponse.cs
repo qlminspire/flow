@@ -1,6 +1,6 @@
-﻿namespace Flow.Application.Models.AccountOperation;
+﻿namespace Flow.Api.Contracts.Responses.AccountOperation;
 
-public sealed class AccountOperationDto
+public sealed class AccountOperationResponse
 {
     public Guid Id { get; init; }
 

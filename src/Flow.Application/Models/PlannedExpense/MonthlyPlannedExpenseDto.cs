@@ -1,6 +1,4 @@
-﻿using Flow.Application.Models.Currency;
-
-namespace Flow.Application.Models.PlannedExpense;
+﻿namespace Flow.Application.Models.PlannedExpense;
 
 public sealed class MonthlyPlannedExpenseDto
 {

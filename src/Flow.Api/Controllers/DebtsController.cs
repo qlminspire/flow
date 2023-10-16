@@ -2,7 +2,6 @@
 
 using Flow.Api.Contracts.Requests.Debt;
 using Flow.Api.Contracts.Responses.Debt;
-using Flow.Api.Contracts.Responses.Currency;
 
 namespace Flow.Api.Controllers;
 

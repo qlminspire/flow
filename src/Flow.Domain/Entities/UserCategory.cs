@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class UserCategory : BaseEntity, IHasDate
+public sealed class UserCategory : BaseEntity, IAuditable
 {
     public string Name { get; set; } = null!;
 

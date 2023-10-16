@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class Currency : BaseEntity, IHasDate
+public sealed class Currency : BaseEntity, IAuditable
 {
     public string Name { get; set; } = null!;
 

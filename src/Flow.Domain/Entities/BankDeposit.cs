@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class BankDeposit : BaseEntity, IHasDate
+public sealed class BankDeposit : BaseEntity, IAuditable
 {
     public decimal Amount { get; set; }
 

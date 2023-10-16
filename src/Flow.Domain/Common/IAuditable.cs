@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Common;
 
-public interface IHasDate
+public interface IAuditable
 {
     DateTimeOffset CreatedAt { get; set; }
 

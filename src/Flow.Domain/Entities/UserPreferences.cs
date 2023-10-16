@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class UserPreferences : BaseEntity, IHasDate
+public sealed class UserPreferences : BaseEntity, IAuditable
 {
     public Guid CurrencyId { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public abstract class Account : BaseEntity, IHasDate
+public abstract class Account : BaseEntity, IAuditable
 {
     public decimal Amount { get; set; }
 

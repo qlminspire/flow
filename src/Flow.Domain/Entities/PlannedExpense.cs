@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class PlannedExpense : BaseEntity, IHasDate
+public sealed class PlannedExpense : BaseEntity, IAuditable
 {
     public string Name { get; set; }
 

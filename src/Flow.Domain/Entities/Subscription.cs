@@ -1,6 +1,6 @@
 ﻿namespace Flow.Domain.Entities;
 
-public sealed class Subscription : BaseEntity, IHasDate
+public sealed class Subscription : BaseEntity, IAuditable
 {
     public string Service { get; set; } = null!;
 

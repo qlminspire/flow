@@ -60,7 +60,7 @@ public class FlowContext : DbContext
 
     private void UpdateEntityDates()
     {
-        var entries = ChangeTracker.Entries<IHasDate>();
+        var entries = ChangeTracker.Entries<IAuditable>();
 
         foreach (var entry in entries)
         {

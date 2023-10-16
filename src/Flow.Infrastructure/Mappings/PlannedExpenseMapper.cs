@@ -13,5 +13,5 @@ internal partial class PlannedExpenseMapper
 
     public partial PlannedExpense Map(CreatePlannedExpenseDto createPlannedExpense);
 
-    public partial void Map(PlannedExpense plannedExpense, UpdatePlannedExpenseDto updatePlannedExpense);
+    public partial void Map(UpdatePlannedExpenseDto updatePlannedExpense, PlannedExpense plannedExpense);
 }

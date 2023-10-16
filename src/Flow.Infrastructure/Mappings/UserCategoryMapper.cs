@@ -13,5 +13,5 @@ internal partial class UserCategoryMapper
 
     public partial UserCategory Map(CreateUserCategoryDto createUserCategoryDto);
 
-    public partial void Map(UserCategory userCategory, UpdateUserCategoryDto updateUserCategoryDto);
+    public partial void Map(UpdateUserCategoryDto updateUserCategoryDto, UserCategory userCategory);
 }

@@ -73,16 +73,16 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         return _mapper.Map(plannedExpense);
     }
 
-    public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto updatePlannedExpenseDto, CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, cancellationToken);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(updatePlannedExpenseDto.CurrencyId, cancellationToken);
         if (currency is null)
             throw new ValidationException();
 
         var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
-        _mapper.Map(plannedExpense, dto);
+        _mapper.Map(updatePlannedExpenseDto, plannedExpense);
 
         _unitOfWork.PlannedExpenses.Update(plannedExpense);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

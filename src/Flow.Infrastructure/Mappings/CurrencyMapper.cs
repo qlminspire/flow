@@ -13,5 +13,5 @@ internal partial class CurrencyMapper
 
     public partial Currency Map(CreateCurrencyDto createCurrencyDto);
 
-    public partial void Map(Currency currency, UpdateCurrencyDto updateCurrencyDto);
+    public partial void Map(UpdateCurrencyDto updateCurrencyDto, Currency currency);
 }

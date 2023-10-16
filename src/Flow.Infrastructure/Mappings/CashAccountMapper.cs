@@ -13,5 +13,5 @@ internal partial class CashAccountMapper
 
     public partial CashAccount Map(CreateCashAccountDto createCashAccountDto);
 
-    public partial void Map(CashAccount cashAccount, UpdateCashAccountDto updateCashAccountDto);
+    public partial void Map(UpdateCashAccountDto updateCashAccountDto, CashAccount cashAccount);
 }

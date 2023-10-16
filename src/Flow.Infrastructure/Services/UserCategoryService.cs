@@ -46,7 +46,7 @@ internal sealed class UserCategoryService : IUserCategoryService
         var userCategory = await _unitOfWork.UserCategories.GetForUserAsync(userId, userCategoryId, cancellationToken)
             ?? throw new NotFoundException();
 
-        _mapper.Map(userCategory, updateUserCategoryDto);
+        _mapper.Map(updateUserCategoryDto, userCategory);
 
         _unitOfWork.UserCategories.Update(userCategory);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

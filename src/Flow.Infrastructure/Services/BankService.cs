@@ -40,12 +40,12 @@ internal sealed class BankService : IBankService
         return _mapper.Map(bank);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateBankDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, UpdateBankDto updateBankDto, CancellationToken cancellationToken = default)
     {
         var existingBank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException();
 
-        _mapper.Map(existingBank, dto);
+        _mapper.Map(updateBankDto, existingBank);
 
         _unitOfWork.Banks.Update(existingBank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

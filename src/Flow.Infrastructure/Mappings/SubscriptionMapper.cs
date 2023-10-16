@@ -13,5 +13,5 @@ internal partial class SubscriptionMapper
 
     public partial Subscription Map(CreateSubscriptionDto createSubscriptionDto);
 
-    public partial void Map(Subscription subscription, UpdateSubscriptionDto updateSubscriptionDto);
+    public partial void Map(UpdateSubscriptionDto updateSubscriptionDto, Subscription subscription);
 }

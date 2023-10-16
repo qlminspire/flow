@@ -12,7 +12,7 @@ public interface IPlannedExpenseService
 
     Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto dto, CancellationToken cancellationToken = default);
 
-    Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto dto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto updatePlannedExpenseDto, CancellationToken cancellationToken = default);
 
     Task DeleteAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default);
 }

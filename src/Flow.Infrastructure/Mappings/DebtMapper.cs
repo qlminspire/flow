@@ -13,5 +13,5 @@ internal partial class DebtMapper
 
     public partial Debt Map(CreateDebtDto createDebtDto);
 
-    public partial void Map(Debt debt, UpdateDebtDto updateDebtDto);
+    public partial void Map(UpdateDebtDto updateDebtDto, Debt debt);
 }

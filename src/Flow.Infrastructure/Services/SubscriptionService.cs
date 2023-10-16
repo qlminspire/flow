@@ -50,7 +50,7 @@ internal sealed class SubscriptionService : ISubscriptionService
         var existingSubscription = await _unitOfWork.Subscriptions.GetForUserAsync(userId, subscriptionId, cancellationToken)
             ?? throw new NotFoundException();
 
-        _mapper.Map(existingSubscription, updateSubscriptionDto);
+        _mapper.Map(updateSubscriptionDto, existingSubscription);
 
         _unitOfWork.Subscriptions.Update(existingSubscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

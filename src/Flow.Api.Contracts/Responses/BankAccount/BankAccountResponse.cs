@@ -1,14 +1,17 @@
-﻿namespace Flow.Api.Contracts.Responses.BankAccount;
+﻿using Flow.Api.Contracts.Responses.Bank;
+using Flow.Api.Contracts.Responses.Currency;
 
-public sealed class BankAccountResponse
+namespace Flow.Api.Contracts.Responses.BankAccount;
+
+public sealed record BankAccountResponse
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
-    public string Iban { get; set; }
+    public string Iban { get; init; }
 
-    public string Bank { get; set; }
+    public BankShortResponse Bank { get; init; }
 
-    public decimal Amount { get; set; }
+    public decimal Amount { get; init; }
 
-    public string Currency { get; set; }
+    public CurrencyShortResponse Currency { get; init; }
 }

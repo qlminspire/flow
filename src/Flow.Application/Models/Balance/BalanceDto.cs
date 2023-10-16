@@ -1,8 +1,10 @@
-﻿namespace Flow.Application.Models.Balance;
+﻿using Flow.Application.Models.Currency;
+
+namespace Flow.Application.Models.Balance;
 
 public sealed class BalanceDto
 {
-    public decimal Amount { get; set; }
+    public decimal Amount { get; init; }
 
-    public string Currency { get; set; }
+    public CurrencyDto Currency { get; init; }
 }

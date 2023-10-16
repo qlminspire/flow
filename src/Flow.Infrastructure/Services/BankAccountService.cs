@@ -16,41 +16,36 @@ internal sealed class BankAccountService : IBankAccountService
         _mapper = new();
     }
 
-    public async Task<BankAccountDto> GetAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
+    public async Task<BankAccountDto> GetForUserAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken = default)
     {
-        var bankAccount = await _unitOfWork.BankAccounts.GetByIdAsync(accountId, cancellationToken)
-            ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
+        var bankAccount = await _unitOfWork.BankAccounts.GetForUserAsync(userId, bankAccountId, cancellationToken)
+            ?? throw new NotFoundException(nameof(bankAccountId), bankAccountId.ToString());
 
         return _mapper.Map(bankAccount);
     }
 
-    public async Task<List<BankAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<BankAccountDto>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var banks = await _unitOfWork.BankAccounts.GetAsync(x => x.UserId == userId, cancellationToken);
+        var banks = await _unitOfWork.BankAccounts.GetAllForUserAsync(userId, cancellationToken);
         return _mapper.Map(banks);
     }
 
-    public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createDto, CancellationToken cancellationToken = default)
+    public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createBankAccountDto, CancellationToken cancellationToken = default)
     {
-        var bankAccount = _mapper.Map(createDto);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(createBankAccountDto.CurrencyId, cancellationToken);
+        if (currency is null)
+            throw new ValidationException("Validation not implemented.");
+
+        var bank = await _unitOfWork.Banks.GetByIdAsync(createBankAccountDto.BankId, cancellationToken);
+        if (bank is null)
+            throw new ValidationException("Validation not implemented");
+
+        var bankAccount = _mapper.Map(createBankAccountDto);
         bankAccount.UserId = userId;
 
         _unitOfWork.BankAccounts.Create(bankAccount);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(bankAccount.CurrencyId, CancellationToken.None);
-        bankAccount.Currency = currency;
-
         return _mapper.Map(bankAccount);
-    }
-
-    public Task UpdateAsync(Guid userId, Guid accountId, UpdateBankAccountDto updateBankAccountDto, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task ArchiveAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
     }
 }

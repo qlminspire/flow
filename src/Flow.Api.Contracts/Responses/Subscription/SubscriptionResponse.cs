@@ -1,3 +1,16 @@
-﻿namespace Flow.Api.Contracts.Responses.Subscription;
+﻿using Flow.Api.Contracts.Responses.Currency;
 
-public sealed record SubscriptionResponse(Guid Id, string Service, decimal Price, string Currency, int PaymentPeriod, DateTimeOffset? PaymentDate, bool IsActive);
+namespace Flow.Api.Contracts.Responses.Subscription;
+
+public sealed record SubscriptionResponse
+{
+    public Guid Id { get; init; }
+
+    public string Service { get; init; }
+
+    public decimal Price { get; init; }
+
+    public CurrencyShortResponse Currency { get; init; }
+
+    public bool IsActive { get; init; }
+}

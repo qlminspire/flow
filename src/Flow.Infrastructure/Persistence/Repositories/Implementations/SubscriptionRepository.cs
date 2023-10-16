@@ -1,4 +1,5 @@
 ﻿using Flow.Application.Contracts.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flow.Infrastructure.Persistence.Repositories.Implementations;
 
@@ -6,5 +7,20 @@ internal sealed class SubscriptionRepository : BaseRepository<Subscription>, ISu
 {
     public SubscriptionRepository(FlowContext context) : base(context)
     {
+    }
+
+    public Task<Subscription?> GetForUserAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
+    {
+        return All
+            .Include(x => x.Currency)
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == subscriptionId, cancellationToken);
+    }
+
+    public Task<List<Subscription>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        return All.AsNoTracking()
+            .Include(x => x.Currency)
+            .Where(x => x.UserId == userId)
+            .ToListAsync(cancellationToken);
     }
 }

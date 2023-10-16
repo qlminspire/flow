@@ -4,5 +4,9 @@ namespace Flow.Application.Contracts.Persistence.Repositories;
 
 public interface IPlannedExpenseRepository : IRepository<PlannedExpense>
 {
-    Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate, CancellationToken cancellationToken);
+    Task<PlannedExpense?> GetForUserAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default);
+
+    Task<List<PlannedExpense>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+
+    Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate, CancellationToken cancellationToken = default);
 }

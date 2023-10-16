@@ -1,3 +1,12 @@
 ﻿namespace Flow.Api.Contracts.Requests.BankAccount;
 
-public sealed record CreateBankAccountRequest(string Iban, Guid BankId, decimal Amount, Guid CurrencyId, Guid? CategoryId = null);
+public sealed record CreateBankAccountRequest
+{
+    public string Iban { get; init; }
+
+    public Guid BankId { get; init; }
+
+    public Guid CurrencyId { get; init; }
+
+    public decimal Amount { get; init; }
+}

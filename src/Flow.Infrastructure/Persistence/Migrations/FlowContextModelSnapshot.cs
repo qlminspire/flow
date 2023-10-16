@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Flow.Infrastructure.Persistance.Migrations
+namespace Flow.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(FlowContext))]
     partial class FlowContextModelSnapshot : ModelSnapshot
@@ -39,6 +39,9 @@ namespace Flow.Infrastructure.Persistance.Migrations
 
                     b.Property<Guid>("CurrencyId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -255,9 +258,6 @@ namespace Flow.Infrastructure.Persistance.Migrations
                     b.Property<Guid>("CurrencyId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateOnly>("ExpenseDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -293,12 +293,6 @@ namespace Flow.Infrastructure.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
-
-                    b.Property<DateTimeOffset?>("PaymentDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("PaymentPeriod")
-                        .HasColumnType("integer");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");

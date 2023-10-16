@@ -7,6 +7,4 @@ public sealed class CreatePlannedExpenseDto
     public decimal Amount { get; init; }
 
     public Guid CurrencyId { get; init; }
-
-    public DateOnly ExpenseDate { get; init; }
 }

@@ -15,13 +15,22 @@ public class BalancesController : BaseController
         _mapper = new();
     }
 
+    /// <summary>
+    /// Get user calculated balance
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET: api/balances
+    /// </remarks>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The user calculated balance</returns>
     [HttpGet]
     [ProducesResponseType(typeof(CalculatedBalanceResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     public async Task<IResult> GetCalculatedBalanceAsync(CancellationToken cancellationToken)
     {
         var calculatedBalance = await _balanceService.GetAsync(UserId, cancellationToken);
-        var response = _mapper.Map(calculatedBalance);
-        return Results.Ok(response);
+        return Results.Ok(_mapper.Map(calculatedBalance));
     }
 }

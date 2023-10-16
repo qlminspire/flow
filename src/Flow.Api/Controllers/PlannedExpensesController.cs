@@ -17,7 +17,7 @@ public class PlannedExpensesController : BaseController
     }
 
     /// <summary>
-    /// Gets planned expense
+    /// Get user planned expense
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -33,12 +33,11 @@ public class PlannedExpensesController : BaseController
     public async Task<IResult> GetPlannedExpenseAsync(Guid id, CancellationToken cancellationToken)
     {
         var plannedExpense = await _plannedExpenseService.GetAsync(UserId, id, cancellationToken);
-        var response = _mapper.Map(plannedExpense);
-        return Results.Ok(response);
+        return Results.Ok(_mapper.Map(plannedExpense));
     }
 
     /// <summary>
-    /// Gets all planned expenses
+    /// Gets all planned expenses for user
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -52,12 +51,11 @@ public class PlannedExpensesController : BaseController
     public async Task<IResult> GetPlannedExpensesAsync(CancellationToken cancellationToken)
     {
         var plannedExpenses = await _plannedExpenseService.GetAllAsync(UserId, cancellationToken);
-        var response = _mapper.Map(plannedExpenses);
-        return Results.Ok(response);
+        return Results.Ok(_mapper.Map(plannedExpenses));
     }
 
     /// <summary>
-    /// Gets the list of planned expenses for current month
+    /// Gets the list of planned expenses for current month for user
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -68,16 +66,14 @@ public class PlannedExpensesController : BaseController
     /// <returns>The list of planned expenses for current month</returns>
     [HttpGet("monthly")]
     [ProducesResponseType(typeof(MonthlyPlannedExpensesResponse), StatusCodes.Status200OK)]
-
     public async Task<IResult> GetMonthlyPlannedExpensesAsync(CancellationToken cancellationToken)
     {
         var plannedExpenses = await _plannedExpenseService.GetAllForMonthAsync(UserId, cancellationToken);
-        var response = _mapper.Map(plannedExpenses);
-        return Results.Ok(response);
+        return Results.Ok(_mapper.Map(plannedExpenses));
     }
 
     /// <summary>
-    /// Creates planned expense
+    /// Creates user planned expense
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -96,7 +92,7 @@ public class PlannedExpensesController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(PlannedExpenseResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreatePlannedExpenseAsync([FromBody] CreatePlannedExpenseRequest request, CancellationToken cancellationToken)
     {
         var createPlannedExpenseDto = _mapper.Map(request);
@@ -106,7 +102,7 @@ public class PlannedExpensesController : BaseController
     }
 
     /// <summary>
-    /// Update planned expense
+    /// Update user planned expense
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -126,7 +122,7 @@ public class PlannedExpensesController : BaseController
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> UpdatePlannedExpenseAsync(Guid id, [FromBody] UpdatePlannedExpenseRequest request, CancellationToken cancellationToken)
     {
         var updatePlannedExpenseDto = _mapper.Map(request);
@@ -135,7 +131,7 @@ public class PlannedExpensesController : BaseController
     }
 
     /// <summary>
-    /// Deletes planned expense
+    /// Delete user planned expense
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -148,7 +144,7 @@ public class PlannedExpensesController : BaseController
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeletePlannedExpenseAsync(Guid id, CancellationToken cancellationToken)
     {
         await _plannedExpenseService.DeleteAsync(UserId, id, cancellationToken);

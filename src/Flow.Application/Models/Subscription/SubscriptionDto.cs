@@ -12,9 +12,5 @@ public sealed class SubscriptionDto
 
     public CurrencyDto Currency { get; set; }
 
-    public int PaymentPeriod { get; set; }
-
-    public DateTimeOffset? PaymentDate { get; set; }
-
     public bool IsActive { get; set; }
 }

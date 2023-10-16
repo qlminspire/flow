@@ -1,3 +1,10 @@
 ﻿namespace Flow.Api.Contracts.Requests.CashAccount;
 
-public sealed record CreateCashAccountRequest(string Name, decimal Amount, Guid CurrencyId, Guid? CategoryId = null);
+public sealed record CreateCashAccountRequest
+{
+    public string Name { get; init; }
+
+    public decimal Amount { get; init; }
+
+    public Guid CurrencyId { get; init; }
+}

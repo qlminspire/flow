@@ -14,8 +14,6 @@ public sealed class PlannedExpense : BaseEntity, IHasDate
 
     public Currency Currency { get; set; }
 
-    public DateOnly ExpenseDate { get; set; }
-
     public DateTimeOffset CreatedAt { get; set; }
 
     public DateTimeOffset? UpdatedAt { get; set; }

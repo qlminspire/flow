@@ -1,6 +1,6 @@
 ﻿namespace Flow.Api.Contracts.Requests.AccountOperation;
 
-public sealed class CreateAccountOperationRequest
+public sealed record CreateAccountOperationRequest
 {
     public Guid FromAccountId { get; init; }
 

@@ -2,9 +2,9 @@
 
 public sealed class MonthlyPlannedExpensesResponse
 {
-    public ICollection<MonthlyPlannedExpense> PlannedExpenses { get; set; }
+    public ICollection<MonthlyPlannedExpense> PlannedExpenses { get; init; }
 
-    public decimal TotalAmount { get; set; }
+    public decimal TotalAmount { get; init; }
 
-    public string Currency { get; set; }
+    public string Currency { get; init; }
 }

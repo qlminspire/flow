@@ -11,7 +11,6 @@ namespace Flow.Api.Mappings;
 internal partial class DebtMapper
 {
     public partial DebtResponse Map(DebtDto debtDto);
-    //    .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code));
 
     public partial ICollection<DebtResponse> Map(ICollection<DebtDto> debtsDto);
 

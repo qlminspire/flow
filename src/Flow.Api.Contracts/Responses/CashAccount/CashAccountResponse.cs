@@ -1,6 +1,8 @@
-﻿namespace Flow.Api.Contracts.Responses.CashAccount;
+﻿using Flow.Api.Contracts.Responses.Currency;
 
-public sealed class CashAccountResponse
+namespace Flow.Api.Contracts.Responses.CashAccount;
+
+public sealed record CashAccountResponse
 {
     public Guid Id { get; init; }
 
@@ -8,5 +10,5 @@ public sealed class CashAccountResponse
 
     public decimal Amount { get; init; }
 
-    public string Currency { get; init; }
+    public CurrencyShortResponse Currency { get; init; }
 }

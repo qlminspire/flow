@@ -1,20 +1,21 @@
-﻿using Flow.Domain.Enums;
+﻿using Flow.Api.Contracts.Responses.Currency;
+using Flow.Domain.Enums;
 
 namespace Flow.Api.Contracts.Responses.BankDeposit;
 
-public sealed class BankDepositResponse
+public sealed record BankDepositResponse
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
-    public decimal Amount { get; set; }
+    public decimal Amount { get; init; }
 
-    public string Currency { get; set; }
+    public CurrencyShortResponse Currency { get; init; }
 
-    public DepositType Type { get; set; }
+    public DepositType Type { get; init; }
 
-    public double Rate { get; set; }
+    public double Rate { get; init; }
 
-    public int PeriodInMonthes { get; set; }
+    public int PeriodInMonthes { get; init; }
 
-    public DateTimeOffset? EndDate { get; set; }
+    public DateTimeOffset? EndDate { get; init; }
 }

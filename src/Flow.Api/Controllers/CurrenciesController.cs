@@ -47,11 +47,11 @@ public class CurrenciesController : BaseController
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The list of currencies</returns>
     [HttpGet]
+    [ProducesResponseType(typeof(ICollection<CurrencyResponse>), StatusCodes.Status200OK)]
     public async Task<IResult> GetCurrenciesAsync(CancellationToken cancellationToken)
     {
         var currencies = await _currencyService.GetAllAsync(cancellationToken);
-        var response = _mapper.Map(currencies);
-        return Results.Ok(response);
+        return Results.Ok(_mapper.Map(currencies));
     }
 
     /// <summary>
@@ -71,12 +71,13 @@ public class CurrenciesController : BaseController
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The newly created currency</returns>
     [HttpPost]
+    [ProducesResponseType(typeof(CurrencyResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateCurrencyAsync([FromBody] CreateCurrencyRequest request, CancellationToken cancellationToken)
     {
         var createCurrencyDto = _mapper.Map(request);
-
         var currency = await _currencyService.CreateAsync(createCurrencyDto, cancellationToken);
-
         var response = _mapper.Map(currency);
         return Results.CreatedAtRoute("GetCurrencyAsync", new { response.Id }, response);
     }
@@ -99,10 +100,12 @@ public class CurrenciesController : BaseController
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns></returns>
     [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
     public async Task<IResult> UpdateCurrencyAsync(Guid id, [FromBody] UpdateCurrencyRequest request, CancellationToken cancellationToken)
     {
         var updateCurrencyDto = _mapper.Map(request);
-
         await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
         return Results.NoContent();
     }
@@ -119,10 +122,12 @@ public class CurrenciesController : BaseController
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
-    public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    public async Task<IResult> DeleteCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
         await _currencyService.DeleteAsync(id, cancellationToken);
-
         return Results.NoContent();
     }
 }

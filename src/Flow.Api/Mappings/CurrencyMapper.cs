@@ -10,6 +10,8 @@ namespace Flow.Api.Mappings;
 [Mapper]
 internal partial class CurrencyMapper
 {
+    public partial CurrencyShortResponse MapToCurrencyShortResponse(CurrencyDto currencyDto);
+
     public partial CurrencyResponse Map(CurrencyDto currencyDto);
 
     public partial ICollection<CurrencyResponse> Map(ICollection<CurrencyDto> currenciesDto);

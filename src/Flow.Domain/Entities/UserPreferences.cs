@@ -4,7 +4,7 @@ public sealed class UserPreferences : BaseEntity, IHasDate
 {
     public Guid CurrencyId { get; set; }
 
-    public Currency Currency { get; set; }
+    public Currency? Currency { get; set; }
 
     public int BudgetingStartDay { get; set; }
 

@@ -8,15 +8,11 @@ public sealed class Subscription : BaseEntity, IHasDate
 
     public Guid CurrencyId { get; set; }
 
-    public Currency Currency { get; set; }
+    public Currency? Currency { get; set; }
 
     public Guid UserId { get; set; }
 
-    public User User { get; set; }
-
-    public DateTimeOffset? PaymentDate { get; set; }
-
-    public int? PaymentPeriod { get; set; }
+    public User? User { get; set; }
 
     public bool? IsActive { get; set; }
 

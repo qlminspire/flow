@@ -41,7 +41,7 @@ public class BanksController : BaseController
     }
 
     /// <summary>
-    /// Gets all banks
+    /// Get all banks
     /// </summary>
     /// <remarks>
     /// Sample request:

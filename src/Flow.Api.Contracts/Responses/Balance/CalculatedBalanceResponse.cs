@@ -1,12 +1,12 @@
 ﻿namespace Flow.Api.Contracts.Responses.Balance;
 
-public sealed class CalculatedBalanceResponse
+public sealed record CalculatedBalanceResponse
 {
-    public ICollection<BalanceResponse> TotalBankAccounts { get; set; }
+    public ICollection<BalanceResponse> TotalBankAccounts { get; init; }
 
-    public ICollection<BalanceResponse> TotalCashAccounts { get; set; }
+    public ICollection<BalanceResponse> TotalCashAccounts { get; init; }
 
-    public ICollection<BalanceResponse> TotalDeposits { get; set; }
+    public ICollection<BalanceResponse> TotalDeposits { get; init; }
 
-    public ICollection<BalanceResponse> TotalDebts { get; set; }
+    public ICollection<BalanceResponse> TotalDebts { get; init; }
 }

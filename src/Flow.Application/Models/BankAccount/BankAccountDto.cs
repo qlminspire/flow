@@ -1,14 +1,17 @@
-﻿namespace Flow.Application.Models.BankAccount;
+﻿using Flow.Application.Models.Bank;
+using Flow.Application.Models.Currency;
+
+namespace Flow.Application.Models.BankAccount;
 
 public sealed class BankAccountDto
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
-    public string Iban { get; set; }
+    public string Iban { get; init; }
 
-    public Guid BankId { get; set; }
+    public BankDto Bank { get; init; }
 
-    public decimal Amount { get; set; }
+    public decimal Amount { get; init; }
 
-    public Guid CurrencyId { get; set; }
+    public CurrencyDto Currency { get; init; }
 }

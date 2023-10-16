@@ -1,3 +1,5 @@
-﻿namespace Flow.Api.Contracts.Responses.Balance;
+﻿using Flow.Api.Contracts.Responses.Currency;
 
-public sealed record BalanceResponse(decimal Amount, string Currency);
+namespace Flow.Api.Contracts.Responses.Balance;
+
+public sealed record BalanceResponse(decimal Amount, CurrencyShortResponse Currency);

@@ -11,7 +11,6 @@ namespace Flow.Api.Mappings;
 internal partial class BankDepositMapper
 {
     public partial BankDepositResponse Map(BankDepositDto bankDepositDto);
-    // .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code));
 
     public partial ICollection<BankDepositResponse> Map(ICollection<BankDepositDto> bankDepositsDto);
 

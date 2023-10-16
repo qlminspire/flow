@@ -10,11 +10,13 @@ public abstract class Account : BaseEntity, IHasDate
 
     public Guid UserId { get; set; }
 
-    public User User { get; set; } = null!;
+    public User? User { get; set; }
 
     public Guid? CategoryId { get; set; }
 
     public UserCategory? Category { get; set; }
+
+    public bool IsActive { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 

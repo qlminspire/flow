@@ -11,14 +11,12 @@ namespace Flow.Api.Mappings;
 internal partial class PlannedExpenseMapper
 {
     public partial PlannedExpenseResponse Map(PlannedExpenseDto plannedExpenseDto);
-    // .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code));
 
     public partial ICollection<PlannedExpenseResponse> Map(ICollection<PlannedExpenseDto> plannedExpensesDto);
 
     public partial CreatePlannedExpenseDto Map(CreatePlannedExpenseRequest createPlannedExpenseRequest);
-    // .ForMember(dest => dest.ExpenseDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.ExpenseDate)));
+
     public partial UpdatePlannedExpenseDto Map(UpdatePlannedExpenseRequest updatePlannedExpenseRequest);
-    // .ForMember(dest => dest.ExpenseDate, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.ExpenseDate)));
 
     public partial MonthlyPlannedExpensesResponse Map(MonthlyPlannedExpensesDto monthlyPlannedExpensesDto);
 

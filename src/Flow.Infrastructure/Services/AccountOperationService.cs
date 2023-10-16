@@ -32,26 +32,26 @@ internal sealed class AccountOperationService : IAccountOperationService
         var (fromAccountId, toAccountId, amount) = createAccountOperationDto;
 
         if (amount <= 0)
-            throw new NotImplementedException("Validation should be here");
+            throw new ValidationException("Validation should be here");
 
         if (fromAccountId == Guid.Empty || toAccountId == Guid.Empty)
-            throw new NotImplementedException("Validation should be here");
+            throw new ValidationException("Validation should be here");
 
         if (fromAccountId == toAccountId)
-            throw new NotImplementedException("Validation should be here");
+            throw new ValidationException("Validation should be here");
 
         var fromBankAccount = await
             _unitOfWork.Accounts.GetByIdAsync(fromAccountId, cancellationToken);
         if (fromBankAccount is null)
-            throw new NotImplementedException("Validation should be here");
+            throw new ValidationException("Validation should be here");
 
         var toBankAccount = await
             _unitOfWork.Accounts.GetByIdAsync(toAccountId, cancellationToken);
         if (toBankAccount is null)
-            throw new NotImplementedException("Validation should be here");
+            throw new ValidationException("Validation should be here");
 
         if (fromBankAccount.Amount < amount)
-            throw new NotImplementedException("Validation should be here");
+            throw new ValidationException("Validation should be here");
 
         var accountOperation = _mapper.Map(createAccountOperationDto);
 

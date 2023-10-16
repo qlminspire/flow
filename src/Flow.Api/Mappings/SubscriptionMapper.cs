@@ -11,7 +11,6 @@ namespace Flow.Api.Mappings;
 internal partial class SubscriptionMapper
 {
     public partial SubscriptionResponse Map(SubscriptionDto subscriptionDto);
-    //.ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.Code));
 
     public partial ICollection<SubscriptionResponse> Map(ICollection<SubscriptionDto> subscriptionsDto);
 

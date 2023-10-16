@@ -1,4 +1,6 @@
-﻿namespace Flow.Api.Contracts.Responses.PlannedExpense;
+﻿using Flow.Api.Contracts.Responses.Currency;
+
+namespace Flow.Api.Contracts.Responses.PlannedExpense;
 
 public sealed class PlannedExpenseResponse
 {
@@ -8,7 +10,5 @@ public sealed class PlannedExpenseResponse
 
     public decimal Amount { get; init; }
 
-    public string Currency { get; init; }
-
-    public DateOnly ExpenseDate { get; init; }
+    public CurrencyShortResponse Currency { get; init; }
 }

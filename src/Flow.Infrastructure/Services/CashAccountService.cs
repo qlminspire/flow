@@ -16,41 +16,32 @@ internal sealed class CashAccountService : ICashAccountService
         _mapper = new();
     }
 
-    public async Task<CashAccountDto> GetAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
+    public async Task<CashAccountDto> GetAsync(Guid userId, Guid cashAccountId, CancellationToken cancellationToken = default)
     {
-        var cashAccount = await _unitOfWork.CashAccounts.GetByIdAsync(accountId, cancellationToken)
-            ?? throw new NotFoundException(nameof(accountId), accountId.ToString());
+        var cashAccount = await _unitOfWork.CashAccounts.GetForUserAsync(userId, cashAccountId, cancellationToken)
+            ?? throw new NotFoundException(nameof(cashAccountId), cashAccountId.ToString());
 
         return _mapper.Map(cashAccount);
     }
 
     public async Task<List<CashAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var cashAccounts = await _unitOfWork.CashAccounts.GetAsync(x => x.UserId == userId, cancellationToken);
+        var cashAccounts = await _unitOfWork.CashAccounts.GetAllForUserAsync(userId, cancellationToken);
         return _mapper.Map(cashAccounts);
     }
 
-    public async Task<CashAccountDto> CreateAsync(Guid userId, CreateCashAccountDto createDto, CancellationToken cancellationToken = default)
+    public async Task<CashAccountDto> CreateAsync(Guid userId, CreateCashAccountDto createCashAccountDto, CancellationToken cancellationToken = default)
     {
-        var cashAccount = _mapper.Map(createDto);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(createCashAccountDto.CurrencyId, cancellationToken);
+        if (currency is null)
+            throw new ValidationException();
+
+        var cashAccount = _mapper.Map(createCashAccountDto);
         cashAccount.UserId = userId;
 
         _unitOfWork.CashAccounts.Create(cashAccount);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(cashAccount.CurrencyId, CancellationToken.None);
-        cashAccount.Currency = currency;
-
         return _mapper.Map(cashAccount);
-    }
-
-    public Task UpdateAsync(Guid userId, Guid accountId, UpdateCashAccountDto updateCashAccountDto, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task ArchiveAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
     }
 }

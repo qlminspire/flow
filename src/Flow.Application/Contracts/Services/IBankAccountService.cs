@@ -4,13 +4,9 @@ namespace Flow.Application.Contracts.Services;
 
 public interface IBankAccountService
 {
-    Task<BankAccountDto> GetAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default);
+    Task<BankAccountDto> GetForUserAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken = default);
 
-    Task<List<BankAccountDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<List<BankAccountDto>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
 
-    Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createDto, CancellationToken cancellationToken = default);
-
-    Task UpdateAsync(Guid userId, Guid accountId, UpdateBankAccountDto updateBankAccountDto, CancellationToken cancellationToken = default);
-
-    Task ArchiveAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default);
+    Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createBankAccountDto, CancellationToken cancellationToken = default);
 }

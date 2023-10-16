@@ -23,7 +23,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task<PlannedExpenseDto> GetAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
     {
-        var plannedExpense = await _unitOfWork.PlannedExpenses.GetByIdAsync(plannedExpenseId, cancellationToken)
+        var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         return _mapper.Map(plannedExpense);
@@ -31,7 +31,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task<List<PlannedExpenseDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var plannedExpenses = await _unitOfWork.PlannedExpenses.GetAsync(x => x.UserId == userId, cancellationToken);
+        var plannedExpenses = await _unitOfWork.PlannedExpenses.GetAllForUserAsync(userId, cancellationToken);
         return _mapper.Map(plannedExpenses);
     }
 
@@ -60,30 +60,29 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto dto, CancellationToken cancellationToken = default)
     {
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, cancellationToken);
+        if (currency is null)
+            throw new ValidationException();
+
         var plannedExpense = _mapper.Map(dto);
         plannedExpense.UserId = userId;
 
         _unitOfWork.PlannedExpenses.Create(plannedExpense);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, CancellationToken.None);
-        plannedExpense.Currency = currency;
-
         return _mapper.Map(plannedExpense);
     }
 
     public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto dto, CancellationToken cancellationToken = default)
     {
-        var plannedExpense = await _unitOfWork.PlannedExpenses.GetByIdAsync(plannedExpenseId, cancellationToken)
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, cancellationToken);
+        if (currency is null)
+            throw new ValidationException();
+
+        var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
-        plannedExpense.Name = dto.Name;
-        plannedExpense.Amount = dto.Amount;
-        plannedExpense.CurrencyId = dto.CurrencyId;
-        plannedExpense.ExpenseDate = dto.ExpenseDate;
-
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, CancellationToken.None);
-        plannedExpense.Currency = currency;
+        _mapper.Map(plannedExpense, dto);
 
         _unitOfWork.PlannedExpenses.Update(plannedExpense);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -91,7 +90,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task DeleteAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
     {
-        var plannedExpense = await _unitOfWork.PlannedExpenses.GetByIdAsync(plannedExpenseId, cancellationToken)
+        var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         _unitOfWork.PlannedExpenses.Delete(plannedExpense);

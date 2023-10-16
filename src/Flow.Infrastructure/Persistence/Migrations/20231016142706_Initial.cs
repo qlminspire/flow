@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Flow.Infrastructure.Persistance.Migrations
+namespace Flow.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -116,7 +116,6 @@ namespace Flow.Infrastructure.Persistance.Migrations
                     Amount = table.Column<decimal>(type: "numeric", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     CurrencyId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExpenseDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
@@ -146,8 +145,6 @@ namespace Flow.Infrastructure.Persistance.Migrations
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CurrencyId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PaymentDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    PaymentPeriod = table.Column<int>(type: "integer", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: true, defaultValue: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
@@ -200,6 +197,7 @@ namespace Flow.Infrastructure.Persistance.Migrations
                     CurrencyId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },

@@ -1,16 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Flow.Api.Contracts.Requests.PlannedExpense;
 
-namespace Flow.Api.Contracts.Requests.PlannedExpense;
-
-public sealed class CreatePlannedExpenseRequest
+public sealed record CreatePlannedExpenseRequest
 {
     public string Name { get; init; }
 
-    [Required]
     public decimal Amount { get; init; }
 
-    [Required]
     public Guid CurrencyId { get; init; }
-
-    public DateTime ExpenseDate { get; init; }
 }

@@ -13,7 +13,6 @@ internal class BankDepositService : IBankDepositService
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
-
         _mapper = new();
     }
 

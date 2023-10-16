@@ -22,7 +22,7 @@ public class SubscriptionsController : BaseController
     /// <remarks>
     /// Sample request:
     ///
-    ///     GET: api/subscriptions
+    ///     GET: api/subscriptions/69128754-e11b-4b59-bef4-d2a2588a374f
     /// </remarks>
     /// <param name="id">The Id of the subscription</param>
     /// <param name="cancellationToken">The cancellation token</param>

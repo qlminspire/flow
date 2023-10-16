@@ -1,3 +1,12 @@
 ﻿namespace Flow.Application.Models.CashAccount;
 
-public sealed record CreateCashAccountDto(string Name, decimal Amount, Guid CurrencyId, Guid? CategoryId = null);
+public sealed record CreateCashAccountDto
+{
+    public string Name { get; init; }
+
+    public decimal Amount { get; init; }
+
+    public Guid CurrencyId { get; init; }
+
+    public Guid? CategoryId { get; init; }
+}

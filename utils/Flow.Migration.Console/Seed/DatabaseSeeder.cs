@@ -35,6 +35,23 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
 
+        var userCategories = new List<UserCategory>()
+        {
+            new()
+            {
+                Id = new Guid("124FE0F4-972B-4165-9965-200065284029"),
+                Name = "Жилье",
+                UserId = testingUser.Id
+            },
+            new()
+            {
+                Id = new Guid("0B1D554A-E119-45A1-AF36-2C023FC96989"),
+                Name = "Путешествия",
+                UserId = testingUser.Id
+            }
+        };
+        _unitOfWork.UserCategories.CreateMany(userCategories);
+
         var banks = GetBanks();
         var banksIds = banks.Select(x => x.Id).ToList();
         _unitOfWork.Banks.CreateMany(banks);

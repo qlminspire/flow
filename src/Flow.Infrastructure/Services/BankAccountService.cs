@@ -40,6 +40,12 @@ internal sealed class BankAccountService : IBankAccountService
         if (bank is null)
             throw new ValidationException("Validation not implemented");
 
+        if (createBankAccountDto.CategoryId.HasValue)
+        {
+            await _unitOfWork.UserCategories.GetForUserAsync(userId,
+                createBankAccountDto.CategoryId.Value, cancellationToken);
+        }
+
         var bankAccount = _mapper.Map(createBankAccountDto);
         bankAccount.UserId = userId;
 

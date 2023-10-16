@@ -7,4 +7,6 @@ public sealed record CreateCashAccountRequest
     public decimal Amount { get; init; }
 
     public Guid CurrencyId { get; init; }
+
+    public Guid? CategoryId { get; init; }
 }

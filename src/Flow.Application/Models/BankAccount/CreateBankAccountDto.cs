@@ -9,4 +9,6 @@ public sealed record CreateBankAccountDto
     public Guid CurrencyId { get; init; }
 
     public decimal Amount { get; init; }
+
+    public Guid? CategoryId { get; init; }
 }

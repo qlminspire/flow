@@ -1,3 +1,10 @@
 ﻿namespace Flow.Application.Models.BankAccount;
 
-public sealed record UpdateBankAccountDto(decimal Amount, Guid CurrencyId, Guid? CategoryId = null);
+public sealed record UpdateBankAccountDto
+{
+    public decimal Amount { get; init; }
+
+    public Guid CurrencyId { get; init; }
+
+    public Guid? CategoryId { get; init; }
+}

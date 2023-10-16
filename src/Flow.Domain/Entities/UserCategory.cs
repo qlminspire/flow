@@ -4,7 +4,7 @@ public sealed class UserCategory : BaseEntity, IHasDate
 {
     public string Name { get; set; } = null!;
 
-    public string Description { get; set; } = null!;
+    public string? Description { get; set; }
 
     public Guid UserId { get; set; }
 

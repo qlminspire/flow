@@ -13,6 +13,7 @@ internal sealed class CashAccountRepository : BaseRepository<CashAccount>, ICash
     {
         return All
             .Include(x => x.Currency)
+            .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == cashAccountId, cancellationToken);
     }
 
@@ -20,6 +21,7 @@ internal sealed class CashAccountRepository : BaseRepository<CashAccount>, ICash
     {
         return All.AsNoTracking()
             .Include(x => x.Currency)
+            .Include(x => x.Category)
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);
     }

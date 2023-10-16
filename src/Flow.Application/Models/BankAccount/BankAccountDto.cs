@@ -1,5 +1,6 @@
 ﻿using Flow.Application.Models.Bank;
 using Flow.Application.Models.Currency;
+using Flow.Application.Models.UserCategory;
 
 namespace Flow.Application.Models.BankAccount;
 
@@ -14,4 +15,6 @@ public sealed class BankAccountDto
     public decimal Amount { get; init; }
 
     public CurrencyDto Currency { get; init; }
+
+    public UserCategoryDto? Category { get; init; }
 }

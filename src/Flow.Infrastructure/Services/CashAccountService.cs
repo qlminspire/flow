@@ -36,6 +36,12 @@ internal sealed class CashAccountService : ICashAccountService
         if (currency is null)
             throw new ValidationException();
 
+        if (createCashAccountDto.CategoryId.HasValue)
+        {
+            await _unitOfWork.UserCategories.GetForUserAsync(userId,
+                createCashAccountDto.CategoryId.Value, cancellationToken);
+        }
+
         var cashAccount = _mapper.Map(createCashAccountDto);
         cashAccount.UserId = userId;
 

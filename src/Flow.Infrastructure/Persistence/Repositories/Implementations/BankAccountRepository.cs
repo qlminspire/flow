@@ -14,6 +14,7 @@ internal sealed class BankAccountRepository : BaseRepository<BankAccount>, IBank
         return All
             .Include(x => x.Bank)
             .Include(x => x.Currency)
+            .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == bankAccountId, cancellationToken);
     }
 
@@ -22,6 +23,7 @@ internal sealed class BankAccountRepository : BaseRepository<BankAccount>, IBank
         return All.AsNoTracking()
             .Include(x => x.Bank)
             .Include(x => x.Currency)
+            .Include(x => x.Category)
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);
     }

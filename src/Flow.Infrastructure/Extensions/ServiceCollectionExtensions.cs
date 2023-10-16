@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+using Scrutor;
+
 using Flow.Infrastructure.Persistence;
 using Flow.Infrastructure.Persistence.Repositories;
-using Flow.Infrastructure.Services;
 
 namespace Flow.Infrastructure.Extensions;
 
@@ -11,18 +12,13 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddFlowInfrastructure(this IServiceCollection services)
     {
-        services.AddTransient<IBankService, BankService>()
-            .AddTransient<ICurrencyService, CurrencyService>()
-            .AddTransient<ISubscriptionService, SubscriptionService>()
-            .AddTransient<IBankAccountService, BankAccountService>()
-            .AddTransient<ICashAccountService, CashAccountService>()
-            .AddTransient<ICalculatedBalanceService, CalculatedBalanceService>()
-            .AddTransient<IBankDepositService, BankDepositService>()
-            .AddTransient<IAccountOperationService, AccountOperationService>()
-            .AddTransient<IPlannedExpenseService, PlannedExpenseService>()
-            .AddTransient<ICurrencyConversionRateService, CurrencyConversionRateService>()
-            .AddTransient<IDebtService, DebtService>()
-            .AddTransient<IUserCategoryService, UserCategoryService>();
+        services.Scan(x =>
+            x.FromAssemblies(typeof(ServiceCollectionExtensions).Assembly)
+                .AddClasses(filter => filter.Where(type => type.Name.EndsWith("Service", StringComparison.Ordinal)), publicOnly: false)
+                .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+        );
 
         return services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

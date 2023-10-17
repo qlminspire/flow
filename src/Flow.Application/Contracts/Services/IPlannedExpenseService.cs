@@ -10,7 +10,7 @@ public interface IPlannedExpenseService
 
     Task<MonthlyPlannedExpensesDto> GetAllForMonthAsync(Guid userId, CancellationToken cancellationToken = default);
 
-    Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto dto, CancellationToken cancellationToken = default);
+    Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto createPlannedExpenseDto, CancellationToken cancellationToken = default);
 
     Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto updatePlannedExpenseDto, CancellationToken cancellationToken = default);
 

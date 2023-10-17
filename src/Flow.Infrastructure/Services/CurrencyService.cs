@@ -29,9 +29,9 @@ internal sealed class CurrencyService : ICurrencyService
         return _mapper.Map(currencies);
     }
 
-    public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto dto, CancellationToken cancellationToken = default)
+    public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto createCurrencyDto, CancellationToken cancellationToken = default)
     {
-        var currency = _mapper.Map(dto);
+        var currency = _mapper.Map(createCurrencyDto);
 
         _unitOfWork.Currencies.Create(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -39,27 +39,27 @@ internal sealed class CurrencyService : ICurrencyService
         return _mapper.Map(currency);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid id, UpdateCurrencyDto updateCurrencyDto, CancellationToken cancellationToken = default)
     {
-        var existingCurrency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException();
 
-        existingCurrency.Code = dto.Code;
-        existingCurrency.Name = dto.Name;
+        currency.Code = updateCurrencyDto.Code;
+        currency.Name = updateCurrencyDto.Name;
 
-        if (dto.IsActive.HasValue)
-            existingCurrency.IsActive = dto.IsActive.Value;
+        if (updateCurrencyDto.IsActive.HasValue)
+            currency.IsActive = updateCurrencyDto.IsActive.Value;
 
-        _unitOfWork.Currencies.Update(existingCurrency);
+        _unitOfWork.Currencies.Update(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var existingCurrency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException();
 
-        _unitOfWork.Currencies.Delete(existingCurrency);
+        _unitOfWork.Currencies.Delete(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 

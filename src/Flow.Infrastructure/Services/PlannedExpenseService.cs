@@ -58,13 +58,13 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         };
     }
 
-    public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto dto, CancellationToken cancellationToken = default)
+    public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto createPlannedExpenseDto, CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(dto.CurrencyId, cancellationToken);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(createPlannedExpenseDto.CurrencyId, cancellationToken);
         if (currency is null)
             throw new ValidationException();
 
-        var plannedExpense = _mapper.Map(dto);
+        var plannedExpense = _mapper.Map(createPlannedExpenseDto);
         plannedExpense.UserId = userId;
 
         _unitOfWork.PlannedExpenses.Create(plannedExpense);

@@ -8,9 +8,9 @@ public interface ICurrencyService
 
     Task<List<CurrencyDto>> GetAllAsync(CancellationToken cancellationToken = default);
 
-    Task<CurrencyDto> CreateAsync(CreateCurrencyDto dto, CancellationToken cancellationToken = default);
+    Task<CurrencyDto> CreateAsync(CreateCurrencyDto createCurrencyDto, CancellationToken cancellationToken = default);
 
-    Task UpdateAsync(Guid id, UpdateCurrencyDto dto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Guid id, UpdateCurrencyDto updateCurrencyDto, CancellationToken cancellationToken = default);
 
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 

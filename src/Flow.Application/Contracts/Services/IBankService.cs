@@ -8,7 +8,7 @@ public interface IBankService
 
     Task<List<BankDto>> GetAsync(CancellationToken cancellationToken = default);
 
-    Task<BankDto> CreateAsync(CreateBankDto dto, CancellationToken cancellationToken = default);
+    Task<BankDto> CreateAsync(CreateBankDto createBankDto, CancellationToken cancellationToken = default);
 
     Task UpdateAsync(Guid id, UpdateBankDto updateBankDto, CancellationToken cancellationToken = default);
 

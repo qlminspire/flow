@@ -30,9 +30,9 @@ internal sealed class BankService : IBankService
         return _mapper.Map(banks);
     }
 
-    public async Task<BankDto> CreateAsync(CreateBankDto dto, CancellationToken cancellationToken = default)
+    public async Task<BankDto> CreateAsync(CreateBankDto createBankDto, CancellationToken cancellationToken = default)
     {
-        var bank = _mapper.Map(dto);
+        var bank = _mapper.Map(createBankDto);
 
         _unitOfWork.Banks.Create(bank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -42,21 +42,21 @@ internal sealed class BankService : IBankService
 
     public async Task UpdateAsync(Guid id, UpdateBankDto updateBankDto, CancellationToken cancellationToken = default)
     {
-        var existingBank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException();
 
-        _mapper.Map(updateBankDto, existingBank);
+        _mapper.Map(updateBankDto, bank);
 
-        _unitOfWork.Banks.Update(existingBank);
+        _unitOfWork.Banks.Update(bank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var existingBank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException();
 
-        _unitOfWork.Banks.Delete(existingBank);
+        _unitOfWork.Banks.Delete(bank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 

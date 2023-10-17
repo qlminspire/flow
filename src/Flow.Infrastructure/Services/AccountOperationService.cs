@@ -16,13 +16,13 @@ internal sealed class AccountOperationService : IAccountOperationService
         _mapper = new();
     }
 
-    public async Task<AccountOperationDto> GetAsync(Guid userId, Guid operationId,
+    public async Task<AccountOperationDto> GetAsync(Guid userId, Guid accountOperationId,
         CancellationToken cancellationToken = default)
     {
         var accountOperation =
-            await _unitOfWork.AccountOperations.GetForUserAsync(userId, operationId, cancellationToken);
+            await _unitOfWork.AccountOperations.GetForUserAsync(userId, accountOperationId, cancellationToken);
         if (accountOperation is null)
-            throw new NotFoundException(nameof(accountOperation), operationId.ToString());
+            throw new NotFoundException(nameof(accountOperation), accountOperationId.ToString());
 
         return _mapper.Map(accountOperation);
     }
@@ -41,12 +41,12 @@ internal sealed class AccountOperationService : IAccountOperationService
             throw new ValidationException("Validation should be here");
 
         var fromBankAccount = await
-            _unitOfWork.Accounts.GetByIdAsync(fromAccountId, cancellationToken);
+            _unitOfWork.Accounts.GetForUserAsync(userId, fromAccountId, cancellationToken);
         if (fromBankAccount is null)
             throw new ValidationException("Validation should be here");
 
         var toBankAccount = await
-            _unitOfWork.Accounts.GetByIdAsync(toAccountId, cancellationToken);
+            _unitOfWork.Accounts.GetForUserAsync(userId, toAccountId, cancellationToken);
         if (toBankAccount is null)
             throw new ValidationException("Validation should be here");
 

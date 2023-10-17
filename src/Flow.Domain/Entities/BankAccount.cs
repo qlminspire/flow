@@ -7,4 +7,6 @@ public sealed class BankAccount : Account
     public Guid BankId { get; set; }
 
     public Bank? Bank { get; set; }
+
+    public ICollection<BankDeposit> Deposits { get; set; }
 }

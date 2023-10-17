@@ -66,7 +66,7 @@ public sealed class BankDepositsController : BaseController
     ///         "currencyId": "ff11ff3e-01e3-435c-9e4f-47ecf06778b4",
     ///         "rate": 6.2,
     ///         "type": 1,
-    ///         "periodInMonthes": 13,
+    ///         "periodInMonths": 13,
     ///         "refundAccountId": "751bd4bb-437c-44d4-a344-2625cd3921ff"
     ///      }
     /// </remarks>

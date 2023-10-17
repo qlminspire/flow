@@ -1,4 +1,6 @@
-﻿using Flow.Api.Contracts.Responses.Currency;
+﻿using Flow.Api.Contracts.Responses.BankAccount;
+using Flow.Api.Contracts.Responses.Currency;
+using Flow.Api.Contracts.Responses.UserCategory;
 using Flow.Domain.Enums;
 
 namespace Flow.Api.Contracts.Responses.BankDeposit;
@@ -15,7 +17,9 @@ public sealed record BankDepositResponse
 
     public double Rate { get; init; }
 
-    public int PeriodInMonthes { get; init; }
+    public int PeriodInMonths { get; init; }
 
-    public DateTimeOffset? EndDate { get; init; }
+    public BankAccountResponse RefundAccount { get; init; }
+
+    public UserCategoryShortResponse Category { get; init; }
 }

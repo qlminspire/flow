@@ -16,16 +16,17 @@ internal class BankDepositService : IBankDepositService
         _mapper = new();
     }
 
-    public async Task<BankDepositDto> GetAsync(Guid userId, Guid depositId, CancellationToken cancellationToken = default)
+    public async Task<BankDepositDto> GetAsync(Guid userId, Guid bankDepositId, CancellationToken cancellationToken = default)
     {
-        var bankDeposit = await _unitOfWork.BankDeposits.GetByIdAsync(depositId, cancellationToken)
+        var bankDeposit = await _unitOfWork.BankDeposits.GetForUserAsync(userId, bankDepositId, cancellationToken)
             ?? throw new NotFoundException();
+
         return _mapper.Map(bankDeposit);
     }
 
     public async Task<List<BankDepositDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var banks = await _unitOfWork.BankDeposits.GetAsync(x => x.UserId == userId, cancellationToken);
+        var banks = await _unitOfWork.BankDeposits.GetAllForUserAsync(userId, cancellationToken);
         return _mapper.Map(banks);
     }
 

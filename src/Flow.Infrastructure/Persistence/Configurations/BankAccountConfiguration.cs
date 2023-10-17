@@ -9,5 +9,6 @@ internal sealed class BankAccountConfiguration : IEntityTypeConfiguration<BankAc
     {
         builder.Property(x => x.Iban).HasMaxLength(DatabaseConstants.Length64);
         builder.HasOne(x => x.Bank).WithMany().OnDelete(DeleteBehavior.Restrict);
+        builder.HasMany(x => x.Deposits).WithOne(x => x.RefundAccount).OnDelete(DeleteBehavior.Restrict);
     }
 }

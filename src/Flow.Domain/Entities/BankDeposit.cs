@@ -12,21 +12,21 @@ public sealed class BankDeposit : BaseEntity, IAuditable
 
     public User? User { get; set; }
 
-    public Guid? CategoryId { get; set; }
-
-    public UserCategory? Category { get; set; }
-
     public DepositType Type { get; set; }
 
     public double Rate { get; set; }
 
-    public int PeriodInMonthes { get; set; }
+    public int PeriodInMonths { get; set; }
 
     public DateTimeOffset? EndDate { get; set; }
 
-    public Guid? RefundAccountId { get; set; }
+    public Guid RefundAccountId { get; set; }
 
     public BankAccount? RefundAccount { get; set; }
+
+    public Guid? CategoryId { get; set; }
+
+    public UserCategory? Category { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 

@@ -19,7 +19,7 @@ internal sealed class PlannedExpenseRepository : BaseRepository<PlannedExpense>,
 
     public Task<List<PlannedExpense>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return All.AsNoTracking()
+        return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);
@@ -27,7 +27,7 @@ internal sealed class PlannedExpenseRepository : BaseRepository<PlannedExpense>,
 
     public Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate, CancellationToken cancellationToken = default)
     {
-        return All.AsNoTracking()
+        return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)
             .Where(x => x.UserId == userId)
             .GroupBy(x => x.Currency.Code)

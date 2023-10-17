@@ -19,7 +19,7 @@ internal sealed class CashAccountRepository : BaseRepository<CashAccount>, ICash
 
     public Task<List<CashAccount>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return All.AsNoTracking()
+        return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)
             .Include(x => x.Category)
             .Where(x => x.UserId == userId)

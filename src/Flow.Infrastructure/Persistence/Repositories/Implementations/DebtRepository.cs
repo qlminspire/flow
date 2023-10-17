@@ -18,7 +18,7 @@ internal sealed class DebtRepository : BaseRepository<Debt>, IDebtRepository
 
     public Task<List<Debt>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return All.AsNoTracking()
+        return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);

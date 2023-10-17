@@ -13,17 +13,17 @@ internal sealed class BankDepositRepository : BaseRepository<BankDeposit>, IBank
     {
         return All
             .Include(x => x.Currency)
-            .Include(x => x.Category)
             .Include(x => x.RefundAccount)
+            .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == bankDepositId, cancellationToken);
     }
 
     public Task<List<BankDeposit>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return All.AsNoTracking()
+        return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)
-            .Include(x => x.Category)
             .Include(x => x.RefundAccount)
+            .Include(x => x.Category)
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);
     }

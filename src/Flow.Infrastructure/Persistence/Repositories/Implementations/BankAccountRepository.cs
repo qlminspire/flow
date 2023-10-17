@@ -20,7 +20,7 @@ internal sealed class BankAccountRepository : BaseRepository<BankAccount>, IBank
 
     public Task<List<BankAccount>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return All.AsNoTracking()
+        return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Bank)
             .Include(x => x.Currency)
             .Include(x => x.Category)

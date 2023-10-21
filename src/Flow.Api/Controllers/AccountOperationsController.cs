@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.AccountOperation;
-using Flow.Api.Contracts.Responses.AccountOperation;
+﻿using Flow.Contracts.Requests.AccountOperation;
+using Flow.Contracts.Responses.AccountOperation;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

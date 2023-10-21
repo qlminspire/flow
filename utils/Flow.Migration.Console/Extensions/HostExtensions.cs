@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Flow.Migration.Console.Extensions;
+
 public static class HostExtensions
 {
     public static async Task MigrateDatabaseAsync<TContext>(this IHost host, int retry = 0, int retryAmount = 3, CancellationToken cancellationToken = default) where TContext : DbContext
@@ -16,7 +17,7 @@ public static class HostExtensions
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
         var context = scope.ServiceProvider.GetRequiredService<TContext>();
         var seeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
-
+        
         try
         {
             logger.LogInformation("Start migrating database associated with context {DbContextName}.", typeof(TContext).Name);

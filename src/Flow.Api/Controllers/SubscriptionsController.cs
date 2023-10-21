@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.Subscription;
-using Flow.Api.Contracts.Responses.Subscription;
+﻿using Flow.Contracts.Requests.Subscription;
+using Flow.Contracts.Responses.Subscription;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

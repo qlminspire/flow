@@ -1,9 +1,7 @@
 ﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Api.Contracts.Requests.Subscription;
-using Flow.Api.Contracts.Responses.Subscription;
-
 using Flow.Application.Models.Subscription;
+using Flow.Contracts.Requests.Subscription;
+using Flow.Contracts.Responses.Subscription;
 
 namespace Flow.Api.Mappings;
 

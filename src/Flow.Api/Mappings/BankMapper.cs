@@ -1,9 +1,7 @@
 ﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Api.Contracts.Requests.Bank;
-using Flow.Api.Contracts.Responses.Bank;
-
 using Flow.Application.Models.Bank;
+using Flow.Contracts.Requests.Bank;
+using Flow.Contracts.Responses.Bank;
 
 namespace Flow.Api.Mappings;
 

@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Flow.Application.Contracts.Persistence;
+using Flow.Application.Persistence;
 using Flow.Domain.Entities;
 
 namespace Flow.Migration.Console.Seed;

@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Flow.Domain.Common;
-using Flow.Application.Contracts.Persistence.Repositories;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
@@ -64,7 +63,7 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEn
 
     public Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return All.FindAsync([id], cancellationToken: cancellationToken).AsTask();
+        return All.FindAsync(new object?[]{id}, cancellationToken: cancellationToken).AsTask();
     }
     public void Create(TEntity entity)
     {

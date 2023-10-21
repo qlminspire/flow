@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.Bank;
-using Flow.Api.Contracts.Responses.Bank;
+﻿using Flow.Contracts.Requests.Bank;
+using Flow.Contracts.Responses.Bank;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

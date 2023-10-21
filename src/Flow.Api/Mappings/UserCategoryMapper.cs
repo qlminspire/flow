@@ -1,9 +1,8 @@
 ﻿using Riok.Mapperly.Abstractions;
 
 using Flow.Application.Models.UserCategory;
-
-using Flow.Api.Contracts.Requests.UserCategory;
-using Flow.Api.Contracts.Responses.UserCategory;
+using Flow.Contracts.Requests.UserCategory;
+using Flow.Contracts.Responses.UserCategory;
 
 namespace Flow.Api.Mappings;
 

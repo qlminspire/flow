@@ -1,9 +1,7 @@
 ﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Api.Contracts.Requests.PlannedExpense;
-using Flow.Api.Contracts.Responses.PlannedExpense;
-
 using Flow.Application.Models.PlannedExpense;
+using Flow.Contracts.Requests.PlannedExpense;
+using Flow.Contracts.Responses.PlannedExpense;
 
 namespace Flow.Api.Mappings;
 

@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Responses.Balance;
+﻿using Flow.Contracts.Responses.Balance;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

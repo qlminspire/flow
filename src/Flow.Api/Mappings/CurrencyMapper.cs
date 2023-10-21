@@ -1,9 +1,7 @@
 ﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Api.Contracts.Requests.Currency;
-using Flow.Api.Contracts.Responses.Currency;
-
 using Flow.Application.Models.Currency;
+using Flow.Contracts.Requests.Currency;
+using Flow.Contracts.Responses.Currency;
 
 namespace Flow.Api.Mappings;
 

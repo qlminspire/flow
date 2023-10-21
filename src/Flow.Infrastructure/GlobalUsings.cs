@@ -1,7 +1,8 @@
 ﻿// Global using directives
 
-global using Flow.Application.Contracts.Services;
-global using Flow.Application.Contracts.Persistence;
+global using Flow.Application.Services;
+global using Flow.Application.Persistence;
+global using Flow.Application.Persistence.Repositories;
 global using Flow.Application.Exceptions;
 
 global using Flow.Infrastructure.Persistence.Constants;

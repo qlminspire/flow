@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+	  <RootNamespace>Flow.Contracts</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Flow.Domain\Flow.Domain.csproj" />
+	</ItemGroup>
+</Project>

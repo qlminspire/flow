@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.UserCategory;
-using Flow.Api.Contracts.Responses.UserCategory;
+﻿using Flow.Contracts.Requests.UserCategory;
+using Flow.Contracts.Responses.UserCategory;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

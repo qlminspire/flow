@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.Currency;
-using Flow.Api.Contracts.Responses.Currency;
+﻿using Flow.Contracts.Requests.Currency;
+using Flow.Contracts.Responses.Currency;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

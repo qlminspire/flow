@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.PlannedExpense;
-using Flow.Api.Contracts.Responses.PlannedExpense;
+﻿using Flow.Contracts.Requests.PlannedExpense;
+using Flow.Contracts.Responses.PlannedExpense;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

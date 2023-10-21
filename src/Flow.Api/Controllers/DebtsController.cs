@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using Flow.Api.Contracts.Requests.Debt;
-using Flow.Api.Contracts.Responses.Debt;
+﻿using Flow.Contracts.Requests.Debt;
+using Flow.Contracts.Responses.Debt;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Flow.Api.Controllers;
 

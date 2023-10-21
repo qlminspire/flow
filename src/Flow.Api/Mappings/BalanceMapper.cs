@@ -1,8 +1,6 @@
 ﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Api.Contracts.Responses.Balance;
-
 using Flow.Application.Models.Balance;
+using Flow.Contracts.Responses.Balance;
 
 namespace Flow.Api.Mappings;
 

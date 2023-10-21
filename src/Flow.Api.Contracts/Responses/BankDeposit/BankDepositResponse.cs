@@ -7,19 +7,19 @@ namespace Flow.Api.Contracts.Responses.BankDeposit;
 
 public sealed record BankDepositResponse
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public decimal Amount { get; init; }
+    public required decimal Amount { get; init; }
 
-    public CurrencyShortResponse Currency { get; init; }
+    public required CurrencyShortResponse Currency { get; init; }
 
-    public DepositType Type { get; init; }
+    public required DepositType Type { get; init; }
 
-    public double Rate { get; init; }
+    public required double Rate { get; init; }
 
-    public int PeriodInMonths { get; init; }
+    public required int PeriodInMonths { get; init; }
 
-    public BankAccountResponse RefundAccount { get; init; }
+    public required BankAccountResponse RefundAccount { get; init; }
 
-    public UserCategoryShortResponse Category { get; init; }
+    public UserCategoryShortResponse? Category { get; init; }
 }

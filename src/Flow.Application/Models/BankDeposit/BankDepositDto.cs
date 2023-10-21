@@ -16,7 +16,7 @@ public sealed class BankDepositDto
 
     public double Rate { get; set; }
 
-    public int PeriodInMonthes { get; set; }
+    public int PeriodInMonths { get; set; }
 
     public DateTimeOffset? EndDate { get; set; }
 

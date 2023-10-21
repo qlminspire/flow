@@ -2,11 +2,11 @@
 
 public sealed record CalculatedBalanceResponse
 {
-    public ICollection<BalanceResponse> TotalBankAccounts { get; init; }
+    public required ICollection<BalanceResponse> TotalBankAccounts { get; init; }
 
-    public ICollection<BalanceResponse> TotalCashAccounts { get; init; }
+    public required ICollection<BalanceResponse> TotalCashAccounts { get; init; }
 
-    public ICollection<BalanceResponse> TotalDeposits { get; init; }
+    public required ICollection<BalanceResponse> TotalDeposits { get; init; }
 
-    public ICollection<BalanceResponse> TotalDebts { get; init; }
+    public required ICollection<BalanceResponse> TotalDebts { get; init; }
 }

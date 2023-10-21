@@ -4,11 +4,11 @@ namespace Flow.Api.Contracts.Responses.PlannedExpense;
 
 public sealed class PlannedExpenseResponse
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
-    public decimal Amount { get; init; }
+    public required decimal Amount { get; init; }
 
-    public CurrencyShortResponse Currency { get; init; }
+    public required CurrencyShortResponse Currency { get; init; }
 }

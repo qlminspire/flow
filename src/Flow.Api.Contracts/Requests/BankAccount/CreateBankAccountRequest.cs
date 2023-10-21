@@ -2,7 +2,7 @@
 
 public sealed record CreateBankAccountRequest
 {
-    public string Iban { get; init; }
+    public string? Iban { get; init; }
 
     public Guid BankId { get; init; }
 

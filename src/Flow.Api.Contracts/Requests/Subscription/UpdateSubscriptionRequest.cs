@@ -2,7 +2,7 @@
 
 public sealed record UpdateSubscriptionRequest
 {
-    public string Service { get; init; }
+    public string? Service { get; init; }
 
     public decimal Price { get; init; }
 

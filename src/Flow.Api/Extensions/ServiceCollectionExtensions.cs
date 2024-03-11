@@ -19,8 +19,6 @@ public static class ServiceCollectionExtensions
                 Version = ApiConstants.Version,
                 Description = "The goal of this API to make personal finance tracking simple"
             });
-
-            //c.DocumentFilter<LowerCaseDocumentFilter>();
         });
 
         return services;

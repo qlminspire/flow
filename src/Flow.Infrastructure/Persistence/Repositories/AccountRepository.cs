@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.Accounts;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class AccountRepository : BaseRepository<Account>, IAccountRepository
+internal sealed class AccountRepository(FlowContext context)
+    : BaseRepository<Account>(context), IAccountRepository
 {
-    public AccountRepository(FlowContext context) : base(context)
-    {
-    }
-
     public Task<Account?> GetForUserAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default)
     {
         return All

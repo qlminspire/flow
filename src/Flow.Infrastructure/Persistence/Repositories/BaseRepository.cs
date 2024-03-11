@@ -1,10 +1,9 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using Flow.Domain.Common;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+internal abstract class BaseRepository<TEntity> : IRepository<TEntity>
+    where TEntity : Entity
 {
     private readonly FlowContext _context;
     protected readonly DbSet<TEntity> All;
@@ -20,12 +19,15 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEn
         return All.AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
     {
         return All.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, string? includes = null, bool disableTracking = true, CancellationToken cancellationToken = default)
+    public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, string? includes = null,
+        bool disableTracking = true, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> query = All;
 
@@ -43,7 +45,10 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEn
             : query.ToListAsync(cancellationToken);
     }
 
-    public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, List<Expression<Func<TEntity, object>>>? includes = null, bool disableTracking = true, CancellationToken cancellationToken = default)
+    public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        List<Expression<Func<TEntity, object>>>? includes = null, bool disableTracking = true,
+        CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> query = All;
 
@@ -63,8 +68,9 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEn
 
     public Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return All.FindAsync(new object?[]{id}, cancellationToken: cancellationToken).AsTask();
+        return All.FindAsync(new object?[] { id }, cancellationToken).AsTask();
     }
+
     public void Create(TEntity entity)
     {
         All.Add(entity);
@@ -85,7 +91,8 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEn
         All.Remove(entity);
     }
 
-    public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
     {
         return All.AnyAsync(predicate, cancellationToken);
     }

@@ -1,6 +1,6 @@
 ﻿using Flow.Application.Models.BankAccount;
 using Flow.Application.Models.Currency;
-using Flow.Domain.Enums;
+using Flow.Domain.BankDeposits;
 
 namespace Flow.Application.Models.BankDeposit;
 

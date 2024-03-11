@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Flow.Domain.Banks;
 
 namespace Flow.Infrastructure.Persistence.Configurations;
 

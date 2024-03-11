@@ -4,22 +4,22 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class CashAccountService : ICashAccountService
 {
-    private readonly IUnitOfWork _unitOfWork;
-
     private readonly CashAccountMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CashAccountService(IUnitOfWork unitOfWork)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
-        _mapper = new();
+        _mapper = new CashAccountMapper();
     }
 
-    public async Task<CashAccountDto> GetAsync(Guid userId, Guid cashAccountId, CancellationToken cancellationToken = default)
+    public async Task<CashAccountDto> GetAsync(Guid userId, Guid cashAccountId,
+        CancellationToken cancellationToken = default)
     {
         var cashAccount = await _unitOfWork.CashAccounts.GetForUserAsync(userId, cashAccountId, cancellationToken)
-            ?? throw new NotFoundException(nameof(cashAccountId), cashAccountId.ToString());
+                          ?? throw new NotFoundException(nameof(cashAccountId), cashAccountId.ToString());
 
         return _mapper.Map(cashAccount);
     }
@@ -30,7 +30,8 @@ internal sealed class CashAccountService : ICashAccountService
         return _mapper.Map(cashAccounts);
     }
 
-    public async Task<CashAccountDto> CreateAsync(Guid userId, CreateCashAccountDto createCashAccountDto, CancellationToken cancellationToken = default)
+    public async Task<CashAccountDto> CreateAsync(Guid userId, CreateCashAccountDto createCashAccountDto,
+        CancellationToken cancellationToken = default)
     {
         var currency = await _unitOfWork.Currencies.GetByIdAsync(createCashAccountDto.CurrencyId, cancellationToken);
         if (currency is null)

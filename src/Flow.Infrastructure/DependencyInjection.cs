@@ -1,6 +1,5 @@
 ﻿using Flow.Infrastructure.Persistence;
 using Flow.Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 

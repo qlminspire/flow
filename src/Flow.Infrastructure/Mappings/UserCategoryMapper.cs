@@ -1,6 +1,6 @@
-﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Application.Models.UserCategory;
+﻿using Flow.Application.Models.UserCategory;
+using Flow.Domain.UserCategories;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
 

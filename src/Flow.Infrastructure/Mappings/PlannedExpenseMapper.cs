@@ -1,6 +1,6 @@
-﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Application.Models.PlannedExpense;
+﻿using Flow.Application.Models.PlannedExpense;
+using Flow.Domain.PlannedExpenses;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
 

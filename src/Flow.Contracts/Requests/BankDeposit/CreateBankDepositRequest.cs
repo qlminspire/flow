@@ -1,4 +1,4 @@
-﻿using Flow.Domain.Enums;
+﻿using Flow.Domain.BankDeposits;
 
 namespace Flow.Contracts.Requests.BankDeposit;
 

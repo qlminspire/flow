@@ -4,22 +4,21 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class BankService : IBankService
 {
-    private readonly IUnitOfWork _unitOfWork;
-
     private readonly BankMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public BankService(IUnitOfWork unitOfWork)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
-        _mapper = new();
+        _mapper = new BankMapper();
     }
 
     public async Task<BankDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException();
+                   ?? throw new NotFoundException();
 
         return _mapper.Map(bank);
     }
@@ -43,7 +42,7 @@ internal sealed class BankService : IBankService
     public async Task UpdateAsync(Guid id, UpdateBankDto updateBankDto, CancellationToken cancellationToken = default)
     {
         var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException();
+                   ?? throw new NotFoundException();
 
         _mapper.Map(updateBankDto, bank);
 
@@ -54,7 +53,7 @@ internal sealed class BankService : IBankService
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException();
+                   ?? throw new NotFoundException();
 
         _unitOfWork.Banks.Delete(bank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

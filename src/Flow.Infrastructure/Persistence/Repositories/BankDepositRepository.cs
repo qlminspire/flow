@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.BankDeposits;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class BankDepositRepository : BaseRepository<BankDeposit>, IBankDepositRepository
+internal sealed class BankDepositRepository(FlowContext context)
+    : BaseRepository<BankDeposit>(context), IBankDepositRepository
 {
-    public BankDepositRepository(FlowContext context) : base(context)
-    {
-    }
-
     public Task<BankDeposit?> GetForUserAsync(Guid userId, Guid bankDepositId, CancellationToken cancellationToken)
     {
         return All

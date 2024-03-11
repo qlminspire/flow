@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.Subscriptions;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class SubscriptionRepository : BaseRepository<Subscription>, ISubscriptionRepository
+internal sealed class SubscriptionRepository(FlowContext context)
+    : BaseRepository<Subscription>(context), ISubscriptionRepository
 {
-    public SubscriptionRepository(FlowContext context) : base(context)
-    {
-    }
-
-    public Task<Subscription?> GetForUserAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
+    public Task<Subscription?> GetForUserAsync(Guid userId, Guid subscriptionId,
+        CancellationToken cancellationToken = default)
     {
         return All
             .Include(x => x.Currency)

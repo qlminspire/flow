@@ -1,6 +1,11 @@
 ﻿using Bogus;
-using Flow.Application.Persistence;
-using Flow.Domain.Entities;
+using Flow.Domain.Abstractions;
+using Flow.Domain.Accounts;
+using Flow.Domain.Banks;
+using Flow.Domain.Currencies;
+using Flow.Domain.Subscriptions;
+using Flow.Domain.UserCategories;
+using Flow.Domain.Users;
 
 namespace Flow.Migration.Console.Seed;
 
@@ -35,7 +40,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
 
-        var userCategories = new List<UserCategory>()
+        var userCategories = new List<UserCategory>
         {
             new()
             {
@@ -79,10 +84,10 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         _unitOfWork.CashAccounts.CreateMany(cashAccounts);
 
         var subscriptionFaker = new Faker<Subscription>()
-              .RuleFor(x => x.Price, x => x.Finance.Amount(0, 100))
-              .RuleFor(x => x.CurrencyId, x => x.PickRandom(currenciesIds))
-              .RuleFor(x => x.UserId, _ => usersIds[0])
-              .RuleFor(x => x.Service, x => x.Company.CompanyName());
+            .RuleFor(x => x.Price, x => x.Finance.Amount(0, 100))
+            .RuleFor(x => x.CurrencyId, x => x.PickRandom(currenciesIds))
+            .RuleFor(x => x.UserId, _ => usersIds[0])
+            .RuleFor(x => x.Service, x => x.Company.CompanyName());
         var subscriptions = subscriptionFaker.Generate(10);
         _unitOfWork.Subscriptions.CreateMany(subscriptions);
 
@@ -93,17 +98,20 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
     {
         return new List<Currency>
         {
-            new() {
+            new()
+            {
                 Id = new Guid("657DF0A1-15E1-4048-A03A-5311AA3D03DF"),
                 Code = "USD",
                 Name = "Доллар США"
             },
-            new() {
+            new()
+            {
                 Id = new Guid("9576670B-4D7B-400D-9A8F-30DEBA74E189"),
                 Code = "BYN",
                 Name = "Беларуский рубль"
             },
-            new() {
+            new()
+            {
                 Id = new Guid("076EA5EA-92DC-4E73-BCB9-CF5DAC5FF165"),
                 Code = "EUR",
                 Name = "Евро"

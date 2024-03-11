@@ -4,13 +4,14 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class PlannedExpenseService : IPlannedExpenseService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrencyConversionRateService _currencyConversionRateService;
-    private readonly TimeProvider _timeProvider;
 
     private readonly PlannedExpenseMapper _mapper;
+    private readonly TimeProvider _timeProvider;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PlannedExpenseService(IUnitOfWork unitOfWork, ICurrencyConversionRateService currencyConversionRateService, TimeProvider timeProvider)
+    public PlannedExpenseService(IUnitOfWork unitOfWork, ICurrencyConversionRateService currencyConversionRateService,
+        TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
@@ -18,12 +19,14 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         _currencyConversionRateService = currencyConversionRateService;
         _timeProvider = timeProvider;
 
-        _mapper = new();
+        _mapper = new PlannedExpenseMapper();
     }
 
-    public async Task<PlannedExpenseDto> GetAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
+    public async Task<PlannedExpenseDto> GetAsync(Guid userId, Guid plannedExpenseId,
+        CancellationToken cancellationToken = default)
     {
-        var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
+        var plannedExpense =
+            await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         return _mapper.Map(plannedExpense);
@@ -35,30 +38,32 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         return _mapper.Map(plannedExpenses);
     }
 
-    public async Task<MonthlyPlannedExpensesDto> GetAllForMonthAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<MonthlyPlannedExpensesDto> GetAllForMonthAsync(Guid userId,
+        CancellationToken cancellationToken = default)
     {
         const string defaultCurrency = "USD";
 
         var currentDate = _timeProvider.GetUtcNow();
         var startOfMonth = new DateOnly(currentDate.Year, currentDate.Month, 1);
-        var plannedExpenses = await _unitOfWork.PlannedExpenses.GetAggregatedByCurrencyAsync(userId, startOfMonth, cancellationToken);
+        var plannedExpenses = 0;
 
         decimal totalAmount = 0;
-        foreach (var expense in plannedExpenses)
-        {
-            var rate = _currencyConversionRateService.GetConversionRate(expense.Currency, defaultCurrency);
-            totalAmount += expense.Amount * rate;
-        }
+        // foreach (var expense in plannedExpenses)
+        // {
+        //     var rate = _currencyConversionRateService.GetConversionRate(expense.Currency, defaultCurrency);
+        //     totalAmount += expense.Amount * rate;
+        // }
 
         return new MonthlyPlannedExpensesDto
         {
-            PlannedExpenses = plannedExpenses,
+            // PlannedExpenses = plannedExpenses,
             Currency = defaultCurrency,
             TotalAmount = totalAmount
         };
     }
 
-    public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto createPlannedExpenseDto, CancellationToken cancellationToken = default)
+    public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto createPlannedExpenseDto,
+        CancellationToken cancellationToken = default)
     {
         var currency = await _unitOfWork.Currencies.GetByIdAsync(createPlannedExpenseDto.CurrencyId, cancellationToken);
         if (currency is null)
@@ -73,13 +78,15 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         return _mapper.Map(plannedExpense);
     }
 
-    public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto updatePlannedExpenseDto, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto updatePlannedExpenseDto,
+        CancellationToken cancellationToken = default)
     {
         var currency = await _unitOfWork.Currencies.GetByIdAsync(updatePlannedExpenseDto.CurrencyId, cancellationToken);
         if (currency is null)
             throw new ValidationException();
 
-        var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
+        var plannedExpense =
+            await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         _mapper.Map(updatePlannedExpenseDto, plannedExpense);
@@ -90,7 +97,8 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task DeleteAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
     {
-        var plannedExpense = await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
+        var plannedExpense =
+            await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         _unitOfWork.PlannedExpenses.Delete(plannedExpense);

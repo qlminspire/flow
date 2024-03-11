@@ -1,6 +1,6 @@
-﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Application.Models.BankDeposit;
+﻿using Flow.Application.Models.BankDeposit;
+using Flow.Domain.BankDeposits;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
 

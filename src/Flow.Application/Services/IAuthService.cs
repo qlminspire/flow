@@ -1,4 +1,6 @@
-﻿namespace Flow.Application.Services;
+﻿using Flow.Domain.Users;
+
+namespace Flow.Application.Services;
 
 public interface IAuthService
 {

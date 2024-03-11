@@ -4,33 +4,35 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class BankAccountService : IBankAccountService
 {
-    private readonly IUnitOfWork _unitOfWork;
-
     private readonly BankAccountMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public BankAccountService(IUnitOfWork unitOfWork)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
-        _mapper = new();
+        _mapper = new BankAccountMapper();
     }
 
-    public async Task<BankAccountDto> GetForUserAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken = default)
+    public async Task<BankAccountDto> GetForUserAsync(Guid userId, Guid bankAccountId,
+        CancellationToken cancellationToken = default)
     {
         var bankAccount = await _unitOfWork.BankAccounts.GetForUserAsync(userId, bankAccountId, cancellationToken)
-            ?? throw new NotFoundException(nameof(bankAccountId), bankAccountId.ToString());
+                          ?? throw new NotFoundException(nameof(bankAccountId), bankAccountId.ToString());
 
         return _mapper.Map(bankAccount);
     }
 
-    public async Task<List<BankAccountDto>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<List<BankAccountDto>> GetAllForUserAsync(Guid userId,
+        CancellationToken cancellationToken = default)
     {
         var banks = await _unitOfWork.BankAccounts.GetAllForUserAsync(userId, cancellationToken);
         return _mapper.Map(banks);
     }
 
-    public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createBankAccountDto, CancellationToken cancellationToken = default)
+    public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createBankAccountDto,
+        CancellationToken cancellationToken = default)
     {
         var currency = await _unitOfWork.Currencies.GetByIdAsync(createBankAccountDto.CurrencyId, cancellationToken);
         if (currency is null)

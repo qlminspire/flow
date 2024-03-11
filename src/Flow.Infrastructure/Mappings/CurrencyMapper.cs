@@ -1,6 +1,6 @@
-﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Application.Models.Currency;
+﻿using Flow.Application.Models.Currency;
+using Flow.Domain.Currencies;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
 

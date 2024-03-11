@@ -1,44 +1,53 @@
 ﻿using System.Reflection;
-
-using Microsoft.EntityFrameworkCore;
-
-using Flow.Domain.Common;
+using Flow.Domain.AccountOperations;
+using Flow.Domain.Accounts;
+using Flow.Domain.BankDeposits;
+using Flow.Domain.Banks;
+using Flow.Domain.Currencies;
+using Flow.Domain.Debts;
+using Flow.Domain.Income;
+using Flow.Domain.PlannedExpenses;
+using Flow.Domain.Subscriptions;
+using Flow.Domain.UserCategories;
+using Flow.Domain.UserPreferences;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence;
 
 public class FlowContext : DbContext
 {
-    public FlowContext(DbContextOptions<FlowContext> options) : base(options)
+    public FlowContext(DbContextOptions<FlowContext> options)
+        : base(options)
     {
     }
 
-    public DbSet<Bank> Banks { get; set; } = default!;
+    public DbSet<Bank> Banks => Set<Bank>();
 
-    public DbSet<Account> Accounts { get; set; } = default!;
+    public DbSet<Currency> Currencies => Set<Currency>();
 
-    public DbSet<AccountOperation> AccountOperations { get; set; } = default!;
+    public DbSet<Account> Accounts => Set<Account>();
 
-    public DbSet<BankAccount> BankAccounts { get; set; } = default!;
+    public DbSet<AccountOperation> AccountOperations => Set<AccountOperation>();
 
-    public DbSet<BankDeposit> BankDeposits { get; set; } = default!;
+    public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
 
-    public DbSet<CashAccount> CashAccounts { get; set; } = default!;
+    public DbSet<BankDeposit> BankDeposits => Set<BankDeposit>();
 
-    public DbSet<Currency> Currencies { get; set; } = default!;
+    public DbSet<CashAccount> CashAccounts => Set<CashAccount>();
 
-    public DbSet<Subscription> Subscriptions { get; set; } = default!;
+    public DbSet<Subscription> Subscriptions => Set<Subscription>();
 
-    public DbSet<User> Users { get; set; } = default!;
+    public DbSet<User> Users => Set<User>();
 
-    public DbSet<UserCategory> UserCategories { get; set; } = default!;
+    public DbSet<UserCategory> UserCategories => Set<UserCategory>();
 
-    public DbSet<UserIncome> UserIncomes { get; set; } = default!;
+    public DbSet<UserIncome> UserIncomes => Set<UserIncome>();
 
-    public DbSet<PlannedExpense> PlannedExpenses { get; set; } = default!;
+    public DbSet<PlannedExpense> PlannedExpenses => Set<PlannedExpense>();
 
-    public DbSet<UserPreferences> UserPreferences { get; set; } = default!;
+    public DbSet<UserPreferences> UserPreferences => Set<UserPreferences>();
 
-    public DbSet<Debt> Debts { get; set; } = default!;
+    public DbSet<Debt> Debts => Set<Debt>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

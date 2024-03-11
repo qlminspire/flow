@@ -1,6 +1,6 @@
-﻿using Riok.Mapperly.Abstractions;
-
-using Flow.Application.Models.Subscription;
+﻿using Flow.Application.Models.Subscription;
+using Flow.Domain.Subscriptions;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
 

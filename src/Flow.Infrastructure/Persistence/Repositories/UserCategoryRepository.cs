@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.UserCategories;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class UserCategoryRepository : BaseRepository<UserCategory>, IUserCategoryRepository
+internal sealed class UserCategoryRepository(FlowContext context)
+    : BaseRepository<UserCategory>(context), IUserCategoryRepository
 {
-    public UserCategoryRepository(FlowContext context) : base(context)
-    {
-    }
-
-    public Task<UserCategory?> GetForUserAsync(Guid userId, Guid userCategoryId, CancellationToken cancellationToken = default)
+    public Task<UserCategory?> GetForUserAsync(Guid userId, Guid userCategoryId,
+        CancellationToken cancellationToken = default)
     {
         return All
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == userCategoryId, cancellationToken);

@@ -1,15 +1,13 @@
 ﻿using Flow.Application.Models.PlannedExpense;
-using Microsoft.EntityFrameworkCore;
+using Flow.Domain.PlannedExpenses;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class PlannedExpenseRepository : BaseRepository<PlannedExpense>, IPlannedExpenseRepository
+internal sealed class PlannedExpenseRepository(FlowContext context)
+    : BaseRepository<PlannedExpense>(context), IPlannedExpenseRepository
 {
-    public PlannedExpenseRepository(FlowContext context) : base(context)
-    {
-    }
-
-    public Task<PlannedExpense?> GetForUserAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
+    public Task<PlannedExpense?> GetForUserAsync(Guid userId, Guid plannedExpenseId,
+        CancellationToken cancellationToken = default)
     {
         return All
             .Include(x => x.Currency)
@@ -24,7 +22,8 @@ internal sealed class PlannedExpenseRepository : BaseRepository<PlannedExpense>,
             .ToListAsync(cancellationToken);
     }
 
-    public Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate, CancellationToken cancellationToken = default)
+    public Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate,
+        CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Flow.Domain.Subscriptions;
 
 namespace Flow.Infrastructure.Persistence.Configurations;
 

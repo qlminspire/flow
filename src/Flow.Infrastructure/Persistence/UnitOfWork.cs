@@ -1,4 +1,15 @@
-﻿using Flow.Infrastructure.Persistence.Repositories;
+﻿using Flow.Domain.AccountOperations;
+using Flow.Domain.Accounts;
+using Flow.Domain.BankDeposits;
+using Flow.Domain.Banks;
+using Flow.Domain.Currencies;
+using Flow.Domain.Debts;
+using Flow.Domain.Income;
+using Flow.Domain.PlannedExpenses;
+using Flow.Domain.Subscriptions;
+using Flow.Domain.UserCategories;
+using Flow.Domain.UserPreferences;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence;
 
@@ -6,26 +17,27 @@ internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly FlowContext _context;
 
-    private IUserRepository? _userRepository;
-    private IUserCategoryRepository? _userCategoryRepository;
-    private IUserIncomeRepository? _userIncomeRepository;
-
-    private IBankRepository? _bankRepository;
-    private ICurrencyRepository? _currencyRepository;
+    private IAccountOperationRepository? _accountOperationRepository;
 
     private IAccountRepository? _accountRepository;
     private IBankAccountRepository? _bankAccountRepository;
-    private ICashAccountRepository? _cashAccountRepository;
-    private IAccountOperationRepository? _accountOperationRepository;
-
-    private ISubscriptionRepository? _subscriptionRepository;
 
     private IBankDepositRepository? _bankDepositRepository;
 
+    private IBankRepository? _bankRepository;
+    private ICashAccountRepository? _cashAccountRepository;
+    private ICurrencyRepository? _currencyRepository;
+    private IDebtRepository? _debtRepository;
+
     private IPlannedExpenseRepository? _plannedExpenseRepository;
 
+    private ISubscriptionRepository? _subscriptionRepository;
+    private IUserCategoryRepository? _userCategoryRepository;
+    private IUserIncomeRepository? _userIncomeRepository;
+
     private IUserPreferencesRepository? _userPreferencesRepository;
-    private IDebtRepository? _debtRepository;
+
+    private IUserRepository? _userRepository;
 
     public UnitOfWork(FlowContext context)
     {
@@ -52,11 +64,14 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public IBankDepositRepository BankDeposits => _bankDepositRepository ??= new BankDepositRepository(_context);
 
-    public IAccountOperationRepository AccountOperations => _accountOperationRepository ??= new AccountOperationRepository(_context);
+    public IAccountOperationRepository AccountOperations =>
+        _accountOperationRepository ??= new AccountOperationRepository(_context);
 
-    public IPlannedExpenseRepository PlannedExpenses => _plannedExpenseRepository ??= new PlannedExpenseRepository(_context);
+    public IPlannedExpenseRepository PlannedExpenses =>
+        _plannedExpenseRepository ??= new PlannedExpenseRepository(_context);
 
-    public IUserPreferencesRepository UserPreferences => _userPreferencesRepository ??= new UserPreferencesRepository(_context);
+    public IUserPreferencesRepository UserPreferences =>
+        _userPreferencesRepository ??= new UserPreferencesRepository(_context);
 
     public IDebtRepository Debts => _debtRepository ??= new DebtRepository(_context);
 

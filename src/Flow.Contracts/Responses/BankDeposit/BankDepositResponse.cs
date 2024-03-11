@@ -1,7 +1,7 @@
 ﻿using Flow.Contracts.Responses.BankAccount;
 using Flow.Contracts.Responses.Currency;
 using Flow.Contracts.Responses.UserCategory;
-using Flow.Domain.Enums;
+using Flow.Domain.BankDeposits;
 
 namespace Flow.Contracts.Responses.BankDeposit;
 

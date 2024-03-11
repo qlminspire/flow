@@ -1,8 +1,6 @@
-﻿namespace Flow.Infrastructure.Persistence.Repositories;
+﻿using Flow.Domain.Income;
 
-internal sealed class UserIncomeRepository : BaseRepository<UserIncome>, IUserIncomeRepository
-{
-    public UserIncomeRepository(FlowContext context) : base(context)
-    {
-    }
-}
+namespace Flow.Infrastructure.Persistence.Repositories;
+
+internal sealed class UserIncomeRepository(FlowContext context)
+    : BaseRepository<UserIncome>(context), IUserIncomeRepository;

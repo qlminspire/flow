@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.Accounts;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class BankAccountRepository : BaseRepository<BankAccount>, IBankAccountRepository
+internal sealed class BankAccountRepository(FlowContext context)
+    : BaseRepository<BankAccount>(context), IBankAccountRepository
 {
-    public BankAccountRepository(FlowContext context) : base(context)
-    {
-    }
-
     public Task<BankAccount?> GetForUserAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken)
     {
         return All
@@ -26,5 +23,4 @@ internal sealed class BankAccountRepository : BaseRepository<BankAccount>, IBank
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);
     }
-
 }

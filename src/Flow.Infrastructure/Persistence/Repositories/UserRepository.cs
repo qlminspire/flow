@@ -1,8 +1,6 @@
-﻿namespace Flow.Infrastructure.Persistence.Repositories;
+﻿using Flow.Domain.Users;
 
-internal sealed class UserRepository : BaseRepository<User>, IUserRepository
-{
-    public UserRepository(FlowContext context) : base(context)
-    {
-    }
-}
+namespace Flow.Infrastructure.Persistence.Repositories;
+
+internal sealed class UserRepository(FlowContext context)
+    : BaseRepository<User>(context), IUserRepository;

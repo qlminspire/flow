@@ -4,22 +4,22 @@ namespace Flow.Infrastructure.Services;
 
 internal class BankDepositService : IBankDepositService
 {
-    private readonly IUnitOfWork _unitOfWork;
-
     private readonly BankDepositMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public BankDepositService(IUnitOfWork unitOfWork)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
-        _mapper = new();
+        _mapper = new BankDepositMapper();
     }
 
-    public async Task<BankDepositDto> GetAsync(Guid userId, Guid bankDepositId, CancellationToken cancellationToken = default)
+    public async Task<BankDepositDto> GetAsync(Guid userId, Guid bankDepositId,
+        CancellationToken cancellationToken = default)
     {
         var bankDeposit = await _unitOfWork.BankDeposits.GetForUserAsync(userId, bankDepositId, cancellationToken)
-            ?? throw new NotFoundException();
+                          ?? throw new NotFoundException();
 
         return _mapper.Map(bankDeposit);
     }
@@ -30,7 +30,8 @@ internal class BankDepositService : IBankDepositService
         return _mapper.Map(banks);
     }
 
-    public async Task<BankDepositDto> CreateAsync(Guid userId, CreateBankDepositDto createBankDepositDto, CancellationToken cancellationToken = default)
+    public async Task<BankDepositDto> CreateAsync(Guid userId, CreateBankDepositDto createBankDepositDto,
+        CancellationToken cancellationToken = default)
     {
         var bankDeposit = _mapper.Map(createBankDepositDto);
         bankDeposit.UserId = userId;

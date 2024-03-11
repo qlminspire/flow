@@ -4,16 +4,15 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class AccountOperationService : IAccountOperationService
 {
-    private readonly IUnitOfWork _unitOfWork;
-
     private readonly AccountOperationMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AccountOperationService(IUnitOfWork unitOfWork)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
-        _mapper = new();
+        _mapper = new AccountOperationMapper();
     }
 
     public async Task<AccountOperationDto> GetAsync(Guid userId, Guid accountOperationId,
@@ -27,7 +26,8 @@ internal sealed class AccountOperationService : IAccountOperationService
         return _mapper.Map(accountOperation);
     }
 
-    public async Task<AccountOperationDto> CreateAsync(Guid userId, CreateAccountOperationDto createAccountOperationDto, CancellationToken cancellationToken = default)
+    public async Task<AccountOperationDto> CreateAsync(Guid userId, CreateAccountOperationDto createAccountOperationDto,
+        CancellationToken cancellationToken = default)
     {
         var (fromAccountId, toAccountId, amount) = createAccountOperationDto;
 

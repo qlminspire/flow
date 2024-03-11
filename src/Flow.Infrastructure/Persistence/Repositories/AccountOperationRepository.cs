@@ -1,20 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.AccountOperations;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class AccountOperationRepository : BaseRepository<AccountOperation>, IAccountOperationRepository
+internal sealed class AccountOperationRepository(FlowContext context)
+    : BaseRepository<AccountOperation>(context), IAccountOperationRepository
 {
-    public AccountOperationRepository(FlowContext context) : base(context)
-    {
-    }
-
-    public Task<AccountOperation?> GetForUserAsync(Guid userId, Guid operationId, CancellationToken cancellationToken = default)
+    public Task<AccountOperation?> GetForUserAsync(Guid userId, Guid operationId,
+        CancellationToken cancellationToken = default)
     {
         return All.Include(x => x.FromAccount)
-                  .Include(x => x.ToAccount)
-                  .FirstOrDefaultAsync(x =>
-                        ((x.FromAccount != null && x.FromAccount.UserId == userId) || (x.ToAccount != null && x.ToAccount.UserId == userId))
-                        && x.Id == operationId, cancellationToken);
+            .Include(x => x.ToAccount)
+            .FirstOrDefaultAsync(x =>
+                ((x.FromAccount != null && x.FromAccount.UserId == userId) ||
+                 (x.ToAccount != null && x.ToAccount.UserId == userId))
+                && x.Id == operationId, cancellationToken);
     }
 
     public Task<List<AccountOperation>> GetAllIncomingOperationsAsync(Guid accountId,

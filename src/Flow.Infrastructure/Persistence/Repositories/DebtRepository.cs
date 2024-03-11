@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flow.Domain.Debts;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal sealed class DebtRepository : BaseRepository<Debt>, IDebtRepository
+internal sealed class DebtRepository(FlowContext context)
+    : BaseRepository<Debt>(context), IDebtRepository
 {
-    public DebtRepository(FlowContext context) : base(context)
-    {
-    }
-
     public Task<Debt?> GetForUserAsync(Guid userId, Guid debtId, CancellationToken cancellationToken = default)
     {
         return All

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Flow.Application.Persistence;
+﻿using Flow.Application.Persistence;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Flow.Api.HealthChecks;
 
@@ -14,9 +14,12 @@ public sealed class DatabaseHealthCheck : IHealthCheck
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+        CancellationToken cancellationToken = default)
     {
         var isDatabaseAvailable = await _unitOfWork.CanConnectAsync(cancellationToken);
-        return isDatabaseAvailable ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy("Can't connect to the database");
+        return isDatabaseAvailable
+            ? HealthCheckResult.Healthy()
+            : HealthCheckResult.Unhealthy("Can't connect to the database");
     }
 }

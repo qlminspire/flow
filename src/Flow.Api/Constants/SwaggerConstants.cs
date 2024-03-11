@@ -3,5 +3,5 @@
 public static class SwaggerConstants
 {
     public const string ApiTitle = "Flow API";
-    public const string ApiDocsUrl = "docs/api";
+    public const string ApiDocsUrl = "swagger";
 }

@@ -3,7 +3,7 @@
     "Flow.Api": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "docs/api",
+      "launchUrl": "api/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -13,7 +13,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "docs/api",
+      "launchUrl": "api/swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -21,7 +21,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/docs/api",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/swagger",
       "publishAllPorts": true,
       "useSSL": true
     }

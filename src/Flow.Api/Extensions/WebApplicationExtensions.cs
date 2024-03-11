@@ -1,4 +1,4 @@
-﻿using Flow.Application.Exceptions;
+﻿using Flow.Application.Shared.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Flow.Api.Extensions;

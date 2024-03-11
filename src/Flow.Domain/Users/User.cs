@@ -6,7 +6,7 @@ public sealed class User : Entity, IAuditable
 
     public string PasswordHash { get; set; } = null!;
 
-    public DateTimeOffset CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 }

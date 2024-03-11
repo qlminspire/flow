@@ -76,10 +76,10 @@ public class FlowContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedAt = DateTimeOffset.UtcNow;
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
                     break;
             }
         }

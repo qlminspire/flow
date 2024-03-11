@@ -14,7 +14,7 @@ public sealed class AccountOperation : Entity, IAuditable
 
     public Account? ToAccount { get; set; }
 
-    public DateTimeOffset CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTimeOffset? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 }

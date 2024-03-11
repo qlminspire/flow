@@ -25,7 +25,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
             Id = new Guid("fc8129ce-2ffa-4c99-b6ab-8f525ef8653f"),
             Email = "vladislavq@gmail.com",
             PasswordHash = "1234567",
-            CreatedAt = DateTimeOffset.Now,
+            CreatedAt = DateTime.UtcNow,
         };
 
         var userFaker = new Faker<User>()

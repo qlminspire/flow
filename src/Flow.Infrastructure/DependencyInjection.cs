@@ -23,14 +23,14 @@ public static class DependencyInjection
 
         services.Decorate<IBankService, CachedBankService>();
 
+        services.AddMemoryCache();
+
         return services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     public static IServiceCollection AddDatabase(this IServiceCollection services,
         Action<DbContextOptionsBuilder> optionsBuilder, int connectionPoolSize = 1024)
     {
-        services.AddMemoryCache();
-
         return services.AddDbContextPool<FlowContext>(optionsBuilder, connectionPoolSize);
     }
 }

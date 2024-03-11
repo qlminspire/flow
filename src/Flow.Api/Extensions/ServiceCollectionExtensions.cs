@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-
 using Microsoft.OpenApi.Models;
 
 namespace Flow.Api.Extensions;
@@ -14,10 +13,10 @@ public static class ServiceCollectionExtensions
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             c.IncludeXmlComments(xmlPath);
 
-            c.SwaggerDoc(ApiContants.Version, new OpenApiInfo
+            c.SwaggerDoc(ApiConstants.Version, new OpenApiInfo
             {
                 Title = SwaggerConstants.ApiTitle,
-                Version = ApiContants.Version,
+                Version = ApiConstants.Version,
                 Description = "The goal of this API to make personal finance tracking simple"
             });
 

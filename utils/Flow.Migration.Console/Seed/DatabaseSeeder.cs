@@ -82,27 +82,11 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
 
     private static List<Currency> GetCurrencies()
     {
-        return new List<Currency>
-        {
-            new()
-            {
-                Id = new Guid("657DF0A1-15E1-4048-A03A-5311AA3D03DF"),
-                Code = "USD",
-                Name = "Доллар США"
-            },
-            new()
-            {
-                Id = new Guid("9576670B-4D7B-400D-9A8F-30DEBA74E189"),
-                Code = "BYN",
-                Name = "Беларуский рубль"
-            },
-            new()
-            {
-                Id = new Guid("076EA5EA-92DC-4E73-BCB9-CF5DAC5FF165"),
-                Code = "EUR",
-                Name = "Евро"
-            }
-        };
+        var date = DateTime.UtcNow;
+        string[] currencyCodes = ["USD", "EUR", "BYN"];
+
+        return currencyCodes.Select(code => Currency.Create(code, date).Value)
+            .ToList();
     }
 
     private static List<Bank> GetBanks()

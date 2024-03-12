@@ -1,7 +1,7 @@
-﻿using Riok.Mapperly.Abstractions;
-using Flow.Application.Models.Currency;
+﻿using Flow.Application.Models.Currency;
 using Flow.Contracts.Requests.Currency;
 using Flow.Contracts.Responses.Currency;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Api.Mappings;
 
@@ -15,6 +15,4 @@ internal partial class CurrencyMapper
     public partial ICollection<CurrencyResponse> Map(ICollection<CurrencyDto> currenciesDto);
 
     public partial CreateCurrencyDto Map(CreateCurrencyRequest createCurrencyRequest);
-
-    public partial UpdateCurrencyDto Map(UpdateCurrencyRequest updateCurrencyRequest);
 }

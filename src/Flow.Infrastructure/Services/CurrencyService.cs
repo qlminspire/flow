@@ -1,17 +1,21 @@
 ﻿using Flow.Application.Models.Currency;
+using Flow.Domain.Currencies;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class CurrencyService : ICurrencyService
 {
     private readonly CurrencyMapper _mapper;
+
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CurrencyService(IUnitOfWork unitOfWork)
+    public CurrencyService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
         _mapper = new CurrencyMapper();
     }
 
@@ -32,28 +36,14 @@ internal sealed class CurrencyService : ICurrencyService
     public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto createCurrencyDto,
         CancellationToken cancellationToken = default)
     {
-        var currency = _mapper.Map(createCurrencyDto);
+        var creationDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var currencyResult = Currency.Create(createCurrencyDto.Code, creationDate);
+        var currency = currencyResult.Value;
 
         _unitOfWork.Currencies.Create(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map(currency);
-    }
-
-    public async Task UpdateAsync(Guid id, UpdateCurrencyDto updateCurrencyDto,
-        CancellationToken cancellationToken = default)
-    {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
-                       ?? throw new NotFoundException();
-
-        currency.Code = updateCurrencyDto.Code;
-        currency.Name = updateCurrencyDto.Name;
-
-        if (updateCurrencyDto.IsActive.HasValue)
-            currency.IsActive = updateCurrencyDto.IsActive.Value;
-
-        _unitOfWork.Currencies.Update(currency);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)

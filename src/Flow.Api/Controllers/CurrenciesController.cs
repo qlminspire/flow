@@ -12,7 +12,7 @@ public class CurrenciesController : BaseController
     public CurrenciesController(ICurrencyService currencyService)
     {
         _currencyService = currencyService;
-        _mapper = new();
+        _mapper = new CurrencyMapper();
     }
 
     /// <summary>
@@ -62,8 +62,6 @@ public class CurrenciesController : BaseController
     ///     POST: api/currencies
     ///     {
     ///        "code": "USD",
-    ///        "name": "US Dollar",
-    ///        "isActive": true
     ///     }
     /// </remarks>
     /// <param name="request">The create currency request</param>
@@ -73,40 +71,13 @@ public class CurrenciesController : BaseController
     [ProducesResponseType(typeof(CurrencyResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreateCurrencyAsync([FromBody] CreateCurrencyRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateCurrencyAsync([FromBody] CreateCurrencyRequest request,
+        CancellationToken cancellationToken)
     {
         var createCurrencyDto = _mapper.Map(request);
         var currency = await _currencyService.CreateAsync(createCurrencyDto, cancellationToken);
         var response = _mapper.Map(currency);
         return Results.CreatedAtRoute("GetCurrencyAsync", new { response.Id }, response);
-    }
-
-    /// <summary>
-    /// Update currency
-    /// </summary>
-    /// <remarks>
-    /// Sample request:
-    /// 
-    ///     PUT: api/currencies/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
-    ///     {
-    ///        "code": "USD",
-    ///        "name": "US Dollar",
-    ///        "isActive": false
-    ///     }
-    /// </remarks>
-    /// <param name="id">The Id of the currency</param>
-    /// <param name="request">The update currency request</param>
-    /// <param name="cancellationToken">The cancellation token</param>
-    /// <returns></returns>
-    [HttpPut("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> UpdateCurrencyAsync(Guid id, [FromBody] UpdateCurrencyRequest request, CancellationToken cancellationToken)
-    {
-        var updateCurrencyDto = _mapper.Map(request);
-        await _currencyService.UpdateAsync(id, updateCurrencyDto, cancellationToken);
-        return Results.NoContent();
     }
 
     /// <summary>

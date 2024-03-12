@@ -2,13 +2,4 @@
     <ItemGroup>
         <PackageReference Include="Ardalis.GuardClauses"/>
     </ItemGroup>
-    <ItemGroup>
-        <Compile Remove="Subscriptions\SubscriptionId.cs"/>
-        <Compile Remove="Subscriptions\Events\SubscriptionDeletedDomainEvent.cs"/>
-        <Compile Remove="AccountOperations\AccountOperationId.cs"/>
-        <Compile Remove="AccountOperations\AccountOperationErrors.cs"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Subscriptions\Events\"/>
-    </ItemGroup>
 </Project>

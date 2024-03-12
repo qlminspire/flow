@@ -6,13 +6,13 @@ namespace Flow.Api.Controllers;
 
 public class SubscriptionsController : BaseController
 {
-    private readonly ISubscriptionService _subscriptionService;
     private readonly SubscriptionMapper _mapper;
+    private readonly ISubscriptionService _subscriptionService;
 
     public SubscriptionsController(ISubscriptionService subscriptionService)
     {
         _subscriptionService = subscriptionService;
-        _mapper = new();
+        _mapper = new SubscriptionMapper();
     }
 
     /// <summary>
@@ -63,8 +63,7 @@ public class SubscriptionsController : BaseController
     ///     {
     ///         "service": "Obsidian",
     ///         "price": 10,
-    ///         "currencyId": "657df0a1-15e1-4048-a03a-5311aa3d03df",
-    ///         "isActive": true
+    ///         "currencyId": "657df0a1-15e1-4048-a03a-5311aa3d03df"
     ///     }
     /// </remarks>
     /// <param name="request">The create subscription request</param>
@@ -74,42 +73,13 @@ public class SubscriptionsController : BaseController
     [ProducesResponseType(typeof(SubscriptionResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreateSubscriptionAsync([FromBody] CreateSubscriptionRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateSubscriptionAsync([FromBody] CreateSubscriptionRequest request,
+        CancellationToken cancellationToken)
     {
         var createSubscriptionDto = _mapper.Map(request);
         var subscription = await _subscriptionService.CreateAsync(UserId, createSubscriptionDto, cancellationToken);
         var response = _mapper.Map(subscription);
         return Results.CreatedAtRoute("GetSubscriptionAsync", new { response.Id }, response);
-    }
-
-    /// <summary>
-    /// Update user subscription
-    /// </summary>
-    /// <remarks>
-    /// Sample request:
-    ///
-    ///     PUT: api/subscriptions/888db9d1-30e3-4190-a654-7d17a5bbb545
-    ///     {
-    ///     {
-    ///         "service": "Obsidian",
-    ///         "price": "10",
-    ///         "currencyId": "657df0a1-15e1-4048-a03a-5311aa3d03df",
-    ///         "isActive": "false"
-    ///     }
-    /// </remarks>
-    /// <param name="id">The Id of the subscription</param>
-    /// <param name="request">The update subscription request</param>
-    /// <param name="cancellationToken">The cancellation token</param>
-    /// <returns></returns>
-    [HttpPut("{id:guid}")]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> UpdateSubscriptionAsync(Guid id, [FromBody] UpdateSubscriptionRequest request, CancellationToken cancellationToken)
-    {
-        var updateSubscriptionDto = _mapper.Map(request);
-        await _subscriptionService.UpdateAsync(UserId, id, updateSubscriptionDto, cancellationToken);
-        return Results.NoContent();
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
-﻿using Riok.Mapperly.Abstractions;
-using Flow.Application.Models.Subscription;
+﻿using Flow.Application.Models.Subscription;
 using Flow.Contracts.Requests.Subscription;
 using Flow.Contracts.Responses.Subscription;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Api.Mappings;
 
@@ -13,6 +13,4 @@ internal partial class SubscriptionMapper
     public partial ICollection<SubscriptionResponse> Map(ICollection<SubscriptionDto> subscriptionsDto);
 
     public partial CreateSubscriptionDto Map(CreateSubscriptionRequest createSubscriptionRequest);
-
-    public partial UpdateSubscriptionDto Map(UpdateSubscriptionRequest updateSubscriptionRequest);
 }

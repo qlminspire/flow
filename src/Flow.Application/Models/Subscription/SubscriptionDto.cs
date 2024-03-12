@@ -4,13 +4,15 @@ namespace Flow.Application.Models.Subscription;
 
 public sealed class SubscriptionDto
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
-    public string Service { get; set; }
+    public string Name { get; init; }
 
-    public decimal Price { get; set; }
+    public decimal Price { get; init; }
 
-    public CurrencyDto Currency { get; set; }
+    public CurrencyDto Currency { get; init; }
 
-    public bool IsActive { get; set; }
+    public int PaymentFrequencyMonths { get; init; }
+
+    public bool IsDeactivated { get; init; }
 }

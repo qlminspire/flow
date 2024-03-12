@@ -73,7 +73,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
             .RuleFor(x => x.Price, x => x.Finance.Amount(0, 100))
             .RuleFor(x => x.CurrencyId, x => x.PickRandom(currenciesIds))
             .RuleFor(x => x.UserId, _ => usersIds[0])
-            .RuleFor(x => x.Service, x => x.Company.CompanyName());
+            .RuleFor(x => x.Name, x => x.Company.CompanyName());
         var subscriptions = subscriptionFaker.Generate(10);
         _unitOfWork.Subscriptions.CreateMany(subscriptions);
 

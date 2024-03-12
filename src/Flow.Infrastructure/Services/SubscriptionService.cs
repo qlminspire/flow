@@ -1,17 +1,20 @@
 ﻿using Flow.Application.Models.Subscription;
+using Flow.Domain.Subscriptions;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class SubscriptionService : ISubscriptionService
 {
     private readonly SubscriptionMapper _mapper;
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public SubscriptionService(IUnitOfWork unitOfWork)
+    public SubscriptionService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
 
         _mapper = new SubscriptionMapper();
     }
@@ -38,26 +41,15 @@ internal sealed class SubscriptionService : ISubscriptionService
         if (currency is null)
             throw new ValidationException();
 
-        var subscription = _mapper.Map(createSubscriptionDto);
-        subscription.UserId = userId;
+        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var subscriptionResult = Subscription.Create(userId, createSubscriptionDto.Name, createSubscriptionDto.Price,
+            createSubscriptionDto.PaymentFrequencyMonths, currency, createDate);
+        var subscription = subscriptionResult.Value;
 
         _unitOfWork.Subscriptions.Create(subscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map(subscription);
-    }
-
-    public async Task UpdateAsync(Guid userId, Guid subscriptionId, UpdateSubscriptionDto updateSubscriptionDto,
-        CancellationToken cancellationToken = default)
-    {
-        var existingSubscription =
-            await _unitOfWork.Subscriptions.GetForUserAsync(userId, subscriptionId, cancellationToken)
-            ?? throw new NotFoundException();
-
-        _mapper.Map(updateSubscriptionDto, existingSubscription);
-
-        _unitOfWork.Subscriptions.Update(existingSubscription);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)

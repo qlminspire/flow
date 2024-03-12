@@ -6,7 +6,6 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
 {
     public void Configure(EntityTypeBuilder<Subscription> builder)
     {
-        builder.Property(x => x.Service).HasMaxLength(DatabaseConstants.Length64);
-        builder.Property(x => x.IsActive).HasDefaultValue(true);
+        builder.Property(x => x.Name).HasMaxLength(DatabaseConstants.Length64);
     }
 }

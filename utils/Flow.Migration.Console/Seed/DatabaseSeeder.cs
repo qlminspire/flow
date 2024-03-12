@@ -107,32 +107,10 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
 
     private static List<Bank> GetBanks()
     {
-        return new List<Bank>
-        {
-            new()
-            {
-                Id = new Guid("AC95BB73-FD1E-4107-9277-588264C3D906"),
-                Name = "Альфабанк",
-                IsActive = true
-            },
-            new()
-            {
-                Id = new Guid("8E7DC274-FA0C-430F-B6F0-F629259B734B"),
-                Name = "Приорбанк",
-                IsActive = true
-            },
-            new()
-            {
-                Id = new Guid("DCC144C9-0BE0-4B5C-A939-B2E21CC1A0D4"),
-                Name = "МТБ",
-                IsActive = true
-            },
-            new()
-            {
-                Id = new Guid("37AD5D8C-1653-4973-AB3A-4337061CFF5F"),
-                Name = "Беларусбанк",
-                IsActive = false
-            }
-        };
+        var date = DateTime.UtcNow;
+        string[] banks = ["Aльфабанк", "Приорбанк", "МТБ"];
+
+        return banks.Select(name => Bank.Create(BankName.Create(name).Value, date).Value)
+            .ToList();
     }
 }

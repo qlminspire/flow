@@ -16,7 +16,7 @@ public class BanksController : BaseController
         _bankService = bankService;
         _logger = logger;
 
-        _mapper = new();
+        _mapper = new BankMapper();
     }
 
     /// <summary>
@@ -67,7 +67,6 @@ public class BanksController : BaseController
     ///     POST: api/banks
     ///     {
     ///        "name": "Alphabank",
-    ///        "isActive": true
     ///     }
     /// </remarks>
     /// <param name="request">The create bank request</param>
@@ -77,7 +76,8 @@ public class BanksController : BaseController
     [ProducesResponseType(typeof(ICollection<BankResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreateBankAsync([FromBody] CreateBankRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateBankAsync([FromBody] CreateBankRequest request,
+        CancellationToken cancellationToken)
     {
         var dto = _mapper.Map(request);
 
@@ -88,29 +88,44 @@ public class BanksController : BaseController
     }
 
     /// <summary>
-    /// Update bank
+    /// Activate bank
     /// </summary>
     /// <remarks>
     /// Sample request:
     /// 
-    ///     PUT: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
-    ///     {
-    ///        "name": "Alphabank",
-    ///        "isActive": false
-    ///     }
+    ///     PUT: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4/activate
     /// </remarks>
     /// <param name="id">The Id of the bank</param>
-    /// <param name="request">The update bank request</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns></returns>
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:guid}/activate")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> UpdateBankAsync(Guid id, [FromBody] UpdateBankRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> ActivateBankAsync(Guid id, CancellationToken cancellationToken)
     {
-        var dto = _mapper.Map(request);
-        await _bankService.UpdateAsync(id, dto, cancellationToken);
+        await _bankService.ActivateAsync(id, cancellationToken);
+        return Results.NoContent();
+    }
+
+    /// <summary>
+    /// Deactivate bank
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     PUT: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4/deactivate
+    /// </remarks>
+    /// <param name="id">The Id of the bank</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns></returns>
+    [HttpPut("{id:guid}/deactivate")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    public async Task<IResult> DeactivateBankAsync(Guid id, CancellationToken cancellationToken)
+    {
+        await _bankService.DeactivateAsync(id, cancellationToken);
         return Results.NoContent();
     }
 

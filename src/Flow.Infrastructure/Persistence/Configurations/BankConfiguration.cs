@@ -6,8 +6,16 @@ internal sealed class BankConfiguration : IEntityTypeConfiguration<Bank>
 {
     public void Configure(EntityTypeBuilder<Bank> builder)
     {
-        builder.HasIndex(x => x.Name).IsUnique();
-        builder.Property(x => x.Name).HasMaxLength(DatabaseConstants.Length64);
-        builder.Property(x => x.IsActive).HasDefaultValue(false);
+        builder.Property(x => x.Id);
+
+        builder.HasIndex(x => x.Name)
+            .IsUnique();
+
+        builder.Property(x => x.Name)
+            .HasMaxLength(BankName.MaxLength)
+            .HasConversion(x => x.Value,
+                x => BankName.Create(x).Value);
+
+        builder.Property(x => x.IsDeactivated);
     }
 }

@@ -1,3 +1,3 @@
 ﻿namespace Flow.Application.Models.Bank;
 
-public sealed record CreateBankDto(string Name, bool IsActive);
+public sealed record CreateBankDto(string Name);

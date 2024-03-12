@@ -1,7 +1,7 @@
-﻿using Riok.Mapperly.Abstractions;
-using Flow.Application.Models.Bank;
+﻿using Flow.Application.Models.Bank;
 using Flow.Contracts.Requests.Bank;
 using Flow.Contracts.Responses.Bank;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Api.Mappings;
 
@@ -15,6 +15,4 @@ internal partial class BankMapper
     public partial ICollection<BankResponse> Map(ICollection<BankDto> banksDto);
 
     public partial CreateBankDto Map(CreateBankRequest createBankRequest);
-
-    public partial UpdateBankDto Map(UpdateBankRequest updateBankRequest);
 }

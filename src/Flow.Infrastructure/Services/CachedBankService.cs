@@ -6,27 +6,26 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class CachedBankService : IBankService
 {
+    private static readonly TimeSpan CachePeriod = TimeSpan.FromMinutes(15);
     private readonly IBankService _bankService;
 
     private readonly IMemoryCache _memoryCache;
-    
-    private static readonly TimeSpan CachePeriod = TimeSpan.FromMinutes(15);
-    
+
     public CachedBankService(IBankService bankService, IMemoryCache memoryCache)
     {
         ArgumentNullException.ThrowIfNull(bankService);
         ArgumentNullException.ThrowIfNull(memoryCache);
-        
+
         _bankService = bankService;
         _memoryCache = memoryCache;
     }
 
     public async Task<BankDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var bank =  await _memoryCache.GetOrCreateAsync(CacheKeys.BankById(id), cacheEntry =>
+        var bank = await _memoryCache.GetOrCreateAsync(CacheKeys.BankById(id), cacheEntry =>
         {
             cacheEntry.SetAbsoluteExpiration(CachePeriod);
-            
+
             return _bankService.GetAsync(id, cancellationToken);
         });
 
@@ -37,33 +36,41 @@ internal sealed class CachedBankService : IBankService
     {
         var banks = await _memoryCache.GetOrCreateAsync(CacheKeys.Banks(), cacheEntry =>
         {
-            cacheEntry.SetAbsoluteExpiration(CachePeriod); 
-            
+            cacheEntry.SetAbsoluteExpiration(CachePeriod);
+
             return _bankService.GetAsync(cancellationToken);
         });
-        return banks ?? new List<BankDto>();
+        return banks ?? [];
     }
 
     public Task<BankDto> CreateAsync(CreateBankDto createBankDto, CancellationToken cancellationToken = default)
     {
         _memoryCache.Remove(CacheKeys.Banks());
-        
+
         return _bankService.CreateAsync(createBankDto, cancellationToken);
     }
 
-    public Task UpdateAsync(Guid id, UpdateBankDto updateBankDto, CancellationToken cancellationToken = default)
+    public Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
     {
         _memoryCache.Remove(CacheKeys.BankById(id));
         _memoryCache.Remove(CacheKeys.Banks());
-        
-        return _bankService.UpdateAsync(id, updateBankDto, cancellationToken);
+
+        return _bankService.ActivateAsync(id, cancellationToken);
+    }
+
+    public Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        _memoryCache.Remove(CacheKeys.BankById(id));
+        _memoryCache.Remove(CacheKeys.Banks());
+
+        return _bankService.DeactivateAsync(id, cancellationToken);
     }
 
     public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         _memoryCache.Remove(CacheKeys.BankById(id));
         _memoryCache.Remove(CacheKeys.Banks());
-        
+
         return _bankService.DeleteAsync(id, cancellationToken);
     }
 

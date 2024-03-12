@@ -1,3 +1,3 @@
 ﻿namespace Flow.Contracts.Responses.Bank;
 
-public sealed record BankResponse(Guid Id, string Name);
+public sealed record BankResponse(Guid Id, string Name, bool IsDeactivated);

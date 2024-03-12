@@ -1,17 +1,20 @@
 ﻿using Flow.Application.Models.Bank;
+using Flow.Domain.Banks;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class BankService : IBankService
 {
     private readonly BankMapper _mapper;
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BankService(IUnitOfWork unitOfWork)
+    public BankService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
         _mapper = new BankMapper();
     }
 
@@ -31,7 +34,11 @@ internal sealed class BankService : IBankService
 
     public async Task<BankDto> CreateAsync(CreateBankDto createBankDto, CancellationToken cancellationToken = default)
     {
-        var bank = _mapper.Map(createBankDto);
+        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var bankName = BankName.Create(createBankDto.Name);
+
+        var bankResult = Bank.Create(bankName.Value, createDate);
+        var bank = bankResult.Value;
 
         _unitOfWork.Banks.Create(bank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -39,14 +46,25 @@ internal sealed class BankService : IBankService
         return _mapper.Map(bank);
     }
 
-    public async Task UpdateAsync(Guid id, UpdateBankDto updateBankDto, CancellationToken cancellationToken = default)
+    public async Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
                    ?? throw new NotFoundException();
 
-        _mapper.Map(updateBankDto, bank);
+        var activationDate = _timeProvider.GetUtcNow().UtcDateTime;
+        bank.Activate(activationDate);
 
-        _unitOfWork.Banks.Update(bank);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+                   ?? throw new NotFoundException();
+
+        var deactivationDate = _timeProvider.GetUtcNow().UtcDateTime;
+        bank.Deactivate(deactivationDate);
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
@@ -61,6 +79,7 @@ internal sealed class BankService : IBankService
 
     public Task<bool> ExistsAsync(string name, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.Banks.ExistsAsync(x => x.Name == name, cancellationToken);
+        var bankName = BankName.Create(name);
+        return _unitOfWork.Banks.ExistsAsync(x => x.Name == bankName.Value, cancellationToken);
     }
 }

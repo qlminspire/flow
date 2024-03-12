@@ -11,7 +11,5 @@ internal partial class BankMapper
 
     public partial List<BankDto> Map(List<Bank> banks);
 
-    public partial Bank Map(CreateBankDto createBankDto);
-
-    public partial void Map(UpdateBankDto updateBankDto, Bank bank);
+    private string BankNameToString(BankName bankName) => bankName.Value;
 }

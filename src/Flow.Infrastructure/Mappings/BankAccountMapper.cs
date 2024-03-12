@@ -12,6 +12,4 @@ internal partial class BankAccountMapper
     public partial List<BankAccountDto> Map(List<BankAccount> bankAccounts);
 
     public partial BankAccount Map(CreateBankAccountDto createBankAccountDto);
-
-    public partial void Map(UpdateBankAccountDto updateBankAccountDto, BankAccount bankAccount);
 }

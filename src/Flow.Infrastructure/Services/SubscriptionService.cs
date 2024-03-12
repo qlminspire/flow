@@ -1,5 +1,8 @@
 ﻿using Flow.Application.Models.Subscription;
+using Flow.Domain.Currencies;
+using Flow.Domain.Shared;
 using Flow.Domain.Subscriptions;
+using ValidationException = Flow.Application.Shared.Exceptions.ValidationException;
 
 namespace Flow.Infrastructure.Services;
 
@@ -13,8 +16,6 @@ internal sealed class SubscriptionService : ISubscriptionService
     public SubscriptionService(IUnitOfWork unitOfWork, TimeProvider timeProvider,
         ICurrencyConversionRateService currencyConversionRateService)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
-
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
         _currencyConversionRateService = currencyConversionRateService;
@@ -40,13 +41,17 @@ internal sealed class SubscriptionService : ISubscriptionService
     public async Task<SubscriptionsMonthlyTotalDto> GetMonthlyTotalForUserAsync(Guid userId, string currency,
         CancellationToken cancellationToken = default)
     {
+        var targetCurrencyCode = CurrencyCode.Create(currency);
+        // TODO: Check currency in database
         var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(userId, cancellationToken);
 
         var total = 0.0m;
         foreach (var subscription in subscriptions)
         {
-            var rate = _currencyConversionRateService.GetConversionRate(subscription.Currency.Code, currency);
-            var monthlyPrice = subscription.Price / subscription.PaymentFrequencyMonths;
+            var monthlyPrice = subscription.GetMonthlyPrice();
+            var sourceCurrencyCode = subscription.Currency!.Code;
+            var rate = _currencyConversionRateService.GetConversionRate(sourceCurrencyCode,
+                targetCurrencyCode.Value);
 
             total += monthlyPrice * rate;
         }
@@ -61,15 +66,18 @@ internal sealed class SubscriptionService : ISubscriptionService
         if (currency is null)
             throw new ValidationException();
 
+        var name = SubscriptionName.Create(createSubscriptionDto.Name);
+        var price = Money.Create(createSubscriptionDto.Price);
+        var paymentFrequency = PaymentFrequencyMonths.Create(createSubscriptionDto.PaymentFrequencyMonths);
         var createDate = _timeProvider.GetUtcNow().UtcDateTime;
-        var subscriptionResult = Subscription.Create(userId, createSubscriptionDto.Name, createSubscriptionDto.Price,
-            createSubscriptionDto.PaymentFrequencyMonths, currency, createDate);
-        var subscription = subscriptionResult.Value;
 
-        _unitOfWork.Subscriptions.Create(subscription);
+        var subscription = Subscription.Create(userId, name.Value, price.Value,
+            paymentFrequency.Value, currency, createDate);
+
+        _unitOfWork.Subscriptions.Create(subscription.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(subscription);
+        return _mapper.Map(subscription.Value);
     }
 
     public async Task DeleteAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)

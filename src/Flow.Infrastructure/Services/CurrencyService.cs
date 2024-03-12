@@ -36,14 +36,14 @@ internal sealed class CurrencyService : ICurrencyService
     public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto createCurrencyDto,
         CancellationToken cancellationToken = default)
     {
-        var creationDate = _timeProvider.GetUtcNow().UtcDateTime;
-        var currencyResult = Currency.Create(createCurrencyDto.Code, creationDate);
-        var currency = currencyResult.Value;
+        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var currencyCode = CurrencyCode.Create(createCurrencyDto.Code);
+        var currency = Currency.Create(currencyCode.Value, createDate);
 
-        _unitOfWork.Currencies.Create(currency);
+        _unitOfWork.Currencies.Create(currency.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(currency);
+        return _mapper.Map(currency.Value);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
@@ -62,6 +62,6 @@ internal sealed class CurrencyService : ICurrencyService
 
     public Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.Currencies.ExistsAsync(x => x.Code == code, cancellationToken);
+        return _unitOfWork.Currencies.ExistsAsync(x => x.Code.Value == code, cancellationToken);
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Flow.Application.Services;
+﻿using Flow.Domain.Currencies;
+
+namespace Flow.Application.Services;
 
 public interface ICurrencyConversionRateService
 {
-    decimal GetConversionRate(string sourceCurrency, string targetCurrency);
+    decimal GetConversionRate(CurrencyCode sourceCurrencyCode, CurrencyCode targetCurrencyCode);
 }

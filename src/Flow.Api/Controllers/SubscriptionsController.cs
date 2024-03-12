@@ -54,19 +54,19 @@ public class SubscriptionsController : BaseController
     }
 
     /// <summary>
-    /// Get all subscriptions total for user
+    /// Get all subscriptions monthly total price for user
     /// </summary>
     /// <remarks>
     /// Sample request:
     /// 
-    ///     GET: api/subscriptions/USD/total
+    ///     GET: api/subscriptions/total/usd
     /// </remarks>
     /// <param name="currency"></param>
     /// <param name="cancellationToken">The cancellation token</param>
-    /// <returns>The list of all subscriptions for user</returns>
-    [HttpGet("total/{currency}")]
+    /// <returns>The monthly total subscriptions price for user</returns>
+    [HttpGet("Total/{currency}")]
     [ProducesResponseType(typeof(ICollection<SubscriptionResponse>), StatusCodes.Status200OK)]
-    public async Task<IResult> GetSubscriptionsTotalAsync(string currency, CancellationToken cancellationToken)
+    public async Task<IResult> GetSubscriptionsMonthlyTotalAsync(string currency, CancellationToken cancellationToken)
     {
         var subscriptionsTotal =
             await _subscriptionService.GetMonthlyTotalForUserAsync(UserId, currency, cancellationToken);

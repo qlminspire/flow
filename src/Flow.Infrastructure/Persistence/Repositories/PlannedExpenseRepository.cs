@@ -31,7 +31,7 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
             .GroupBy(x => x.Currency.Code)
             .Select(x => new MonthlyPlannedExpenseDto
             {
-                Currency = x.Key,
+                Currency = x.Key.Value,
                 Amount = x.Sum(z => z.Amount)
             })
             .ToListAsync(cancellationToken);

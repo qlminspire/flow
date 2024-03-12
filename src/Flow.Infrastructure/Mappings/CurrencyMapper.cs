@@ -10,4 +10,6 @@ internal partial class CurrencyMapper
     public partial CurrencyDto Map(Currency currency);
 
     public partial List<CurrencyDto> Map(List<Currency> currencies);
+
+    private string CurrencyCodeToString(CurrencyCode currencyCode) => currencyCode.Value;
 }

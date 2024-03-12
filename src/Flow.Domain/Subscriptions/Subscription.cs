@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Flow.Domain.Currencies;
+using Flow.Domain.Shared;
 using Flow.Domain.Users;
 
 namespace Flow.Domain.Subscriptions;
@@ -9,18 +10,18 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
     private Subscription(
         Guid id,
         Guid userId,
-        string name,
-        decimal price,
+        SubscriptionName name,
+        Money price,
         Guid currencyId,
-        int paymentFrequencyMonths,
+        PaymentFrequencyMonths paymentFrequencyMonths,
         DateTime createdAt)
         : base(id)
     {
         UserId = Guard.Against.Default(userId);
-        Name = Guard.Against.NullOrWhiteSpace(name);
-        Price = Guard.Against.NegativeOrZero(price);
+        Name = Guard.Against.Null(name);
+        Price = Guard.Against.Null(price);
         CurrencyId = Guard.Against.Default(currencyId);
-        PaymentFrequencyMonths = Guard.Against.NegativeOrZero(paymentFrequencyMonths);
+        PaymentFrequencyMonths = Guard.Against.Null(paymentFrequencyMonths);
         CreatedAt = Guard.Against.Default(createdAt);
     }
 
@@ -28,11 +29,11 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
     {
     }
 
-    public string Name { get; private set; }
+    public SubscriptionName Name { get; private set; }
 
-    public decimal Price { get; private set; }
+    public Money Price { get; private set; }
 
-    public int PaymentFrequencyMonths { get; private set; }
+    public PaymentFrequencyMonths PaymentFrequencyMonths { get; private set; }
 
     public Guid CurrencyId { get; private set; }
 
@@ -50,11 +51,16 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
 
     public DateTime? DeactivatedAt { get; private set; }
 
+    public decimal GetMonthlyPrice()
+    {
+        return Price.Value / PaymentFrequencyMonths.Value;
+    }
+
     public static Result<Subscription> Create(
         Guid userId,
-        string name,
-        decimal price,
-        int paymentFrequencyMonths,
+        SubscriptionName name,
+        Money price,
+        PaymentFrequencyMonths paymentFrequencyMonths,
         Currency currency,
         DateTime date)
     {

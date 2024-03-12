@@ -1,16 +1,14 @@
-﻿using Flow.Domain.Abstractions;
-
-namespace Flow.Domain.Banks;
+﻿namespace Flow.Domain.Banks;
 
 public sealed record BankName : IValueObject
 {
+    public const int MinLength = 3;
+    public const int MaxLength = 64;
+
     public static readonly Error NullOrWhiteSpace = new("BankName.NullOrWhiteSpace", "Bank name is null or empty");
 
     public static readonly Error OutOfLimit =
         new("BankName.OutOfLimit", $"Bank name must be between {MinLength} and {MaxLength} characters");
-
-    public const int MinLength = 3;
-    public const int MaxLength = 64;
 
     private BankName(string value)
     {

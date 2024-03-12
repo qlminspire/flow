@@ -3,7 +3,6 @@ using Flow.Domain.Abstractions;
 using Flow.Domain.Accounts;
 using Flow.Domain.Banks;
 using Flow.Domain.Currencies;
-using Flow.Domain.Subscriptions;
 using Flow.Domain.UserCategories;
 using Flow.Domain.Users;
 
@@ -69,14 +68,6 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var cashAccounts = cashAccountFaker.Generate(9);
         _unitOfWork.CashAccounts.CreateMany(cashAccounts);
 
-        var subscriptionFaker = new Faker<Subscription>()
-            .RuleFor(x => x.Price, x => x.Finance.Amount(0, 100))
-            .RuleFor(x => x.CurrencyId, x => x.PickRandom(currenciesIds))
-            .RuleFor(x => x.UserId, _ => usersIds[0])
-            .RuleFor(x => x.Name, x => x.Company.CompanyName());
-        var subscriptions = subscriptionFaker.Generate(10);
-        _unitOfWork.Subscriptions.CreateMany(subscriptions);
-
         return _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
@@ -85,7 +76,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var date = DateTime.UtcNow;
         string[] currencyCodes = ["USD", "EUR", "BYN"];
 
-        return currencyCodes.Select(code => Currency.Create(code, date).Value)
+        return currencyCodes.Select(code => Currency.Create(CurrencyCode.Create(code).Value, date).Value)
             .ToList();
     }
 

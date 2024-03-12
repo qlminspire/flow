@@ -1,4 +1,6 @@
-﻿namespace Flow.Infrastructure.Services;
+﻿using Flow.Domain.Currencies;
+
+namespace Flow.Infrastructure.Services;
 
 internal sealed class CurrencyConversionRateService : ICurrencyConversionRateService
 {
@@ -8,15 +10,15 @@ internal sealed class CurrencyConversionRateService : ICurrencyConversionRateSer
         { "BYN/USD", 0.32M }
     };
 
-    public decimal GetConversionRate(string sourceCurrency, string targetCurrency)
+    public decimal GetConversionRate(CurrencyCode sourceCurrencyCode, CurrencyCode targetCurrencyCode)
     {
-        if (sourceCurrency == targetCurrency)
+        if (sourceCurrencyCode == targetCurrencyCode)
             return 1.0M;
 
-        if (_conversionRates.TryGetValue($"{sourceCurrency}/{targetCurrency}", out var rate))
+        if (_conversionRates.TryGetValue($"{sourceCurrencyCode.Value}/{targetCurrencyCode.Value}", out var rate))
             return rate;
 
-        if (_conversionRates.TryGetValue($"{targetCurrency}/{sourceCurrency}", out rate))
+        if (_conversionRates.TryGetValue($"{targetCurrencyCode.Value}/{sourceCurrencyCode.Value}", out rate))
             return 1 / rate;
 
         throw new ArgumentException("The are no path for selected currencies");

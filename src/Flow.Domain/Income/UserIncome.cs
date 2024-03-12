@@ -10,7 +10,7 @@ public sealed class UserIncome : Entity, IAuditable
 
     public Guid AccountId { get; set; }
 
-    public Account? Account { get; set; } = null!;
+    public Account? Account { get; set; }
 
     public DateTimeOffset? Date { get; set; }
 

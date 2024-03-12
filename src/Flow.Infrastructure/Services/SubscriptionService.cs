@@ -5,16 +5,19 @@ namespace Flow.Infrastructure.Services;
 
 internal sealed class SubscriptionService : ISubscriptionService
 {
+    private readonly ICurrencyConversionRateService _currencyConversionRateService;
     private readonly SubscriptionMapper _mapper;
     private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public SubscriptionService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
+    public SubscriptionService(IUnitOfWork unitOfWork, TimeProvider timeProvider,
+        ICurrencyConversionRateService currencyConversionRateService)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
+        _currencyConversionRateService = currencyConversionRateService;
 
         _mapper = new SubscriptionMapper();
     }
@@ -32,6 +35,23 @@ internal sealed class SubscriptionService : ISubscriptionService
     {
         var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(userId, cancellationToken);
         return _mapper.Map(subscriptions);
+    }
+
+    public async Task<SubscriptionsMonthlyTotalDto> GetMonthlyTotalForUserAsync(Guid userId, string currency,
+        CancellationToken cancellationToken = default)
+    {
+        var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(userId, cancellationToken);
+
+        var total = 0.0m;
+        foreach (var subscription in subscriptions)
+        {
+            var rate = _currencyConversionRateService.GetConversionRate(subscription.Currency.Code, currency);
+            var monthlyPrice = subscription.Price / subscription.PaymentFrequencyMonths;
+
+            total += monthlyPrice * rate;
+        }
+
+        return new SubscriptionsMonthlyTotalDto(total, currency);
     }
 
     public async Task<SubscriptionDto> CreateAsync(Guid userId, CreateSubscriptionDto createSubscriptionDto,

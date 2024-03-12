@@ -12,5 +12,7 @@ internal partial class SubscriptionMapper
 
     public partial ICollection<SubscriptionResponse> Map(ICollection<SubscriptionDto> subscriptionsDto);
 
+    public partial SubscriptionsMonthlyTotalResponse Map(SubscriptionsMonthlyTotalDto subscriptionsMonthlyTotalDto);
+
     public partial CreateSubscriptionDto Map(CreateSubscriptionRequest createSubscriptionRequest);
 }

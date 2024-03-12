@@ -2,5 +2,5 @@
 
 public interface ICurrencyConversionRateService
 {
-    decimal GetConversionRate(string sourceCurrency, string destinationCurrency);
+    decimal GetConversionRate(string sourceCurrency, string targetCurrency);
 }

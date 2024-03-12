@@ -9,6 +9,9 @@ public interface ISubscriptionService
 
     Task<List<SubscriptionDto>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
 
+    Task<SubscriptionsMonthlyTotalDto> GetMonthlyTotalForUserAsync(Guid userId, string currency,
+        CancellationToken cancellationToken = default);
+
     Task<SubscriptionDto> CreateAsync(Guid userId, CreateSubscriptionDto createSubscriptionDto,
         CancellationToken cancellationToken = default);
 

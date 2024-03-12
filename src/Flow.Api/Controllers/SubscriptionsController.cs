@@ -54,6 +54,26 @@ public class SubscriptionsController : BaseController
     }
 
     /// <summary>
+    /// Get all subscriptions total for user
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     GET: api/subscriptions/USD/total
+    /// </remarks>
+    /// <param name="currency"></param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The list of all subscriptions for user</returns>
+    [HttpGet("total/{currency}")]
+    [ProducesResponseType(typeof(ICollection<SubscriptionResponse>), StatusCodes.Status200OK)]
+    public async Task<IResult> GetSubscriptionsTotalAsync(string currency, CancellationToken cancellationToken)
+    {
+        var subscriptionsTotal =
+            await _subscriptionService.GetMonthlyTotalForUserAsync(UserId, currency, cancellationToken);
+        return Results.Ok(_mapper.Map(subscriptionsTotal));
+    }
+
+    /// <summary>
     /// Create user subscription
     /// </summary>
     /// <remarks>

@@ -20,22 +20,8 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
 
     public Task SeedAsync(CancellationToken cancellationToken = default)
     {
-        var testingUser = new User
-        {
-            Id = new Guid("fc8129ce-2ffa-4c99-b6ab-8f525ef8653f"),
-            Email = "vladislavq@gmail.com",
-            PasswordHash = "1234567",
-            CreatedAt = DateTime.UtcNow,
-        };
-
-        var userFaker = new Faker<User>()
-            .RuleFor(x => x.Id, _ => Guid.NewGuid())
-            .RuleFor(x => x.Email, x => x.Internet.Email())
-            .RuleFor(x => x.PasswordHash, x => x.Internet.Password(10, true))
-            .RuleFor(x => x.CreatedAt, x => x.Date.Between(new DateTime(2021, 11, 01), new DateTime(2023, 02, 01)));
-
-        var users = userFaker.Generate(15);
-        users.Add(testingUser);
+        var testingUser = User.Create(new Email("vladislavq@gmail.com"), "1234567", DateTime.UtcNow);
+        var users = new[] { testingUser.Value };
 
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
@@ -46,13 +32,13 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
             {
                 Id = new Guid("124FE0F4-972B-4165-9965-200065284029"),
                 Name = "Жилье",
-                UserId = testingUser.Id
+                UserId = testingUser.Value.Id
             },
             new()
             {
                 Id = new Guid("0B1D554A-E119-45A1-AF36-2C023FC96989"),
                 Name = "Путешествия",
-                UserId = testingUser.Id
+                UserId = testingUser.Value.Id
             }
         };
         _unitOfWork.UserCategories.CreateMany(userCategories);

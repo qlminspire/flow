@@ -6,7 +6,16 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasIndex(x => x.Email).IsUnique();
-        builder.Property(x => x.Email).HasMaxLength(DatabaseConstants.Length256);
+        builder.Property(x => x.Id);
+
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
+
+        builder.Property(x => x.Email)
+            .HasMaxLength(DatabaseConstants.Length256)
+            .HasConversion(x => x.Value, x => new Email(x));
+
+        builder.Property(x => x.PasswordHash)
+            .HasMaxLength(DatabaseConstants.Length512);
     }
 }

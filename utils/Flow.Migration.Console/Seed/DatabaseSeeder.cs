@@ -25,21 +25,7 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
 
-        var userCategories = new List<UserCategory>
-        {
-            new()
-            {
-                Id = new Guid("124FE0F4-972B-4165-9965-200065284029"),
-                Name = "Жилье",
-                UserId = testingUser.Value.Id
-            },
-            new()
-            {
-                Id = new Guid("0B1D554A-E119-45A1-AF36-2C023FC96989"),
-                Name = "Путешествия",
-                UserId = testingUser.Value.Id
-            }
-        };
+        var userCategories = GetDefaultUserCategories(testingUser.Value);
         _unitOfWork.UserCategories.CreateMany(userCategories);
 
         var banks = GetBanks();
@@ -86,6 +72,15 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         string[] banks = ["Aльфабанк", "Приорбанк", "МТБ"];
 
         return banks.Select(name => Bank.Create(BankName.Create(name).Value, date).Value)
+            .ToList();
+    }
+
+    private static List<UserCategory> GetDefaultUserCategories(User user)
+    {
+        var date = DateTime.UtcNow;
+        string[] categories = ["Жилье", "Путешествия", "Подушка"];
+
+        return categories.Select(name => UserCategory.Create(user, UserCategoryName.Create(name).Value, date).Value)
             .ToList();
     }
 }

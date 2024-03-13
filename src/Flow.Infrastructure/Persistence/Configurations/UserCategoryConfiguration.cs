@@ -6,9 +6,15 @@ internal sealed class UserCategoryConfiguration : IEntityTypeConfiguration<UserC
 {
     public void Configure(EntityTypeBuilder<UserCategory> builder)
     {
-        builder.HasIndex(x => new { x.UserId, x.Name }).IsUnique();
-        builder.Property(x => x.Name).HasMaxLength(DatabaseConstants.Length64);
-        builder.Property(x => x.Description).HasMaxLength(DatabaseConstants.Length128);
-        builder.HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Cascade);
+        builder.HasIndex(x => new { x.UserId, x.Name })
+            .IsUnique();
+
+        builder.Property(x => x.Name)
+            .HasConversion(x => x.Value, x => UserCategoryName.Create(x).Value)
+            .HasMaxLength(UserCategoryName.MaxLength);
+
+        builder.HasOne(x => x.User)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

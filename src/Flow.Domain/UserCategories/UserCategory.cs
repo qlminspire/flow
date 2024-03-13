@@ -4,15 +4,35 @@ namespace Flow.Domain.UserCategories;
 
 public sealed class UserCategory : Entity, IAuditable
 {
-    public string Name { get; set; } = null!;
+    private UserCategory(
+        Guid id,
+        User user,
+        UserCategoryName name,
+        DateTime createdAt
+    )
+        : base(id)
+    {
+        UserId = user.Id;
+        Name = name;
+        CreatedAt = createdAt;
+    }
 
-    public string? Description { get; set; }
+    private UserCategory()
+    {
+    }
 
-    public Guid UserId { get; set; }
+    public UserCategoryName Name { get; private set; }
 
-    public User? User { get; set; }
+    public Guid UserId { get; private set; }
+
+    public User? User { get; private set; }
 
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public static Result<UserCategory> Create(User user, UserCategoryName name, DateTime createdAt)
+    {
+        return new UserCategory(Guid.NewGuid(), user, name, createdAt);
+    }
 }

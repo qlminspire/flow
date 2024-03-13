@@ -21,5 +21,5 @@ public sealed record BankDepositResponse
 
     public required BankAccountResponse RefundAccount { get; init; }
 
-    public UserCategoryShortResponse? Category { get; init; }
+    public UserCategoryResponse? Category { get; init; }
 }

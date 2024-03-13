@@ -13,5 +13,5 @@ public sealed record CashAccountResponse
 
     public required CurrencyShortResponse Currency { get; init; }
 
-    public UserCategoryShortResponse? Category { get; init; }
+    public UserCategoryResponse? Category { get; init; }
 }

@@ -6,13 +6,13 @@ namespace Flow.Api.Controllers;
 
 public class UserCategoriesController : BaseController
 {
-    private readonly IUserCategoryService _userCategoryService;
     private readonly UserCategoryMapper _mapper;
+    private readonly IUserCategoryService _userCategoryService;
 
     public UserCategoriesController(IUserCategoryService userCategoryService)
     {
         _userCategoryService = userCategoryService;
-        _mapper = new();
+        _mapper = new UserCategoryMapper();
     }
 
     /// <summary>
@@ -61,8 +61,7 @@ public class UserCategoriesController : BaseController
     ///
     ///     POST: api/userCategories
     ///     {
-    ///         "name": "Жилье",
-    ///         "description": "Вложения в жилье"
+    ///         "name": "Жилье"
     ///     }
     /// </remarks>
     /// <param name="request">The create user category request</param>
@@ -72,38 +71,13 @@ public class UserCategoriesController : BaseController
     [ProducesResponseType(typeof(UserCategoryResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreateUserCategoryAsync([FromBody] CreateUserCategoryRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateUserCategoryAsync([FromBody] CreateUserCategoryRequest request,
+        CancellationToken cancellationToken)
     {
         var createUserCategoryDto = _mapper.Map(request);
         var category = await _userCategoryService.CreateAsync(UserId, createUserCategoryDto, cancellationToken);
         var response = _mapper.Map(category);
         return Results.CreatedAtRoute("GetUserCategory", new { response.Id }, response);
-    }
-
-    /// <summary>
-    /// Update user category
-    /// </summary>
-    /// <remarks>
-    /// Sample request:
-    ///
-    ///     PUT: api/userCategories/888db9d1-30e3-4190-a654-7d17a5bbb545
-    ///     {
-    ///         "name": "Жильё"
-    ///     }
-    /// </remarks>
-    /// <param name="id">The Id of the user category</param>
-    /// <param name="request">The update user category request</param>
-    /// <param name="cancellationToken">The cancellation token</param>
-    /// <returns></returns>
-    [HttpPut("{id:guid}")]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> UpdateUserCategoryAsync(Guid id, [FromBody] UpdateUserCategoryRequest request, CancellationToken cancellationToken)
-    {
-        var updateUserCategoryDto = _mapper.Map(request);
-        await _userCategoryService.UpdateAsync(UserId, id, updateUserCategoryDto, cancellationToken);
-        return Results.NoContent();
     }
 
     /// <summary>

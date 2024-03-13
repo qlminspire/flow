@@ -11,7 +11,5 @@ internal partial class UserCategoryMapper
 
     public partial List<UserCategoryDto> Map(List<UserCategory> userCategories);
 
-    public partial UserCategory Map(CreateUserCategoryDto createUserCategoryDto);
-
-    public partial void Map(UpdateUserCategoryDto updateUserCategoryDto, UserCategory userCategory);
+    private string UserCategoryNameToString(UserCategoryName userCategoryName) => userCategoryName.Value;
 }

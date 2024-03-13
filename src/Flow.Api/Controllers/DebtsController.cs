@@ -12,7 +12,7 @@ public class DebtsController : BaseController
     public DebtsController(IDebtService debtService)
     {
         _debtService = debtService;
-        _mapper = new();
+        _mapper = new DebtMapper();
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class DebtsController : BaseController
     ///     {
     ///         "name": "PS5",
     ///         "amount": 1000,
-    ///         "currencyId": "e883faf0-e8b1-48cb-a527-ae0cfe350dd6"
+    ///         "currency": "BYN"
     ///     }
     /// </remarks>
     /// <param name="request">The create debt request</param>

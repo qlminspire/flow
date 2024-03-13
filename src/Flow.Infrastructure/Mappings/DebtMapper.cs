@@ -1,4 +1,5 @@
 ﻿using Flow.Application.Models.Debt;
+using Flow.Domain.Currencies;
 using Flow.Domain.Debts;
 using Riok.Mapperly.Abstractions;
 
@@ -11,7 +12,9 @@ internal partial class DebtMapper
 
     public partial List<DebtDto> Map(List<Debt> debts);
 
-    public partial Debt Map(CreateDebtDto createDebtDto);
+    private string DebtNameToString(DebtName debtName) => debtName.Value;
 
-    public partial void Map(UpdateDebtDto updateDebtDto, Debt debt);
+    private decimal MoneyToDecimal(Money money) => money.Value;
+
+    private string CurrencyToString(Currency currency) => currency.Code.Value;
 }

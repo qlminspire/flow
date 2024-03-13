@@ -6,14 +6,15 @@ internal sealed class CurrencyConversionRateService : ICurrencyConversionRateSer
 {
     private readonly Dictionary<string, decimal> _conversionRates = new()
     {
-        { "EUR/USD", 1.0831M },
-        { "BYN/USD", 0.32M }
+        { "EUR/USD", 1.0831m },
+        { "USD/BYN", 3.2m },
+        { "EUR/BYN", 3.4m }
     };
 
     public decimal GetConversionRate(CurrencyCode sourceCurrencyCode, CurrencyCode targetCurrencyCode)
     {
         if (sourceCurrencyCode == targetCurrencyCode)
-            return 1.0M;
+            return 1.0m;
 
         if (_conversionRates.TryGetValue($"{sourceCurrencyCode.Value}/{targetCurrencyCode.Value}", out var rate))
             return rate;

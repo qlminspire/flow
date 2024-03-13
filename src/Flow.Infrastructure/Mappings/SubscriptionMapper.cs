@@ -1,4 +1,5 @@
 ﻿using Flow.Application.Models.Subscription;
+using Flow.Domain.Currencies;
 using Flow.Domain.Shared;
 using Flow.Domain.Subscriptions;
 using Riok.Mapperly.Abstractions;
@@ -18,4 +19,6 @@ internal partial class SubscriptionMapper
     private decimal MoneyToDecimal(Money money) => money.Value;
 
     private string SubscriptionNameToString(SubscriptionName subscriptionName) => subscriptionName.Value;
+
+    private string CurrencyToString(Currency currency) => currency.Code.Value;
 }

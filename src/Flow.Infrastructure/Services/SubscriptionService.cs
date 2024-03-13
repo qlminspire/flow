@@ -62,7 +62,9 @@ internal sealed class SubscriptionService : ISubscriptionService
     public async Task<SubscriptionDto> CreateAsync(Guid userId, CreateSubscriptionDto createSubscriptionDto,
         CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(createSubscriptionDto.CurrencyId, cancellationToken);
+        var currencyCode = CurrencyCode.Create(createSubscriptionDto.Currency);
+
+        var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
             throw new ValidationException();
 

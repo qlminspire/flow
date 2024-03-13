@@ -81,9 +81,10 @@ public class SubscriptionsController : BaseController
     ///
     ///     POST: api/subscriptions
     ///     {
-    ///         "service": "Obsidian",
+    ///         "name": "Obsidian",
     ///         "price": 10,
-    ///         "currencyId": "657df0a1-15e1-4048-a03a-5311aa3d03df"
+    ///         "currency": "USD",
+    ///         "paymentFrequencyMonths": 1
     ///     }
     /// </remarks>
     /// <param name="request">The create subscription request</param>

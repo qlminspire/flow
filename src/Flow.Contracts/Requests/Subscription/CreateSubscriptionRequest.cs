@@ -6,7 +6,7 @@ public sealed record CreateSubscriptionRequest
 
     public decimal Price { get; init; }
 
-    public Guid CurrencyId { get; init; }
+    public string? Currency { get; init; }
 
     public int PaymentFrequencyMonths { get; init; }
 }

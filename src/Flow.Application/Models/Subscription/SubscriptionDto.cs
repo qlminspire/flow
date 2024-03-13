@@ -1,6 +1,4 @@
-﻿using Flow.Application.Models.Currency;
-
-namespace Flow.Application.Models.Subscription;
+﻿namespace Flow.Application.Models.Subscription;
 
 public sealed class SubscriptionDto
 {
@@ -10,7 +8,7 @@ public sealed class SubscriptionDto
 
     public decimal Price { get; init; }
 
-    public CurrencyDto Currency { get; init; }
+    public string Currency { get; init; }
 
     public int PaymentFrequencyMonths { get; init; }
 

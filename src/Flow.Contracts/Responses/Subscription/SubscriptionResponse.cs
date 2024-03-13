@@ -1,6 +1,4 @@
-﻿using Flow.Contracts.Responses.Currency;
-
-namespace Flow.Contracts.Responses.Subscription;
+﻿namespace Flow.Contracts.Responses.Subscription;
 
 public sealed record SubscriptionResponse
 {
@@ -10,7 +8,7 @@ public sealed record SubscriptionResponse
 
     public required decimal Price { get; init; }
 
-    public required CurrencyShortResponse Currency { get; init; }
+    public required string Currency { get; init; }
 
     public int PaymentFrequencyMonths { get; init; }
 

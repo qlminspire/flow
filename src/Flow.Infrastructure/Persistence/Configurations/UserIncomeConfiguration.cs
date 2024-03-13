@@ -6,6 +6,11 @@ internal sealed class UserIncomeConfiguration : IEntityTypeConfiguration<UserInc
 {
     public void Configure(EntityTypeBuilder<UserIncome> builder)
     {
-        builder.HasOne(x => x.Account).WithOne().OnDelete(DeleteBehavior.Cascade);
+        builder.Property(x => x.Amount)
+            .HasConversion(x => x.Value, x => Money.Create(x).Value);
+
+        builder.HasOne(x => x.Account)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

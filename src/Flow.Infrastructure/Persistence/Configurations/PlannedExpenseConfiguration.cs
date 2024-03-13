@@ -1,5 +1,4 @@
 ﻿using Flow.Domain.PlannedExpenses;
-using Flow.Domain.Shared;
 
 namespace Flow.Infrastructure.Persistence.Configurations;
 

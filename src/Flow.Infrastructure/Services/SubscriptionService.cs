@@ -1,6 +1,5 @@
 ﻿using Flow.Application.Models.Subscription;
 using Flow.Domain.Currencies;
-using Flow.Domain.Shared;
 using Flow.Domain.Subscriptions;
 using ValidationException = Flow.Application.Shared.Exceptions.ValidationException;
 

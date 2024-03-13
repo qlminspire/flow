@@ -1,5 +1,4 @@
-﻿using Flow.Domain.Shared;
-using Flow.Domain.Subscriptions;
+﻿using Flow.Domain.Subscriptions;
 
 namespace Flow.Infrastructure.Persistence.Configurations;
 

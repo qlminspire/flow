@@ -1,7 +1,6 @@
 ﻿using Flow.Application.Models.PlannedExpense;
 using Flow.Domain.Currencies;
 using Flow.Domain.PlannedExpenses;
-using Flow.Domain.Shared;
 using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;

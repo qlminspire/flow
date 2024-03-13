@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using Flow.Domain.Currencies;
-using Flow.Domain.Shared;
 using Flow.Domain.Users;
 
 namespace Flow.Domain.Subscriptions;

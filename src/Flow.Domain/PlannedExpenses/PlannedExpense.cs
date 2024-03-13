@@ -4,7 +4,7 @@ using Flow.Domain.Users;
 
 namespace Flow.Domain.PlannedExpenses;
 
-public sealed class PlannedExpense : Entity, IAuditable
+public sealed class PlannedExpense : AggregateRoot, IAuditable
 {
     private PlannedExpense(
         Guid id,
@@ -12,14 +12,14 @@ public sealed class PlannedExpense : Entity, IAuditable
         Money amount,
         Guid userId,
         Guid currencyId,
-        DateTime createDate
+        DateTime createdAt
     ) : base(id)
     {
         Name = name;
         Amount = amount;
         UserId = userId;
         CurrencyId = currencyId;
-        CreatedAt = createDate;
+        CreatedAt = createdAt;
     }
 
     private PlannedExpense()
@@ -43,8 +43,8 @@ public sealed class PlannedExpense : Entity, IAuditable
     public DateTime? UpdatedAt { get; set; }
 
     public static Result<PlannedExpense> Create(Guid userId, PlannedExpenseName plannedExpenseName, Money amount,
-        Guid currencyId, DateTime createDate)
+        Guid currencyId, DateTime createdAt)
     {
-        return new PlannedExpense(Guid.NewGuid(), plannedExpenseName, amount, userId, currencyId, createDate);
+        return new PlannedExpense(Guid.NewGuid(), plannedExpenseName, amount, userId, currencyId, createdAt);
     }
 }

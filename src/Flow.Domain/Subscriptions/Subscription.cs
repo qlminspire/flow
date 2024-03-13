@@ -62,10 +62,10 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
         Money price,
         PaymentFrequencyMonths paymentFrequencyMonths,
         Currency currency,
-        DateTime date)
+        DateTime createdAt)
     {
         var subscription =
-            new Subscription(Guid.NewGuid(), userId, name, price, currency.Id, paymentFrequencyMonths, date);
+            new Subscription(Guid.NewGuid(), userId, name, price, currency.Id, paymentFrequencyMonths, createdAt);
 
         return subscription;
     }

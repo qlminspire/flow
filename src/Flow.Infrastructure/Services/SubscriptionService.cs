@@ -71,10 +71,10 @@ internal sealed class SubscriptionService : ISubscriptionService
         var name = SubscriptionName.Create(createSubscriptionDto.Name);
         var price = Money.Create(createSubscriptionDto.Price);
         var paymentFrequency = PaymentFrequencyMonths.Create(createSubscriptionDto.PaymentFrequencyMonths);
-        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
         var subscription = Subscription.Create(userId, name.Value, price.Value,
-            paymentFrequency.Value, currency, createDate);
+            paymentFrequency.Value, currency, createdAt);
 
         _unitOfWork.Subscriptions.Create(subscription.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

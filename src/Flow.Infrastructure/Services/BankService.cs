@@ -11,8 +11,6 @@ internal sealed class BankService : IBankService
 
     public BankService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
-
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
         _mapper = new BankMapper();
@@ -34,16 +32,15 @@ internal sealed class BankService : IBankService
 
     public async Task<BankDto> CreateAsync(CreateBankDto createBankDto, CancellationToken cancellationToken = default)
     {
-        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
-        var bankName = BankName.Create(createBankDto.Name);
+        var name = BankName.Create(createBankDto.Name);
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        var bankResult = Bank.Create(bankName.Value, createDate);
-        var bank = bankResult.Value;
+        var bank = Bank.Create(name.Value, createdAt);
 
-        _unitOfWork.Banks.Create(bank);
+        _unitOfWork.Banks.Create(bank.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(bank);
+        return _mapper.Map(bank.Value);
     }
 
     public async Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
@@ -51,8 +48,8 @@ internal sealed class BankService : IBankService
         var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
                    ?? throw new NotFoundException();
 
-        var activationDate = _timeProvider.GetUtcNow().UtcDateTime;
-        bank.Activate(activationDate);
+        var activatedAt = _timeProvider.GetUtcNow().UtcDateTime;
+        bank.Activate(activatedAt);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
@@ -62,8 +59,8 @@ internal sealed class BankService : IBankService
         var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
                    ?? throw new NotFoundException();
 
-        var deactivationDate = _timeProvider.GetUtcNow().UtcDateTime;
-        bank.Deactivate(deactivationDate);
+        var deactivatedAt = _timeProvider.GetUtcNow().UtcDateTime;
+        bank.Deactivate(deactivatedAt);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

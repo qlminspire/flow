@@ -30,26 +30,26 @@ public sealed class Bank : AggregateRoot, IAuditable, IDeactivatable
 
     public DateTime? DeactivatedAt { get; private set; }
 
-    public static Result<Bank> Create(BankName bankName, DateTime date)
+    public static Result<Bank> Create(BankName bankName, DateTime createdAt)
     {
-        var bank = new Bank(Guid.NewGuid(), bankName, date);
+        var bank = new Bank(Guid.NewGuid(), bankName, createdAt);
 
         return bank;
     }
 
-    public Result Activate(DateTime date)
+    public Result Activate(DateTime activatedAt)
     {
         IsDeactivated = false;
-        UpdatedAt = date;
+        UpdatedAt = activatedAt;
 
         return Result.Success();
     }
 
-    public Result Deactivate(DateTime date)
+    public Result Deactivate(DateTime deactivatedAt)
     {
         IsDeactivated = true;
-        UpdatedAt = date;
-        DeactivatedAt = date;
+        UpdatedAt = deactivatedAt;
+        DeactivatedAt = deactivatedAt;
 
         return Result.Success();
     }

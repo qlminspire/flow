@@ -85,9 +85,10 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
         var name = PlannedExpenseName.Create(createPlannedExpenseDto.Name);
         var amount = Money.Create(createPlannedExpenseDto.Amount);
-        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
+
         var plannedExpense = PlannedExpense.Create(userId, name.Value, amount.Value, currency.Id,
-            createDate);
+            createdAt);
 
         _unitOfWork.PlannedExpenses.Create(plannedExpense.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

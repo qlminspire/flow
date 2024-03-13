@@ -36,9 +36,10 @@ internal sealed class CurrencyService : ICurrencyService
     public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto createCurrencyDto,
         CancellationToken cancellationToken = default)
     {
-        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
         var currencyCode = CurrencyCode.Create(createCurrencyDto.Code);
-        var currency = Currency.Create(currencyCode.Value, createDate);
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
+
+        var currency = Currency.Create(currencyCode.Value, createdAt);
 
         _unitOfWork.Currencies.Create(currency.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

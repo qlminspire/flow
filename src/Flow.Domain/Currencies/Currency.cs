@@ -7,11 +7,11 @@ public sealed class Currency : AggregateRoot, IAuditable, IDeactivatable
     private Currency(
         Guid id,
         CurrencyCode code,
-        DateTime date)
+        DateTime createdAt)
         : base(id)
     {
         Code = code;
-        CreatedAt = Guard.Against.Default(date);
+        CreatedAt = Guard.Against.Default(createdAt);
     }
 
     private Currency()
@@ -28,9 +28,9 @@ public sealed class Currency : AggregateRoot, IAuditable, IDeactivatable
 
     public DateTime? DeactivatedAt { get; private set; }
 
-    public static Result<Currency> Create(CurrencyCode code, DateTime date)
+    public static Result<Currency> Create(CurrencyCode code, DateTime createdAt)
     {
-        var currency = new Currency(Guid.NewGuid(), code, date);
+        var currency = new Currency(Guid.NewGuid(), code, createdAt);
         return currency;
     }
 }

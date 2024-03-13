@@ -59,12 +59,12 @@ public class SubscriptionsController : BaseController
     /// <remarks>
     /// Sample request:
     /// 
-    ///     GET: api/subscriptions/total/usd
+    ///     GET: api/subscriptions/monthly/total/usd
     /// </remarks>
     /// <param name="currency"></param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The monthly total subscriptions price for user</returns>
-    [HttpGet("Total/{currency}")]
+    [HttpGet("Monthly/Total/{currency}")]
     [ProducesResponseType(typeof(ICollection<SubscriptionResponse>), StatusCodes.Status200OK)]
     public async Task<IResult> GetSubscriptionsMonthlyTotalAsync(string currency, CancellationToken cancellationToken)
     {

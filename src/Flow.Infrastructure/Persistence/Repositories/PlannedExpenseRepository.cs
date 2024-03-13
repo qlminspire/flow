@@ -22,6 +22,16 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
             .ToListAsync(cancellationToken);
     }
 
+    public Task<List<PlannedExpense>> GetStartingFromDateAsync(Guid userId, DateTime fromDate,
+        CancellationToken cancellationToken = default)
+    {
+        return All.AsNoTracking()
+            .Include(x => x.Currency)
+            .Where(x => x.UserId == userId &&
+                        x.CreatedAt >= fromDate) // TODO: Replace with separated Date field on PlannedExpense model
+            .ToListAsync(cancellationToken);
+    }
+
     public Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate,
         CancellationToken cancellationToken = default)
     {
@@ -32,7 +42,7 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
             .Select(x => new MonthlyPlannedExpenseDto
             {
                 Currency = x.Key.Value,
-                Amount = x.Sum(z => z.Amount)
+                Amount = x.Sum(z => z.Amount.Value)
             })
             .ToListAsync(cancellationToken);
     }

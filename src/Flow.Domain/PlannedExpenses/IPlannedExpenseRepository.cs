@@ -6,4 +6,7 @@ public interface IPlannedExpenseRepository : IRepository<PlannedExpense>
         CancellationToken cancellationToken = default);
 
     Task<List<PlannedExpense>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+
+    Task<List<PlannedExpense>> GetStartingFromDateAsync(Guid userId, DateTime fromDate,
+        CancellationToken cancellationToken = default);
 }

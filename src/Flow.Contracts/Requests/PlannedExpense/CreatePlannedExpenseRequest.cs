@@ -6,5 +6,5 @@ public sealed record CreatePlannedExpenseRequest
 
     public decimal Amount { get; init; }
 
-    public Guid CurrencyId { get; init; }
+    public string? Currency { get; init; }
 }

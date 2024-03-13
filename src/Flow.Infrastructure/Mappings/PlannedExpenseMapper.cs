@@ -1,5 +1,7 @@
 ﻿using Flow.Application.Models.PlannedExpense;
+using Flow.Domain.Currencies;
 using Flow.Domain.PlannedExpenses;
+using Flow.Domain.Shared;
 using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
@@ -11,7 +13,11 @@ internal partial class PlannedExpenseMapper
 
     public partial List<PlannedExpenseDto> Map(List<PlannedExpense> plannedExpense);
 
-    public partial PlannedExpense Map(CreatePlannedExpenseDto createPlannedExpense);
+    public partial List<MonthlyPlannedExpenseDto> MapToMonthlyPlannedExpenseDtos(List<PlannedExpense> plannedExpenses);
 
-    public partial void Map(UpdatePlannedExpenseDto updatePlannedExpense, PlannedExpense plannedExpense);
+    private static string PlannedExpenseNameToString(PlannedExpenseName plannedExpenseName) => plannedExpenseName.Value;
+
+    private static decimal MoneyToDecimal(Money money) => money.Value;
+
+    private static string CurrencyToCurrencyCodeString(Currency currency) => currency.Code.Value;
 }

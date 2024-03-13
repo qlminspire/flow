@@ -6,13 +6,13 @@ namespace Flow.Api.Controllers;
 
 public class PlannedExpensesController : BaseController
 {
-    private readonly IPlannedExpenseService _plannedExpenseService;
     private readonly PlannedExpenseMapper _mapper;
+    private readonly IPlannedExpenseService _plannedExpenseService;
 
     public PlannedExpensesController(IPlannedExpenseService plannedExpenseService)
     {
         _plannedExpenseService = plannedExpenseService;
-        _mapper = new();
+        _mapper = new PlannedExpenseMapper();
     }
 
     /// <summary>
@@ -58,16 +58,17 @@ public class PlannedExpensesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    ///
-    ///     GET api/plannedExpenses/monthly
+    /// 
+    ///     GET api/plannedExpenses/monthly/total/usd
     /// </remarks>
+    /// <param name="currency"></param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The list of planned expenses for current month</returns>
-    [HttpGet("monthly")]
+    [HttpGet("Monthly/Total/{currency}")]
     [ProducesResponseType(typeof(MonthlyPlannedExpensesResponse), StatusCodes.Status200OK)]
-    public async Task<IResult> GetMonthlyPlannedExpensesAsync(CancellationToken cancellationToken)
+    public async Task<IResult> GetMonthlyPlannedExpensesAsync(string currency, CancellationToken cancellationToken)
     {
-        var plannedExpenses = await _plannedExpenseService.GetAllForMonthAsync(UserId, cancellationToken);
+        var plannedExpenses = await _plannedExpenseService.GetMonthlyTotalAsync(UserId, currency, cancellationToken);
         return Results.Ok(_mapper.Map(plannedExpenses));
     }
 
@@ -81,8 +82,7 @@ public class PlannedExpensesController : BaseController
     ///     {
     ///         "name": "IPhone 14 Pro",
     ///         "amount": 1200,
-    ///         "currencyId": "e883faf0-e8b1-48cb-a527-ae0cfe350dd6",
-    ///         "expenseDate": "2023-04-23"
+    ///         "currency": "BYN"
     ///     }
     /// </remarks>
     /// <param name="request">The planned expense create request</param>
@@ -92,41 +92,14 @@ public class PlannedExpensesController : BaseController
     [ProducesResponseType(typeof(PlannedExpenseResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreatePlannedExpenseAsync([FromBody] CreatePlannedExpenseRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreatePlannedExpenseAsync([FromBody] CreatePlannedExpenseRequest request,
+        CancellationToken cancellationToken)
     {
         var createPlannedExpenseDto = _mapper.Map(request);
-        var plannedExpense = await _plannedExpenseService.CreateAsync(UserId, createPlannedExpenseDto, cancellationToken);
+        var plannedExpense =
+            await _plannedExpenseService.CreateAsync(UserId, createPlannedExpenseDto, cancellationToken);
         var response = _mapper.Map(plannedExpense);
         return Results.CreatedAtRoute("GetPlannedExpenseAsync", new { response.Id }, response);
-    }
-
-    /// <summary>
-    /// Update user planned expense
-    /// </summary>
-    /// <remarks>
-    /// Sample request:
-    /// 
-    ///     PUT: api/plannedExpenses/485834cf-2488-44fe-a24d-dafc2d097830
-    ///     {
-    ///         "name": "Travel",
-    ///         "amount": 350,
-    ///         "currencyId": "e883faf0-e8b1-48cb-a527-ae0cfe350dd6",
-    ///         "expenseDate": "2023-04-23"
-    ///     }
-    /// </remarks>
-    /// <param name="id">The Id of the planned expense</param>
-    /// <param name="request">The planned expense update request</param>
-    /// <param name="cancellationToken">The cancellation token</param>
-    /// <returns></returns>
-    [HttpPut("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> UpdatePlannedExpenseAsync(Guid id, [FromBody] UpdatePlannedExpenseRequest request, CancellationToken cancellationToken)
-    {
-        var updatePlannedExpenseDto = _mapper.Map(request);
-        await _plannedExpenseService.UpdateAsync(UserId, id, updatePlannedExpenseDto, cancellationToken);
-        return Results.NoContent();
     }
 
     /// <summary>

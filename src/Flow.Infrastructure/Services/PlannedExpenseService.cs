@@ -1,4 +1,7 @@
 ﻿using Flow.Application.Models.PlannedExpense;
+using Flow.Domain.Currencies;
+using Flow.Domain.PlannedExpenses;
+using Flow.Domain.Shared;
 
 namespace Flow.Infrastructure.Services;
 
@@ -38,26 +41,35 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         return _mapper.Map(plannedExpenses);
     }
 
-    public async Task<MonthlyPlannedExpensesDto> GetAllForMonthAsync(Guid userId,
+    public async Task<MonthlyPlannedExpensesDto> GetMonthlyTotalAsync(Guid userId,
+        string currency,
         CancellationToken cancellationToken = default)
     {
-        const string defaultCurrency = "USD";
+        var currentDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var startOfTheMonthDate = new DateOnly(currentDate.Year, currentDate.Month, 1);
+        var startOfTheMonthDateTime = startOfTheMonthDate.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc);
 
-        var currentDate = _timeProvider.GetUtcNow();
-        var startOfMonth = new DateOnly(currentDate.Year, currentDate.Month, 1);
-        var plannedExpenses = 0;
+        var targetCurrencyCode = CurrencyCode.Create(currency);
+
+        var monthlyPlannedExpenses =
+            await _unitOfWork.PlannedExpenses.GetStartingFromDateAsync(userId, startOfTheMonthDateTime,
+                cancellationToken);
 
         decimal totalAmount = 0;
-        // foreach (var expense in plannedExpenses)
-        // {
-        //     var rate = _currencyConversionRateService.GetConversionRate(expense.Currency, defaultCurrency);
-        //     totalAmount += expense.Amount * rate;
-        // }
+        foreach (var expense in monthlyPlannedExpenses)
+        {
+            var sourceCurrencyCode = expense.Currency.Code;
+            var rate = _currencyConversionRateService.GetConversionRate(sourceCurrencyCode, targetCurrencyCode.Value);
+
+            totalAmount += expense.Amount.Value * rate;
+        }
+
+        var monthlyPlannedExpenseDtos = _mapper.MapToMonthlyPlannedExpenseDtos(monthlyPlannedExpenses);
 
         return new MonthlyPlannedExpensesDto
         {
-            // PlannedExpenses = plannedExpenses,
-            Currency = defaultCurrency,
+            PlannedExpenses = monthlyPlannedExpenseDtos,
+            Currency = targetCurrencyCode.Value.Value,
             TotalAmount = totalAmount
         };
     }
@@ -65,34 +77,22 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
     public async Task<PlannedExpenseDto> CreateAsync(Guid userId, CreatePlannedExpenseDto createPlannedExpenseDto,
         CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(createPlannedExpenseDto.CurrencyId, cancellationToken);
+        var currencyCode = CurrencyCode.Create(createPlannedExpenseDto.Currency);
+
+        var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
             throw new ValidationException();
 
-        var plannedExpense = _mapper.Map(createPlannedExpenseDto);
-        plannedExpense.UserId = userId;
+        var name = PlannedExpenseName.Create(createPlannedExpenseDto.Name);
+        var amount = Money.Create(createPlannedExpenseDto.Amount);
+        var createDate = _timeProvider.GetUtcNow().UtcDateTime;
+        var plannedExpense = PlannedExpense.Create(userId, name.Value, amount.Value, currency.Id,
+            createDate);
 
-        _unitOfWork.PlannedExpenses.Create(plannedExpense);
+        _unitOfWork.PlannedExpenses.Create(plannedExpense.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(plannedExpense);
-    }
-
-    public async Task UpdateAsync(Guid userId, Guid plannedExpenseId, UpdatePlannedExpenseDto updatePlannedExpenseDto,
-        CancellationToken cancellationToken = default)
-    {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(updatePlannedExpenseDto.CurrencyId, cancellationToken);
-        if (currency is null)
-            throw new ValidationException();
-
-        var plannedExpense =
-            await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
-            ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
-
-        _mapper.Map(updatePlannedExpenseDto, plannedExpense);
-
-        _unitOfWork.PlannedExpenses.Update(plannedExpense);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return _mapper.Map(plannedExpense.Value);
     }
 
     public async Task DeleteAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)

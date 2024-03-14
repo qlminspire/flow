@@ -1,17 +1,20 @@
 ﻿using Flow.Application.Models.AccountOperation;
+using Flow.Domain.AccountOperations;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class AccountOperationService : IAccountOperationService
 {
     private readonly AccountOperationMapper _mapper;
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AccountOperationService(IUnitOfWork unitOfWork)
+    public AccountOperationService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
         _mapper = new AccountOperationMapper();
     }
 
@@ -29,39 +32,28 @@ internal sealed class AccountOperationService : IAccountOperationService
     public async Task<AccountOperationDto> CreateAsync(Guid userId, CreateAccountOperationDto createAccountOperationDto,
         CancellationToken cancellationToken = default)
     {
-        var (fromAccountId, toAccountId, amount) = createAccountOperationDto;
-
-        if (amount <= 0)
-            throw new ValidationException("Validation should be here");
-
-        if (fromAccountId == Guid.Empty || toAccountId == Guid.Empty)
-            throw new ValidationException("Validation should be here");
-
-        if (fromAccountId == toAccountId)
-            throw new ValidationException("Validation should be here");
-
         var fromBankAccount = await
-            _unitOfWork.Accounts.GetForUserAsync(userId, fromAccountId, cancellationToken);
+            _unitOfWork.Accounts.GetForUserAsync(userId, createAccountOperationDto.FromAccountId, cancellationToken);
         if (fromBankAccount is null)
             throw new ValidationException("Validation should be here");
 
         var toBankAccount = await
-            _unitOfWork.Accounts.GetForUserAsync(userId, toAccountId, cancellationToken);
+            _unitOfWork.Accounts.GetForUserAsync(userId, createAccountOperationDto.ToAccountId, cancellationToken);
         if (toBankAccount is null)
             throw new ValidationException("Validation should be here");
 
-        if (fromBankAccount.Amount < amount)
-            throw new ValidationException("Validation should be here");
+        var amount = Money.Create(createAccountOperationDto.Amount);
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        var accountOperation = _mapper.Map(createAccountOperationDto);
+        var accountOperation = AccountOperation.Create(fromBankAccount, toBankAccount, amount.Value, createdAt);
 
-        _unitOfWork.AccountOperations.Create(accountOperation);
+        var withdrawMoneyResult = fromBankAccount.WithdrawMoney(amount.Value);
+        var addMoneyResult = toBankAccount.AddMoney(amount.Value);
 
-        fromBankAccount.Amount -= accountOperation.Amount;
-        toBankAccount.Amount += accountOperation.Amount;
+        _unitOfWork.AccountOperations.Create(accountOperation.Value);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(accountOperation);
+        return _mapper.Map(accountOperation.Value);
     }
 }

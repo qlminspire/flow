@@ -1,20 +1,18 @@
-﻿using Flow.Application.Models.Bank;
-using Flow.Application.Models.Currency;
-using Flow.Application.Models.UserCategory;
-
-namespace Flow.Application.Models.BankAccount;
+﻿namespace Flow.Application.Models.BankAccount;
 
 public sealed class BankAccountDto
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public string Iban { get; init; }
+    public required string Name { get; init; }
 
-    public BankDto Bank { get; init; }
+    public required decimal Balance { get; init; }
 
-    public decimal Amount { get; init; }
+    public required string Currency { get; init; }
 
-    public CurrencyDto Currency { get; init; }
+    public string? Iban { get; init; }
 
-    public UserCategoryDto? Category { get; init; }
+    public required string Bank { get; init; }
+
+    public string? Category { get; init; }
 }

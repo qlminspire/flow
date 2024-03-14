@@ -1,5 +1,4 @@
-﻿using Flow.Application.Models.BankAccount;
-using Flow.Application.Models.Currency;
+﻿using Flow.Application.Models.Currency;
 using Flow.Domain.BankDeposits;
 
 namespace Flow.Application.Models.BankDeposit;
@@ -19,6 +18,4 @@ public sealed class BankDepositDto
     public int PeriodInMonths { get; set; }
 
     public DateTimeOffset? EndDate { get; set; }
-
-    public BankAccountDto RefundAccount { get; set; }
 }

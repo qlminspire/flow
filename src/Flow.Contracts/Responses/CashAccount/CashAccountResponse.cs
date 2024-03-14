@@ -1,7 +1,4 @@
-﻿using Flow.Contracts.Responses.Currency;
-using Flow.Contracts.Responses.UserCategory;
-
-namespace Flow.Contracts.Responses.CashAccount;
+﻿namespace Flow.Contracts.Responses.CashAccount;
 
 public sealed record CashAccountResponse
 {
@@ -9,9 +6,9 @@ public sealed record CashAccountResponse
 
     public required string Name { get; init; }
 
-    public required decimal Amount { get; init; }
+    public required decimal Balance { get; init; }
 
-    public required CurrencyShortResponse Currency { get; init; }
+    public required string Currency { get; init; }
 
-    public UserCategoryResponse? Category { get; init; }
+    public string? Category { get; init; }
 }

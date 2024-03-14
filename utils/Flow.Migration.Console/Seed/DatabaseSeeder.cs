@@ -1,6 +1,4 @@
-﻿using Bogus;
-using Flow.Domain.Abstractions;
-using Flow.Domain.Accounts;
+﻿using Flow.Domain.Abstractions;
 using Flow.Domain.Banks;
 using Flow.Domain.Currencies;
 using Flow.Domain.UserCategories;
@@ -22,37 +20,16 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
         var testingUser = User.Create(Email.Create("vladislavq@gmail.com").Value, "1234567", DateTime.UtcNow);
         var users = new[] { testingUser.Value };
 
-        var usersIds = users.Select(x => x.Id).ToList();
         _unitOfWork.Users.CreateMany(users);
 
         var userCategories = GetDefaultUserCategories(testingUser.Value);
         _unitOfWork.UserCategories.CreateMany(userCategories);
 
         var banks = GetBanks();
-        var banksIds = banks.Select(x => x.Id).ToList();
         _unitOfWork.Banks.CreateMany(banks);
 
         var currencies = GetCurrencies();
-        var currenciesIds = currencies.Select(x => x.Id).ToList();
         _unitOfWork.Currencies.CreateMany(currencies);
-
-        var bankAccountFaker = new Faker<BankAccount>()
-            .RuleFor(x => x.Iban, x => x.Finance.Iban())
-            .RuleFor(x => x.Amount, x => x.Finance.Amount())
-            .RuleFor(x => x.BankId, x => x.PickRandom(banksIds))
-            .RuleFor(x => x.CurrencyId, x => x.PickRandom(currenciesIds))
-            .RuleFor(x => x.UserId, x => x.PickRandom(usersIds));
-
-        var bankAccounts = bankAccountFaker.Generate(32);
-        _unitOfWork.BankAccounts.CreateMany(bankAccounts);
-
-        var cashAccountFaker = new Faker<CashAccount>()
-            .RuleFor(x => x.Amount, x => x.Finance.Amount())
-            .RuleFor(x => x.CurrencyId, x => x.PickRandom(currenciesIds))
-            .RuleFor(x => x.UserId, x => x.PickRandom(usersIds));
-
-        var cashAccounts = cashAccountFaker.Generate(9);
-        _unitOfWork.CashAccounts.CreateMany(cashAccounts);
 
         return _unitOfWork.SaveChangesAsync(cancellationToken);
     }

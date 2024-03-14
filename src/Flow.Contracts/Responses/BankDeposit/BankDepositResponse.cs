@@ -1,5 +1,4 @@
-﻿using Flow.Contracts.Responses.BankAccount;
-using Flow.Contracts.Responses.Currency;
+﻿using Flow.Contracts.Responses.Currency;
 using Flow.Contracts.Responses.UserCategory;
 using Flow.Domain.BankDeposits;
 
@@ -18,8 +17,6 @@ public sealed record BankDepositResponse
     public required double Rate { get; init; }
 
     public required int PeriodInMonths { get; init; }
-
-    public required BankAccountResponse RefundAccount { get; init; }
 
     public UserCategoryResponse? Category { get; init; }
 }

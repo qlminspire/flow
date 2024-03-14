@@ -1,17 +1,21 @@
 ﻿using Flow.Application.Models.CashAccount;
+using Flow.Domain.Accounts;
+using Flow.Domain.Currencies;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class CashAccountService : ICashAccountService
 {
     private readonly CashAccountMapper _mapper;
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CashAccountService(IUnitOfWork unitOfWork)
+    public CashAccountService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
         _mapper = new CashAccountMapper();
     }
 
@@ -33,22 +37,31 @@ internal sealed class CashAccountService : ICashAccountService
     public async Task<CashAccountDto> CreateAsync(Guid userId, CreateCashAccountDto createCashAccountDto,
         CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(createCashAccountDto.CurrencyId, cancellationToken);
+        var currencyCode = CurrencyCode.Create(createCashAccountDto.Currency);
+
+        var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
+        if (user is null)
+            throw new ValidationException("Validation not implemented.");
+
+        var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
             throw new ValidationException();
 
-        if (createCashAccountDto.CategoryId.HasValue)
-        {
-            await _unitOfWork.UserCategories.GetForUserAsync(userId,
-                createCashAccountDto.CategoryId.Value, cancellationToken);
-        }
+        var userCategory = createCashAccountDto.CategoryId.HasValue
+            ? await _unitOfWork.UserCategories.GetForUserAsync(userId,
+                createCashAccountDto.CategoryId.Value, cancellationToken)
+            : null;
 
-        var cashAccount = _mapper.Map(createCashAccountDto);
-        cashAccount.UserId = userId;
+        var accountName = AccountName.Create(createCashAccountDto.Name);
+        var amount = Money.Create(createCashAccountDto.Amount);
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        _unitOfWork.CashAccounts.Create(cashAccount);
+        var cashAccount = CashAccount.Create(user, accountName.Value, amount.Value, currency,
+            userCategory, createdAt);
+
+        _unitOfWork.CashAccounts.Create(cashAccount.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(cashAccount);
+        return _mapper.Map(cashAccount.Value);
     }
 }

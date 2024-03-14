@@ -12,7 +12,7 @@ public class CashAccountsController : BaseController
     public CashAccountsController(ICashAccountService cashAccountService)
     {
         _cashAccountService = cashAccountService;
-        _mapper = new();
+        _mapper = new CashAccountMapper();
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class CashAccountsController : BaseController
     ///     {
     ///         "name": "Жилье",
     ///         "amount": "200",
-    ///         "currencyId": "076ea5ea-92dc-4e73-bcb9-cf5dac5ff165",
+    ///         "currency": "BYN",
     ///     }
     /// </remarks>
     /// <param name="request">The create cash account request</param>
@@ -74,7 +74,8 @@ public class CashAccountsController : BaseController
     [ProducesResponseType(typeof(CashAccountResponse), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreateCashAccountAsync(CreateCashAccountRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateCashAccountAsync(CreateCashAccountRequest request,
+        CancellationToken cancellationToken)
     {
         var createCashAccountDto = _mapper.Map(request);
 

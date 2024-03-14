@@ -1,17 +1,21 @@
 ﻿using Flow.Application.Models.BankAccount;
+using Flow.Domain.Accounts;
+using Flow.Domain.Currencies;
 
 namespace Flow.Infrastructure.Services;
 
 internal sealed class BankAccountService : IBankAccountService
 {
     private readonly BankAccountMapper _mapper;
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BankAccountService(IUnitOfWork unitOfWork)
+    public BankAccountService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
         _mapper = new BankAccountMapper();
     }
 
@@ -34,7 +38,12 @@ internal sealed class BankAccountService : IBankAccountService
     public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createBankAccountDto,
         CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(createBankAccountDto.CurrencyId, cancellationToken);
+        var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
+        if (user is null)
+            throw new ValidationException("Validation not implemented.");
+
+        var currencyCode = CurrencyCode.Create(createBankAccountDto.Currency);
+        var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
             throw new ValidationException("Validation not implemented.");
 
@@ -42,18 +51,22 @@ internal sealed class BankAccountService : IBankAccountService
         if (bank is null)
             throw new ValidationException("Validation not implemented");
 
-        if (createBankAccountDto.CategoryId.HasValue)
-        {
-            await _unitOfWork.UserCategories.GetForUserAsync(userId,
-                createBankAccountDto.CategoryId.Value, cancellationToken);
-        }
+        var userCategory = createBankAccountDto.CategoryId.HasValue
+            ? await _unitOfWork.UserCategories.GetForUserAsync(userId,
+                createBankAccountDto.CategoryId.Value, cancellationToken)
+            : null;
 
-        var bankAccount = _mapper.Map(createBankAccountDto);
-        bankAccount.UserId = userId;
+        var accountName = AccountName.Create(createBankAccountDto.Name);
+        var iban = Iban.Create(createBankAccountDto.Iban);
+        var amount = Money.Create(createBankAccountDto.Amount);
+        var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        _unitOfWork.BankAccounts.Create(bankAccount);
+        var bankAccount = BankAccount.Create(user, accountName.Value, amount.Value, currency, bank, iban.Value,
+            userCategory, createdAt);
+
+        _unitOfWork.BankAccounts.Create(bankAccount.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(bankAccount);
+        return _mapper.Map(bankAccount.Value);
     }
 }

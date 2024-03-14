@@ -9,5 +9,5 @@ internal partial class AccountOperationMapper
 {
     public partial AccountOperationDto Map(AccountOperation accountOperation);
 
-    public partial AccountOperation Map(CreateAccountOperationDto createAccountOperationDto);
+    private decimal MoneyToDecimal(Money money) => money.Value;
 }

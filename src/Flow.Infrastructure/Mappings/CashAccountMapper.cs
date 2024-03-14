@@ -1,5 +1,7 @@
 ﻿using Flow.Application.Models.CashAccount;
 using Flow.Domain.Accounts;
+using Flow.Domain.Currencies;
+using Flow.Domain.UserCategories;
 using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
@@ -11,7 +13,11 @@ internal partial class CashAccountMapper
 
     public partial List<CashAccountDto> Map(List<CashAccount> cashAccounts);
 
-    public partial CashAccount Map(CreateCashAccountDto createCashAccountDto);
+    private decimal MoneyToDecimal(Money money) => money.Value;
 
-    public partial void Map(UpdateCashAccountDto updateCashAccountDto, CashAccount cashAccount);
+    private string CurrencyToString(Currency currency) => currency.Code.Value;
+
+    private string AccountNameToString(AccountName accountName) => accountName.Value;
+
+    private string CategoryToString(UserCategory userCategory) => userCategory.Name.Value;
 }

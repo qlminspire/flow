@@ -1,17 +1,14 @@
-﻿using Flow.Application.Models.Currency;
-using Flow.Application.Models.UserCategory;
-
-namespace Flow.Application.Models.CashAccount;
+﻿namespace Flow.Application.Models.CashAccount;
 
 public sealed class CashAccountDto
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
-    public decimal Amount { get; init; }
+    public required decimal Balance { get; init; }
 
-    public CurrencyDto Currency { get; init; }
+    public required string Currency { get; init; }
 
-    public UserCategoryDto? Category { get; init; }
+    public string? Category { get; init; }
 }

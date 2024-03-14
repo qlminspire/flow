@@ -12,7 +12,7 @@ public class BankAccountsController : BaseController
     public BankAccountsController(IBankAccountService bankAccountService)
     {
         _bankAccountService = bankAccountService;
-        _mapper = new();
+        _mapper = new BankAccountMapper();
     }
 
     /// <summary>
@@ -64,10 +64,11 @@ public class BankAccountsController : BaseController
     ///
     ///     POST: api/bankAccounts
     ///     {
+    ///         "name": "Жилье",
     ///         "iban": "78931212",
     ///         "bankId": "8e7dc274-fa0c-430f-b6f0-f629259b734b",
     ///         "amount": "500",
-    ///         "currencyId": "076ea5ea-92dc-4e73-bcb9-cf5dac5ff165"
+    ///         "currency": "BYN"
     ///     }
     /// </remarks>
     /// <param name="request">The bank account create request</param>
@@ -76,7 +77,8 @@ public class BankAccountsController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(BankAccountResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IResult> CreateBankAccountAsync(CreateBankAccountRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateBankAccountAsync(CreateBankAccountRequest request,
+        CancellationToken cancellationToken)
     {
         var createDto = _mapper.Map(request);
 

@@ -6,6 +6,5 @@ internal sealed class CashAccountConfiguration : IEntityTypeConfiguration<CashAc
 {
     public void Configure(EntityTypeBuilder<CashAccount> builder)
     {
-        builder.Property(x => x.Name).HasMaxLength(DatabaseConstants.Length64);
     }
 }

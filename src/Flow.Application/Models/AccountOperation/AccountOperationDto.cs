@@ -2,11 +2,11 @@
 
 public sealed class AccountOperationDto
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public Guid FromAccountId { get; init; }
+    public required Guid FromAccountId { get; init; }
 
-    public Guid ToAccountId { get; init; }
+    public required Guid ToAccountId { get; init; }
 
-    public decimal Amount { get; init; }
+    public required decimal Amount { get; init; }
 }

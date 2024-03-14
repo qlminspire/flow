@@ -1,21 +1,20 @@
-﻿using Flow.Application.Models.Currency;
-using Flow.Domain.BankDeposits;
+﻿using Flow.Domain.BankDeposits;
 
 namespace Flow.Application.Models.BankDeposit;
 
 public sealed class BankDepositDto
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; init; }
 
-    public decimal Amount { get; set; }
+    public required decimal Amount { get; init; }
 
-    public CurrencyDto Currency { get; set; }
+    public required string Currency { get; init; }
 
-    public DepositType Type { get; set; }
+    public required DepositType Type { get; init; }
 
-    public double Rate { get; set; }
+    public required double Rate { get; init; }
 
-    public int PeriodInMonths { get; set; }
+    public required int PeriodInMonths { get; init; }
 
-    public DateTimeOffset? EndDate { get; set; }
+    public required DateTimeOffset? EndDate { get; init; }
 }

@@ -2,7 +2,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace Flow.Application.Shared;
+namespace Flow.Application.Shared.Validation;
 
 public static class FluentValidationExtensions
 {

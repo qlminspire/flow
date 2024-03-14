@@ -10,9 +10,9 @@ public sealed class BankAccountDto
 
     public required string Currency { get; init; }
 
-    public string? Iban { get; init; }
-
     public required string Bank { get; init; }
+
+    public string? Iban { get; init; }
 
     public string? Category { get; init; }
 }

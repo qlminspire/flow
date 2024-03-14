@@ -8,8 +8,6 @@ namespace Flow.Api.Mappings;
 [Mapper]
 internal partial class BankMapper
 {
-    public partial BankShortResponse MapToBankShortResponse(BankDto bankDto);
-
     public partial BankResponse Map(BankDto bankDto);
 
     public partial ICollection<BankResponse> Map(ICollection<BankDto> banksDto);

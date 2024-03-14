@@ -2,9 +2,9 @@
 
 public sealed class MonthlyPlannedExpensesDto
 {
-    public ICollection<MonthlyPlannedExpenseDto> PlannedExpenses { get; init; }
+    public required ICollection<MonthlyPlannedExpenseDto> PlannedExpenses { get; init; }
 
-    public decimal TotalAmount { get; init; }
+    public required decimal TotalAmount { get; init; }
 
-    public string Currency { get; init; }
+    public required string Currency { get; init; }
 }

@@ -2,9 +2,9 @@
 
 public sealed record CurrencyResponse
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public string? Code { get; init; }
+    public required string Code { get; init; }
 
-    public bool IsDeactivated { get; init; }
+    public required bool IsDeactivated { get; init; }
 }

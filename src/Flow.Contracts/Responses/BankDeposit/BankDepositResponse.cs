@@ -1,5 +1,4 @@
-﻿using Flow.Contracts.Responses.Currency;
-using Flow.Contracts.Responses.UserCategory;
+﻿using Flow.Contracts.Responses.UserCategory;
 using Flow.Domain.BankDeposits;
 
 namespace Flow.Contracts.Responses.BankDeposit;
@@ -10,7 +9,7 @@ public sealed record BankDepositResponse
 
     public required decimal Amount { get; init; }
 
-    public required CurrencyShortResponse Currency { get; init; }
+    public required string Currency { get; init; }
 
     public required DepositType Type { get; init; }
 

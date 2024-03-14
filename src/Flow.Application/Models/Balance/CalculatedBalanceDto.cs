@@ -2,11 +2,11 @@
 
 public sealed class CalculatedBalanceDto
 {
-    public ICollection<BalanceDto> TotalBankAccounts { get; set; }
+    public required ICollection<BalanceDto> TotalBankAccounts { get; init; }
 
-    public ICollection<BalanceDto> TotalCashAccounts { get; set; }
+    public required ICollection<BalanceDto> TotalCashAccounts { get; init; }
 
-    public ICollection<BalanceDto> TotalDeposits { get; set; }
+    public required ICollection<BalanceDto> TotalDeposits { get; init; }
 
-    public ICollection<BalanceDto> TotalDebts { get; set; }
+    public required ICollection<BalanceDto> TotalDebts { get; init; }
 }

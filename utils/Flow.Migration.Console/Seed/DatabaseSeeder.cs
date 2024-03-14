@@ -17,7 +17,8 @@ internal sealed class DatabaseSeeder : IDatabaseSeeder
 
     public Task SeedAsync(CancellationToken cancellationToken = default)
     {
-        var testingUser = User.Create(Email.Create("vladislavq@gmail.com").Value, "1234567", DateTime.UtcNow);
+        var testingUser = User.Create(Email.Create("vladislavq@gmail.com").Value, PasswordHash.Create("1234567").Value,
+            DateTime.UtcNow);
         var users = new[] { testingUser.Value };
 
         _unitOfWork.Users.CreateMany(users);

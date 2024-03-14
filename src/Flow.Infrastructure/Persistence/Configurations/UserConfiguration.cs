@@ -16,6 +16,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(Email.MaxLength);
 
         builder.Property(x => x.PasswordHash)
-            .HasMaxLength(DatabaseConstants.Length512);
+            .HasConversion(x => x.Value, x => PasswordHash.Create(x).Value)
+            .HasMaxLength(PasswordHash.MaxLength);
     }
 }

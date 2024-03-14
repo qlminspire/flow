@@ -80,7 +80,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
-            throw new ValidationException();
+            throw new NotFoundException();
 
         var name = PlannedExpenseName.Create(createPlannedExpenseDto.Name);
         var amount = Money.Create(createPlannedExpenseDto.Amount);

@@ -1,7 +1,6 @@
 ﻿using Flow.Application.Models.Subscription;
 using Flow.Domain.Currencies;
 using Flow.Domain.Subscriptions;
-using ValidationException = Flow.Application.Shared.Exceptions.ValidationException;
 
 namespace Flow.Infrastructure.Services;
 
@@ -65,7 +64,7 @@ internal sealed class SubscriptionService : ISubscriptionService
 
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
-            throw new ValidationException();
+            throw new NotFoundException();
 
         var name = SubscriptionName.Create(createSubscriptionDto.Name);
         var price = Money.Create(createSubscriptionDto.Price);

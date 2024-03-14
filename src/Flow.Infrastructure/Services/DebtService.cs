@@ -39,10 +39,12 @@ internal sealed class DebtService : IDebtService
         var currencyCode = CurrencyCode.Create(createDebtDto.Currency);
 
         var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
+        if (user is null)
+            throw new NotFoundException();
 
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
-            throw new ValidationException();
+            throw new NotFoundException();
 
         var debtName = DebtName.Create(createDebtDto.Name);
         var amount = Money.Create(createDebtDto.Amount);

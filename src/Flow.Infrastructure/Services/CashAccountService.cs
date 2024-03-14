@@ -41,11 +41,11 @@ internal sealed class CashAccountService : ICashAccountService
 
         var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
         if (user is null)
-            throw new ValidationException("Validation not implemented.");
+            throw new NotFoundException();
 
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
-            throw new ValidationException();
+            throw new NotFoundException();
 
         var userCategory = createCashAccountDto.CategoryId.HasValue
             ? await _unitOfWork.UserCategories.GetForUserAsync(userId,

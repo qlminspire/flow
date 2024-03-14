@@ -8,17 +8,5 @@ public class ValidationException : ApplicationException
         Errors = errors;
     }
 
-    [Obsolete("Remove after services migration")]
-    public ValidationException(string message)
-    {
-        Errors = [];
-    }
-
-    [Obsolete("Remove after services migration")]
-    public ValidationException()
-    {
-        Errors = [];
-    }
-
     public IEnumerable<ValidationError> Errors { get; }
 }

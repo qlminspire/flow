@@ -35,12 +35,12 @@ internal sealed class AccountOperationService : IAccountOperationService
         var fromBankAccount = await
             _unitOfWork.Accounts.GetForUserAsync(userId, createAccountOperationDto.FromAccountId, cancellationToken);
         if (fromBankAccount is null)
-            throw new ValidationException("Validation should be here");
+            throw new NotFoundException();
 
         var toBankAccount = await
             _unitOfWork.Accounts.GetForUserAsync(userId, createAccountOperationDto.ToAccountId, cancellationToken);
         if (toBankAccount is null)
-            throw new ValidationException("Validation should be here");
+            throw new NotFoundException();
 
         var amount = Money.Create(createAccountOperationDto.Amount);
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;

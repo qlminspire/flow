@@ -40,16 +40,17 @@ internal sealed class BankAccountService : IBankAccountService
     {
         var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
         if (user is null)
-            throw new ValidationException("Validation not implemented.");
+            throw new NotFoundException();
 
         var currencyCode = CurrencyCode.Create(createBankAccountDto.Currency);
+
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
-            throw new ValidationException("Validation not implemented.");
+            throw new NotFoundException();
 
         var bank = await _unitOfWork.Banks.GetByIdAsync(createBankAccountDto.BankId, cancellationToken);
         if (bank is null)
-            throw new ValidationException("Validation not implemented");
+            throw new NotFoundException();
 
         var userCategory = createBankAccountDto.CategoryId.HasValue
             ? await _unitOfWork.UserCategories.GetForUserAsync(userId,

@@ -65,6 +65,7 @@ public class CashAccountsController : BaseController
     ///         "name": "Жилье",
     ///         "amount": "200",
     ///         "currency": "BYN",
+    ///         "categoryId": "5F352125-63CA-40C6-859A-C2CF6713106D"
     ///     }
     /// </remarks>
     /// <param name="request">The create cash account request</param>

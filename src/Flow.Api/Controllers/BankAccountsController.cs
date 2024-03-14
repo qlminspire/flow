@@ -68,7 +68,8 @@ public class BankAccountsController : BaseController
     ///         "iban": "78931212",
     ///         "bankId": "8e7dc274-fa0c-430f-b6f0-f629259b734b",
     ///         "amount": "500",
-    ///         "currency": "BYN"
+    ///         "currency": "BYN",
+    ///         "categoryId": "5F352125-63CA-40C6-859A-C2CF6713106D"
     ///     }
     /// </remarks>
     /// <param name="request">The bank account create request</param>

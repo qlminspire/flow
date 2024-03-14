@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Flow.Api.Models;
+namespace Flow.Contracts;
 
 public sealed class ErrorDetails
 {

@@ -88,4 +88,26 @@ public class BankAccountsController : BaseController
         var response = _mapper.Map(dto);
         return Results.CreatedAtRoute("GetBankAccountAsync", new { response.Id }, response);
     }
+
+
+    /// <summary>
+    /// Delete bank account
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     DELETE: api/bankAccounts/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
+    /// </remarks>
+    /// <param name="id">The id of the bank account</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns></returns>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    public async Task<IResult> DeleteBankAccountAsync(Guid id, CancellationToken cancellationToken)
+    {
+        await _bankAccountService.DeleteAsync(UserId, id, cancellationToken);
+        return Results.NoContent();
+    }
 }

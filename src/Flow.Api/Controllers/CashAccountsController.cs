@@ -85,4 +85,25 @@ public class CashAccountsController : BaseController
 
         return Results.CreatedAtRoute("GetCashAccountAsync", new { response.Id }, response);
     }
+
+    /// <summary>
+    /// Delete cash account
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     DELETE: api/cashAccounts/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
+    /// </remarks>
+    /// <param name="id">The id of the cash account</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns></returns>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    public async Task<IResult> DeleteCashAccountAsync(Guid id, CancellationToken cancellationToken)
+    {
+        await _cashAccountService.DeleteAsync(UserId, id, cancellationToken);
+        return Results.NoContent();
+    }
 }

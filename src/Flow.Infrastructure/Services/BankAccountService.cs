@@ -70,4 +70,14 @@ internal sealed class BankAccountService : IBankAccountService
 
         return _mapper.Map(bankAccount.Value);
     }
+
+    public async Task DeleteAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken = default)
+    {
+        var bankAccount = await _unitOfWork.CashAccounts.GetForUserAsync(userId, bankAccountId, cancellationToken);
+        if (bankAccount is null)
+            throw new NotFoundException();
+
+        _unitOfWork.CashAccounts.Delete(bankAccount);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }

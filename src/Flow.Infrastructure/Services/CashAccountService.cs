@@ -64,4 +64,14 @@ internal sealed class CashAccountService : ICashAccountService
 
         return _mapper.Map(cashAccount.Value);
     }
+
+    public async Task DeleteAsync(Guid userId, Guid cashAccountId, CancellationToken cancellationToken = default)
+    {
+        var cashAccount = await _unitOfWork.CashAccounts.GetForUserAsync(userId, cashAccountId, cancellationToken);
+        if (cashAccount is null)
+            throw new NotFoundException();
+
+        _unitOfWork.CashAccounts.Delete(cashAccount);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }

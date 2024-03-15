@@ -12,7 +12,7 @@ public sealed class BankDepositsController : BaseController
     public BankDepositsController(IBankDepositService bankDepositService)
     {
         _bankDepositService = bankDepositService;
-        _mapper = new();
+        _mapper = new BankDepositMapper();
     }
 
     /// <summary>
@@ -62,11 +62,12 @@ public sealed class BankDepositsController : BaseController
     ///     POST: api/bankDeposits
     ///     {
     ///         "amount": 1200,
-    ///         "currencyId": "ff11ff3e-01e3-435c-9e4f-47ecf06778b4",
+    ///         "currency": "BYN",
     ///         "rate": 6.2,
     ///         "type": 1,
     ///         "periodInMonths": 13,
-    ///         "refundAccountId": "751bd4bb-437c-44d4-a344-2625cd3921ff"
+    ///         "refundAccountId": "751bd4bb-437c-44d4-a344-2625cd3921ff",
+    ///         "categoryId": "5F352125-63CA-40C6-859A-C2CF6713106D"
     ///      }
     /// </remarks>
     /// <param name="request">The create bank deposit request</param>
@@ -75,7 +76,8 @@ public sealed class BankDepositsController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(BankDepositResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IResult> CreateBankDepositAsync(CreateBankDepositRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> CreateBankDepositAsync(CreateBankDepositRequest request,
+        CancellationToken cancellationToken)
     {
         var createDepositDto = _mapper.Map(request);
         var createdDeposit = await _bankDepositService.CreateAsync(UserId, createDepositDto, cancellationToken);

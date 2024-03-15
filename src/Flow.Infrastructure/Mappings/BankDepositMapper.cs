@@ -1,5 +1,6 @@
 ﻿using Flow.Application.Models.BankDeposit;
 using Flow.Domain.BankDeposits;
+using Flow.Domain.Currencies;
 using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
@@ -11,5 +12,7 @@ internal partial class BankDepositMapper
 
     public partial List<BankDepositDto> Map(List<BankDeposit> bankDeposits);
 
-    public partial BankDeposit Map(CreateBankDepositDto createBankDepositDto);
+    private decimal MoneyToDecimal(Money money) => money.Value;
+
+    private string CurrencyToString(Currency currency) => currency.Code.Value;
 }

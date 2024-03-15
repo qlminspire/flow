@@ -7,33 +7,43 @@ namespace Flow.Domain.BankDeposits;
 
 public sealed class BankDeposit : Entity, IAuditable
 {
-    public decimal Amount { get; set; }
+    // TODO
+    private BankDeposit()
+    {
+    }
 
-    public Guid CurrencyId { get; set; }
+    public Money Amount { get; private set; }
 
-    public Currency? Currency { get; set; }
+    public Guid CurrencyId { get; private set; }
 
-    public Guid UserId { get; set; }
+    public Currency? Currency { get; private set; }
 
-    public User? User { get; set; }
+    public Guid UserId { get; private set; }
 
-    public DepositType Type { get; set; }
+    public User? User { get; private set; }
 
-    public double Rate { get; set; }
+    public DepositType Type { get; private set; }
 
-    public int PeriodInMonths { get; set; }
+    public double Rate { get; private set; } // TODO: Rework
 
-    public DateTimeOffset? EndDate { get; set; }
+    public int PeriodInMonths { get; private set; } // TODO: Rework
 
-    public Guid RefundAccountId { get; set; }
+    public DateTimeOffset? EndDate { get; private set; }
 
-    public BankAccount? RefundAccount { get; set; }
+    public Guid RefundAccountId { get; private set; }
 
-    public Guid? CategoryId { get; set; }
+    public BankAccount? RefundAccount { get; private set; }
 
-    public UserCategory? Category { get; set; }
+    public Guid? CategoryId { get; private set; }
+
+    public UserCategory? Category { get; private set; }
 
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public static Result<BankDeposit> Create()
+    {
+        return new BankDeposit();
+    }
 }

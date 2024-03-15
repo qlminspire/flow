@@ -1,17 +1,20 @@
 ﻿using Flow.Application.Models.BankDeposit;
+using Flow.Domain.BankDeposits;
 
 namespace Flow.Infrastructure.Services;
 
 internal class BankDepositService : IBankDepositService
 {
     private readonly BankDepositMapper _mapper;
+    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BankDepositService(IUnitOfWork unitOfWork)
+    public BankDepositService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
         ArgumentNullException.ThrowIfNull(unitOfWork);
 
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
         _mapper = new BankDepositMapper();
     }
 
@@ -33,13 +36,14 @@ internal class BankDepositService : IBankDepositService
     public async Task<BankDepositDto> CreateAsync(Guid userId, CreateBankDepositDto createBankDepositDto,
         CancellationToken cancellationToken = default)
     {
-        var bankDeposit = _mapper.Map(createBankDepositDto);
-        bankDeposit.UserId = userId;
+        // TODO: DO THE REST
 
-        _unitOfWork.BankDeposits.Create(bankDeposit);
+        var bankDeposit = BankDeposit.Create();
+
+        _unitOfWork.BankDeposits.Create(bankDeposit.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var depositDto = _mapper.Map(bankDeposit);
+        var depositDto = _mapper.Map(bankDeposit.Value);
         return depositDto;
     }
 }

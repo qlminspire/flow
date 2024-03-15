@@ -6,7 +6,7 @@ public sealed record CreateBankDepositRequest
 {
     public decimal Amount { get; init; }
 
-    public Guid CurrencyId { get; init; }
+    public string? Currency { get; init; }
 
     public DepositType Type { get; init; }
 

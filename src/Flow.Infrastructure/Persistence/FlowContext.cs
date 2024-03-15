@@ -54,34 +54,4 @@ public class FlowContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(FlowContext))!);
         base.OnModelCreating(modelBuilder);
     }
-
-    public override int SaveChanges()
-    {
-        UpdateEntityDates();
-        return base.SaveChanges();
-    }
-
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        UpdateEntityDates();
-        return base.SaveChangesAsync(cancellationToken);
-    }
-
-    private void UpdateEntityDates()
-    {
-        var entries = ChangeTracker.Entries<IAuditable>();
-
-        foreach (var entry in entries)
-        {
-            switch (entry.State)
-            {
-                case EntityState.Added:
-                    entry.Entity.CreatedAt = DateTime.UtcNow;
-                    break;
-                case EntityState.Modified:
-                    entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    break;
-            }
-        }
-    }
 }

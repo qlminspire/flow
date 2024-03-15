@@ -27,9 +27,9 @@ public sealed class UserCategory : Entity, IAuditable
 
     public User? User { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public static Result<UserCategory> Create(User user, UserCategoryName name, DateTime createdAt)
     {

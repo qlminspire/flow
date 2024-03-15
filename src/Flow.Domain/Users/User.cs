@@ -24,9 +24,9 @@ public sealed class User : AggregateRoot, IAuditable
 
     public PasswordHash PasswordHash { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public static Result<User> Create(Email email, PasswordHash passwordHash, DateTime createdAt)
     {

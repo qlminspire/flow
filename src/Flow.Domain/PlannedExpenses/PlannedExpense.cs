@@ -37,9 +37,9 @@ public sealed class PlannedExpense : AggregateRoot, IAuditable
 
     public Currency Currency { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public static Result<PlannedExpense> Create(Guid userId, PlannedExpenseName plannedExpenseName, Money amount,
         Guid currencyId, DateTime createdAt)

@@ -20,9 +20,9 @@ public sealed class Currency : AggregateRoot, IAuditable, IDeactivatable
 
     public CurrencyCode Code { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public bool IsDeactivated { get; private set; }
 

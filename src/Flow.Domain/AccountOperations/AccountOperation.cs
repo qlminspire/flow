@@ -31,9 +31,9 @@ public sealed class AccountOperation : Entity, IAuditable
 
     public Account? ToAccount { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public static Result<AccountOperation> Create(Account fromAccount, Account toAccount, Money money,
         DateTime date)

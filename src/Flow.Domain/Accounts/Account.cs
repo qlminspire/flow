@@ -44,9 +44,9 @@ public abstract class Account : Entity, IAuditable, IDeactivatable
 
     public UserCategory? Category { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public bool IsDeactivated { get; }
 

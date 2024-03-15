@@ -42,9 +42,9 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
 
     public User? User { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public bool IsDeactivated { get; private set; }
 

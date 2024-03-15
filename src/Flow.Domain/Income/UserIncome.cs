@@ -34,9 +34,9 @@ public sealed class UserIncome : Entity, IAuditable
 
     public DateTimeOffset? Date { get; private set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public static Result<UserIncome> Create(Money amount, IncomeSource source, Account account, DateTime? date,
         DateTime createdAt)

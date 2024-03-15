@@ -2,6 +2,8 @@
 
 public record Money : IValueObject
 {
+    public static readonly Error Negative = new("Money.Negative", "Money must not be negative");
+
     private Money(decimal value)
     {
         Value = value;
@@ -19,23 +21,11 @@ public record Money : IValueObject
         return this == Zero();
     }
 
-    public bool Positive()
-    {
-        return Value > 0;
-    }
-
-    public bool Negative()
-    {
-        return Value < 0;
-    }
-
-    public bool IsNegativeOrZero()
-    {
-        return Negative() || IsZero();
-    }
-
     public static Result<Money> Create(decimal value)
     {
+        if (value < 0)
+            return Result.Failure<Money>(Negative);
+
         return new Money(value);
     }
 

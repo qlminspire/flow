@@ -52,16 +52,27 @@ public abstract class Account : Entity, IAuditable, IDeactivatable
 
     public DateTime? DeactivatedAt { get; }
 
-    public Result AddMoney(Money amount)
+    public Result Deposit(Money money, DateTime date)
     {
-        Balance += amount;
+        if (IsDeactivated)
+            return Result.Failure(AccountErrors.Deactivated);
+
+        Balance += money;
+        UpdatedAt = date;
 
         return Result.Success();
     }
 
-    public Result WithdrawMoney(Money amount)
+    public Result Withdraw(Money money, DateTime date)
     {
-        Balance -= amount;
+        if (IsDeactivated)
+            return Result.Failure(AccountErrors.Deactivated);
+
+        if (Balance <= money)
+            return Result.Failure(AccountErrors.NotEnoughMoney);
+
+        Balance -= money;
+        UpdatedAt = date;
 
         return Result.Success();
     }

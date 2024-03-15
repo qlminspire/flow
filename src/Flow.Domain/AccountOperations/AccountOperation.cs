@@ -35,21 +35,21 @@ public sealed class AccountOperation : Entity, IAuditable
 
     public DateTime? UpdatedAt { get; set; }
 
-    public static Result<AccountOperation> Create(Account fromAccount, Account toAccount, Money amount,
-        DateTime createdAt)
+    public static Result<AccountOperation> Create(Account fromAccount, Account toAccount, Money money,
+        DateTime date)
     {
-        // if (amount <= 0)
-        //     throw new ValidationException("Validation should be here");
-        //
-        // if (fromAccountId == Guid.Empty || toAccountId == Guid.Empty)
-        //     throw new ValidationException("Validation should be here");
-        //
-        // if (fromAccountId == toAccountId)
-        //     throw new ValidationException("Validation should be here");
+        if (fromAccount.Id == toAccount.Id)
+            return Result.Failure<AccountOperation>(AccountOperationErrors.SameSourceAndTargetAccount);
 
-        // if (fromBankAccount.Amount < amount)
-        //     throw new ValidationException("Validation should be here");
+        if (fromAccount.IsDeactivated || toAccount.IsDeactivated)
+            return Result.Failure<AccountOperation>(AccountOperationErrors.OneOfTheAccountsIsDeactivated);
 
-        return new AccountOperation(Guid.NewGuid(), fromAccount, toAccount, amount, createdAt);
+        if (money.IsZero())
+            return Result.Failure<AccountOperation>(AccountOperationErrors.ZeroAmount);
+
+        var accountOperation = new AccountOperation(Guid.NewGuid(), fromAccount,
+            toAccount, money, date);
+
+        return accountOperation;
     }
 }

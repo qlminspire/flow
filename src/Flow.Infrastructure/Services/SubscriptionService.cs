@@ -46,7 +46,7 @@ internal sealed class SubscriptionService : ISubscriptionService
         var total = 0.0m;
         foreach (var subscription in subscriptions)
         {
-            var monthlyPrice = subscription.GetMonthlyPrice();
+            var monthlyPrice = subscription.GetMonthlyPrice;
             var sourceCurrencyCode = subscription.Currency!.Code;
             var rate = _currencyConversionRateService.GetConversionRate(sourceCurrencyCode,
                 targetCurrencyCode.Value);

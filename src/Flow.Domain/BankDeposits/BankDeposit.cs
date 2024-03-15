@@ -7,7 +7,6 @@ namespace Flow.Domain.BankDeposits;
 
 public sealed class BankDeposit : Entity, IAuditable
 {
-    // TODO
     private BankDeposit()
     {
     }
@@ -24,9 +23,9 @@ public sealed class BankDeposit : Entity, IAuditable
 
     public DepositType Type { get; private set; }
 
-    public double Rate { get; private set; } // TODO: Rework
+    public double Rate { get; private set; }
 
-    public int PeriodInMonths { get; private set; } // TODO: Rework
+    public int PeriodInMonths { get; private set; }
 
     public DateTimeOffset? EndDate { get; private set; }
 

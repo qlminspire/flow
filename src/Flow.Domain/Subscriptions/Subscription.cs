@@ -42,6 +42,8 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
 
     public User? User { get; private set; }
 
+    public decimal GetMonthlyPrice => Price.Value / PaymentFrequencyMonths.Value;
+
     public DateTime CreatedAt { get; private set; }
 
     public DateTime? UpdatedAt { get; private set; }
@@ -49,11 +51,6 @@ public sealed class Subscription : AggregateRoot, IAuditable, IDeactivatable
     public bool IsDeactivated { get; private set; }
 
     public DateTime? DeactivatedAt { get; private set; }
-
-    public decimal GetMonthlyPrice()
-    {
-        return Price.Value / PaymentFrequencyMonths.Value;
-    }
 
     public static Result<Subscription> Create(
         Guid userId,

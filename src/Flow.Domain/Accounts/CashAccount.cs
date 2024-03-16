@@ -7,7 +7,7 @@ namespace Flow.Domain.Accounts;
 public sealed class CashAccount : Account
 {
     private CashAccount(
-        Guid id,
+        AccountId id,
         AccountName name,
         Money balance,
         Currency currency,
@@ -25,6 +25,6 @@ public sealed class CashAccount : Account
     public static Result<CashAccount> Create(User user, AccountName name, Money amount, Currency currency,
         UserCategory? category, DateTime createdAt)
     {
-        return new CashAccount(Guid.NewGuid(), name, amount, currency, user, category, createdAt);
+        return new CashAccount(new AccountId(Guid.NewGuid()), name, amount, currency, user, category, createdAt);
     }
 }

@@ -17,4 +17,6 @@ internal partial class DebtMapper
     private decimal MoneyToDecimal(Money money) => money.Value;
 
     private string CurrencyToString(Currency currency) => currency.Code.Value;
+    
+    private Guid IdToGuid(DebtId id) => id.Value;
 }

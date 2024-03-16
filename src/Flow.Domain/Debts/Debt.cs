@@ -3,10 +3,10 @@ using Flow.Domain.Users;
 
 namespace Flow.Domain.Debts;
 
-public sealed class Debt : Entity, IAuditable
+public sealed class Debt : Entity<DebtId>, IAuditable
 {
     private Debt(
-        Guid id,
+        DebtId id,
         User user,
         DebtName name,
         Money amount,
@@ -29,11 +29,11 @@ public sealed class Debt : Entity, IAuditable
 
     public Money Amount { get; private set; }
 
-    public Guid CurrencyId { get; private set; }
+    public CurrencyId CurrencyId { get; private set; }
 
     public Currency? Currency { get; private set; }
 
-    public Guid UserId { get; private set; }
+    public UserId UserId { get; private set; }
 
     public User? User { get; private set; }
 
@@ -43,6 +43,6 @@ public sealed class Debt : Entity, IAuditable
 
     public static Result<Debt> Create(User user, DebtName name, Money amount, Currency currency, DateTime createdAt)
     {
-        return new Debt(Guid.NewGuid(), user, name, amount, currency, createdAt);
+        return new Debt(new DebtId(Guid.NewGuid()), user, name, amount, currency, createdAt);
     }
 }

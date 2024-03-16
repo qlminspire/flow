@@ -1,12 +1,14 @@
-﻿namespace Flow.Domain.PlannedExpenses;
+﻿using Flow.Domain.Users;
 
-public interface IPlannedExpenseRepository : IRepository<PlannedExpense>
+namespace Flow.Domain.PlannedExpenses;
+
+public interface IPlannedExpenseRepository : IRepository<PlannedExpense, PlannedExpenseId>
 {
-    Task<PlannedExpense?> GetForUserAsync(Guid userId, Guid plannedExpenseId,
+    Task<PlannedExpense?> GetForUserAsync(UserId userId, PlannedExpenseId plannedExpenseId,
         CancellationToken cancellationToken = default);
 
-    Task<List<PlannedExpense>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<List<PlannedExpense>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default);
 
-    Task<List<PlannedExpense>> GetStartingFromDateAsync(Guid userId, DateTime fromDate,
+    Task<List<PlannedExpense>> GetStartingFromDateAsync(UserId userId, DateTime fromDate,
         CancellationToken cancellationToken = default);
 }

@@ -1,8 +1,10 @@
-﻿namespace Flow.Domain.Debts;
+﻿using Flow.Domain.Users;
 
-public interface IDebtRepository : IRepository<Debt>
+namespace Flow.Domain.Debts;
+
+public interface IDebtRepository : IRepository<Debt, DebtId>
 {
-    Task<Debt?> GetForUserAsync(Guid userId, Guid debtId, CancellationToken cancellationToken = default);
+    Task<Debt?> GetForUserAsync(UserId userId, DebtId debtId, CancellationToken cancellationToken = default);
 
-    Task<List<Debt>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<List<Debt>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default);
 }

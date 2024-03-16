@@ -1,3 +1,3 @@
 ﻿namespace Flow.Domain.Banks;
 
-public interface IBankRepository : IRepository<Bank>;
+public interface IBankRepository : IRepository<Bank, BankId>;

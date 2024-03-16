@@ -1,9 +1,11 @@
-﻿namespace Flow.Domain.UserCategories;
+﻿using Flow.Domain.Users;
 
-public interface IUserCategoryRepository : IRepository<UserCategory>
+namespace Flow.Domain.UserCategories;
+
+public interface IUserCategoryRepository : IRepository<UserCategory, UserCategoryId>
 {
-    Task<UserCategory?> GetForUserAsync(Guid userId, Guid userCategoryId,
+    Task<UserCategory?> GetForUserAsync(UserId userId, UserCategoryId userCategoryId,
         CancellationToken cancellationToken = default);
 
-    Task<List<UserCategory>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<List<UserCategory>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default);
 }

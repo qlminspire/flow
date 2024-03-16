@@ -1,5 +1,7 @@
 ﻿using Flow.Application.Models.BankDeposit;
 using Flow.Domain.BankDeposits;
+using Flow.Domain.Banks;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;
 
@@ -21,7 +23,8 @@ internal class BankDepositService : IBankDepositService
     public async Task<BankDepositDto> GetAsync(Guid userId, Guid bankDepositId,
         CancellationToken cancellationToken = default)
     {
-        var bankDeposit = await _unitOfWork.BankDeposits.GetForUserAsync(userId, bankDepositId, cancellationToken)
+        var bankDeposit = await _unitOfWork.BankDeposits.GetForUserAsync(new UserId(userId),
+                              new BankDepositId(bankDepositId), cancellationToken)
                           ?? throw new NotFoundException();
 
         return _mapper.Map(bankDeposit);
@@ -29,7 +32,7 @@ internal class BankDepositService : IBankDepositService
 
     public async Task<List<BankDepositDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var banks = await _unitOfWork.BankDeposits.GetAllForUserAsync(userId, cancellationToken);
+        var banks = await _unitOfWork.BankDeposits.GetAllForUserAsync(new UserId(userId), cancellationToken);
         return _mapper.Map(banks);
     }
 

@@ -1,12 +1,13 @@
 ﻿using Flow.Application.Models.PlannedExpense;
 using Flow.Domain.PlannedExpenses;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class PlannedExpenseRepository(FlowContext context)
-    : BaseRepository<PlannedExpense>(context), IPlannedExpenseRepository
+    : BaseRepository<PlannedExpense, PlannedExpenseId>(context), IPlannedExpenseRepository
 {
-    public Task<PlannedExpense?> GetForUserAsync(Guid userId, Guid plannedExpenseId,
+    public Task<PlannedExpense?> GetForUserAsync(UserId userId, PlannedExpenseId plannedExpenseId,
         CancellationToken cancellationToken = default)
     {
         return All
@@ -14,7 +15,7 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == plannedExpenseId, cancellationToken);
     }
 
-    public Task<List<PlannedExpense>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+    public Task<List<PlannedExpense>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)
@@ -22,7 +23,7 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
             .ToListAsync(cancellationToken);
     }
 
-    public Task<List<PlannedExpense>> GetStartingFromDateAsync(Guid userId, DateTime fromDate,
+    public Task<List<PlannedExpense>> GetStartingFromDateAsync(UserId userId, DateTime fromDate,
         CancellationToken cancellationToken = default)
     {
         return All.AsNoTracking()
@@ -32,7 +33,7 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
             .ToListAsync(cancellationToken);
     }
 
-    public Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(Guid userId, DateOnly startDate,
+    public Task<List<MonthlyPlannedExpenseDto>> GetAggregatedByCurrencyAsync(UserId userId, DateOnly startDate,
         CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()

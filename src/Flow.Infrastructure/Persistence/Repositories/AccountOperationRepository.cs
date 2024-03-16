@@ -1,11 +1,13 @@
 ﻿using Flow.Domain.AccountOperations;
+using Flow.Domain.Accounts;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class AccountOperationRepository(FlowContext context)
-    : BaseRepository<AccountOperation>(context), IAccountOperationRepository
+    : BaseRepository<AccountOperation, AccountOperationId>(context), IAccountOperationRepository
 {
-    public Task<AccountOperation?> GetForUserAsync(Guid userId, Guid operationId,
+    public Task<AccountOperation?> GetForUserAsync(UserId userId, AccountOperationId operationId,
         CancellationToken cancellationToken = default)
     {
         return All.Include(x => x.FromAccount)
@@ -16,7 +18,7 @@ internal sealed class AccountOperationRepository(FlowContext context)
                 && x.Id == operationId, cancellationToken);
     }
 
-    public Task<List<AccountOperation>> GetAllIncomingOperationsAsync(Guid accountId,
+    public Task<List<AccountOperation>> GetAllIncomingOperationsAsync(AccountId accountId,
         CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()
@@ -26,7 +28,7 @@ internal sealed class AccountOperationRepository(FlowContext context)
             .ToListAsync(cancellationToken);
     }
 
-    public Task<List<AccountOperation>> GetAllOutgoingOperationsAsync(Guid accountId,
+    public Task<List<AccountOperation>> GetAllOutgoingOperationsAsync(AccountId accountId,
         CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()

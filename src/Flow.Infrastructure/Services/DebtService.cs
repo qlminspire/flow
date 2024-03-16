@@ -1,6 +1,7 @@
 ﻿using Flow.Application.Models.Debt;
 using Flow.Domain.Currencies;
 using Flow.Domain.Debts;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;
 
@@ -21,7 +22,7 @@ internal sealed class DebtService : IDebtService
 
     public async Task<DebtDto> GetAsync(Guid userId, Guid debtId, CancellationToken cancellationToken = default)
     {
-        var debt = await _unitOfWork.Debts.GetForUserAsync(userId, debtId, cancellationToken)
+        var debt = await _unitOfWork.Debts.GetForUserAsync(new UserId(userId), new DebtId(debtId), cancellationToken)
                    ?? throw new NotFoundException(nameof(debtId), debtId.ToString());
 
         return _mapper.Map(debt);
@@ -29,7 +30,7 @@ internal sealed class DebtService : IDebtService
 
     public async Task<List<DebtDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var debts = await _unitOfWork.Debts.GetAllForUserAsync(userId, cancellationToken);
+        var debts = await _unitOfWork.Debts.GetAllForUserAsync(new UserId(userId), cancellationToken);
         return _mapper.Map(debts);
     }
 
@@ -38,7 +39,7 @@ internal sealed class DebtService : IDebtService
     {
         var currencyCode = CurrencyCode.Create(createDebtDto.Currency);
 
-        var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
+        var user = await _unitOfWork.Users.GetByIdAsync(new UserId(userId), cancellationToken);
         if (user is null)
             throw new NotFoundException();
 

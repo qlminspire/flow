@@ -3,4 +3,4 @@
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class UserPreferencesRepository(FlowContext context)
-    : BaseRepository<UserPreferences>(context), IUserPreferencesRepository;
+    : BaseRepository<UserPreferences, UserPreferenceId>(context), IUserPreferencesRepository;

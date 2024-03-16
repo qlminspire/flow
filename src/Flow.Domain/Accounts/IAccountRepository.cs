@@ -1,6 +1,8 @@
-﻿namespace Flow.Domain.Accounts;
+﻿using Flow.Domain.Users;
 
-public interface IAccountRepository : IRepository<Account>
+namespace Flow.Domain.Accounts;
+
+public interface IAccountRepository : IRepository<Account, AccountId>
 {
-    Task<Account?> GetForUserAsync(Guid userId, Guid accountId, CancellationToken cancellationToken = default);
+    Task<Account?> GetForUserAsync(UserId userId, AccountId accountId, CancellationToken cancellationToken = default);
 }

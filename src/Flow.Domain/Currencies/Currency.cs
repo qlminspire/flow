@@ -1,17 +1,15 @@
-﻿using Ardalis.GuardClauses;
+﻿namespace Flow.Domain.Currencies;
 
-namespace Flow.Domain.Currencies;
-
-public sealed class Currency : AggregateRoot, IAuditable, IDeactivatable
+public sealed class Currency : AggregateRoot<CurrencyId>, IAuditable, IDeactivatable
 {
     private Currency(
-        Guid id,
+        CurrencyId id,
         CurrencyCode code,
         DateTime createdAt)
         : base(id)
     {
         Code = code;
-        CreatedAt = Guard.Against.Default(createdAt);
+        CreatedAt = createdAt;
     }
 
     private Currency()
@@ -30,7 +28,7 @@ public sealed class Currency : AggregateRoot, IAuditable, IDeactivatable
 
     public static Result<Currency> Create(CurrencyCode code, DateTime createdAt)
     {
-        var currency = new Currency(Guid.NewGuid(), code, createdAt);
+        var currency = new Currency(new CurrencyId(Guid.NewGuid()), code, createdAt);
         return currency;
     }
 }

@@ -3,14 +3,14 @@ using Flow.Domain.Users;
 
 namespace Flow.Domain.PlannedExpenses;
 
-public sealed class PlannedExpense : AggregateRoot, IAuditable
+public sealed class PlannedExpense : AggregateRoot<PlannedExpenseId>, IAuditable
 {
     private PlannedExpense(
-        Guid id,
+        PlannedExpenseId id,
         PlannedExpenseName name,
         Money amount,
-        Guid userId,
-        Guid currencyId,
+        UserId userId,
+        CurrencyId currencyId,
         DateTime createdAt
     ) : base(id)
     {
@@ -29,11 +29,11 @@ public sealed class PlannedExpense : AggregateRoot, IAuditable
 
     public Money Amount { get; private set; }
 
-    public Guid UserId { get; private set; }
+    public UserId UserId { get; private set; }
 
     public User? User { get; private set; }
 
-    public Guid CurrencyId { get; private set; }
+    public CurrencyId CurrencyId { get; private set; }
 
     public Currency Currency { get; private set; }
 
@@ -41,9 +41,10 @@ public sealed class PlannedExpense : AggregateRoot, IAuditable
 
     public DateTime? UpdatedAt { get; private set; }
 
-    public static Result<PlannedExpense> Create(Guid userId, PlannedExpenseName plannedExpenseName, Money amount,
-        Guid currencyId, DateTime createdAt)
+    public static Result<PlannedExpense> Create(UserId userId, PlannedExpenseName plannedExpenseName, Money amount,
+        CurrencyId currencyId, DateTime createdAt)
     {
-        return new PlannedExpense(Guid.NewGuid(), plannedExpenseName, amount, userId, currencyId, createdAt);
+        return new PlannedExpense(new PlannedExpenseId(Guid.NewGuid()), plannedExpenseName, amount, userId, currencyId,
+            createdAt);
     }
 }

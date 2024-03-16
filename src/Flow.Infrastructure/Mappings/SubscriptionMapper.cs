@@ -20,4 +20,6 @@ internal partial class SubscriptionMapper
     private string SubscriptionNameToString(SubscriptionName subscriptionName) => subscriptionName.Value;
 
     private string CurrencyToString(Currency currency) => currency.Code.Value;
+
+    private Guid IdToGuid(SubscriptionId id) => id.Value;
 }

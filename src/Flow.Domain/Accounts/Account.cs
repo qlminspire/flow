@@ -4,10 +4,10 @@ using Flow.Domain.Users;
 
 namespace Flow.Domain.Accounts;
 
-public abstract class Account : Entity, IAuditable, IDeactivatable
+public abstract class Account : Entity<AccountId>, IAuditable, IDeactivatable
 {
     protected Account(
-        Guid id,
+        AccountId id,
         AccountName name,
         Money balance,
         Currency currency,
@@ -32,15 +32,15 @@ public abstract class Account : Entity, IAuditable, IDeactivatable
 
     public Money Balance { get; private set; }
 
-    public Guid CurrencyId { get; private set; }
+    public CurrencyId CurrencyId { get; private set; }
 
     public Currency? Currency { get; private set; }
 
-    public Guid UserId { get; private set; }
+    public UserId UserId { get; private set; }
 
     public User? User { get; private set; }
 
-    public Guid? CategoryId { get; private set; }
+    public UserCategoryId? CategoryId { get; private set; }
 
     public UserCategory? Category { get; private set; }
 

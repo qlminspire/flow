@@ -1,6 +1,7 @@
 ﻿using Flow.Application.Models.PlannedExpense;
 using Flow.Domain.Currencies;
 using Flow.Domain.PlannedExpenses;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;
 
@@ -28,7 +29,8 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         CancellationToken cancellationToken = default)
     {
         var plannedExpense =
-            await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
+            await _unitOfWork.PlannedExpenses.GetForUserAsync(new UserId(userId),
+                new PlannedExpenseId(plannedExpenseId), cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         return _mapper.Map(plannedExpense);
@@ -36,7 +38,8 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
 
     public async Task<List<PlannedExpenseDto>> GetAllAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        var plannedExpenses = await _unitOfWork.PlannedExpenses.GetAllForUserAsync(userId, cancellationToken);
+        var plannedExpenses =
+            await _unitOfWork.PlannedExpenses.GetAllForUserAsync(new UserId(userId), cancellationToken);
         return _mapper.Map(plannedExpenses);
     }
 
@@ -51,7 +54,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var targetCurrencyCode = CurrencyCode.Create(currency);
 
         var monthlyPlannedExpenses =
-            await _unitOfWork.PlannedExpenses.GetStartingFromDateAsync(userId, startOfTheMonthDateTime,
+            await _unitOfWork.PlannedExpenses.GetStartingFromDateAsync(new UserId(userId), startOfTheMonthDateTime,
                 cancellationToken);
 
         decimal totalAmount = 0;
@@ -86,7 +89,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var amount = Money.Create(createPlannedExpenseDto.Amount);
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        var plannedExpense = PlannedExpense.Create(userId, name.Value, amount.Value, currency.Id,
+        var plannedExpense = PlannedExpense.Create(new UserId(userId), name.Value, amount.Value, currency.Id,
             createdAt);
 
         _unitOfWork.PlannedExpenses.Create(plannedExpense.Value);
@@ -98,7 +101,8 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
     public async Task DeleteAsync(Guid userId, Guid plannedExpenseId, CancellationToken cancellationToken = default)
     {
         var plannedExpense =
-            await _unitOfWork.PlannedExpenses.GetForUserAsync(userId, plannedExpenseId, cancellationToken)
+            await _unitOfWork.PlannedExpenses.GetForUserAsync(new UserId(userId),
+                new PlannedExpenseId(plannedExpenseId), cancellationToken)
             ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
 
         _unitOfWork.PlannedExpenses.Delete(plannedExpense);

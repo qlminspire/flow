@@ -2,10 +2,10 @@
 
 namespace Flow.Domain.Income;
 
-public sealed class UserIncome : Entity, IAuditable
+public sealed class UserIncome : Entity<UserIncomeId>, IAuditable
 {
     private UserIncome(
-        Guid id,
+        UserIncomeId id,
         Money amount,
         IncomeSource source,
         Account account,
@@ -28,7 +28,7 @@ public sealed class UserIncome : Entity, IAuditable
 
     public IncomeSource Source { get; private set; }
 
-    public Guid AccountId { get; private set; }
+    public AccountId AccountId { get; private set; }
 
     public Account? Account { get; private set; }
 
@@ -41,6 +41,6 @@ public sealed class UserIncome : Entity, IAuditable
     public static Result<UserIncome> Create(Money amount, IncomeSource source, Account account, DateTime? date,
         DateTime createdAt)
     {
-        return new UserIncome(Guid.NewGuid(), amount, source, account, date, createdAt);
+        return new UserIncome(new UserIncomeId(Guid.NewGuid()), amount, source, account, date, createdAt);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Flow.Domain.UserCategories;
 
-public sealed class UserCategory : Entity, IAuditable
+public sealed class UserCategory : Entity<UserCategoryId>, IAuditable
 {
     private UserCategory(
-        Guid id,
+        UserCategoryId id,
         User user,
         UserCategoryName name,
         DateTime createdAt
@@ -23,7 +23,7 @@ public sealed class UserCategory : Entity, IAuditable
 
     public UserCategoryName Name { get; private set; }
 
-    public Guid UserId { get; private set; }
+    public UserId UserId { get; private set; }
 
     public User? User { get; private set; }
 
@@ -33,6 +33,6 @@ public sealed class UserCategory : Entity, IAuditable
 
     public static Result<UserCategory> Create(User user, UserCategoryName name, DateTime createdAt)
     {
-        return new UserCategory(Guid.NewGuid(), user, name, createdAt);
+        return new UserCategory(new UserCategoryId(Guid.NewGuid()), user, name, createdAt);
     }
 }

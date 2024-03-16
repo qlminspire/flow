@@ -6,7 +6,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasConversion(x => x.Value, x => new UserId(x));
 
         builder.HasIndex(x => x.Email)
             .IsUnique();

@@ -1,13 +1,16 @@
-﻿namespace Flow.Domain.AccountOperations;
+﻿using Flow.Domain.Accounts;
+using Flow.Domain.Users;
 
-public interface IAccountOperationRepository : IRepository<AccountOperation>
+namespace Flow.Domain.AccountOperations;
+
+public interface IAccountOperationRepository : IRepository<AccountOperation, AccountOperationId>
 {
-    Task<AccountOperation?> GetForUserAsync(Guid userId, Guid operationId,
+    Task<AccountOperation?> GetForUserAsync(UserId userId, AccountOperationId operationId,
         CancellationToken cancellationToken = default);
 
-    Task<List<AccountOperation>> GetAllIncomingOperationsAsync(Guid accountId,
+    Task<List<AccountOperation>> GetAllIncomingOperationsAsync(AccountId accountId,
         CancellationToken cancellationToken = default);
 
-    Task<List<AccountOperation>> GetAllOutgoingOperationsAsync(Guid accountId,
+    Task<List<AccountOperation>> GetAllOutgoingOperationsAsync(AccountId accountId,
         CancellationToken cancellationToken = default);
 }

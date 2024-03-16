@@ -3,4 +3,4 @@
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class BankRepository(FlowContext context)
-    : BaseRepository<Bank>(context), IBankRepository;
+    : BaseRepository<Bank, BankId>(context), IBankRepository;

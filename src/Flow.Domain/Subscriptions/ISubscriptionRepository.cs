@@ -1,9 +1,11 @@
-﻿namespace Flow.Domain.Subscriptions;
+﻿using Flow.Domain.Users;
 
-public interface ISubscriptionRepository : IRepository<Subscription>
+namespace Flow.Domain.Subscriptions;
+
+public interface ISubscriptionRepository : IRepository<Subscription, SubscriptionId>
 {
-    Task<Subscription?> GetForUserAsync(Guid userId, Guid subscriptionId,
+    Task<Subscription?> GetForUserAsync(UserId userId, SubscriptionId subscriptionId,
         CancellationToken cancellationToken = default);
 
-    Task<List<Subscription>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<List<Subscription>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default);
 }

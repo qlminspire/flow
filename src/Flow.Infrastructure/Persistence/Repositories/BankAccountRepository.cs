@@ -1,11 +1,13 @@
 ﻿using Flow.Domain.Accounts;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class BankAccountRepository(FlowContext context)
-    : BaseRepository<BankAccount>(context), IBankAccountRepository
+    : BaseRepository<BankAccount, AccountId>(context), IBankAccountRepository
 {
-    public Task<BankAccount?> GetForUserAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken)
+    public Task<BankAccount?> GetForUserAsync(UserId userId, AccountId bankAccountId,
+        CancellationToken cancellationToken = default)
     {
         return All
             .Include(x => x.Bank)
@@ -14,7 +16,7 @@ internal sealed class BankAccountRepository(FlowContext context)
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == bankAccountId, cancellationToken);
     }
 
-    public Task<List<BankAccount>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken)
+    public Task<List<BankAccount>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Bank)

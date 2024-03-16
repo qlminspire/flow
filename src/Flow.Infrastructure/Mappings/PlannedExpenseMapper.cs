@@ -19,4 +19,6 @@ internal partial class PlannedExpenseMapper
     private static decimal MoneyToDecimal(Money money) => money.Value;
 
     private static string CurrencyToCurrencyCodeString(Currency currency) => currency.Code.Value;
+
+    private Guid IdToGuid(PlannedExpenseId id) => id.Value;
 }

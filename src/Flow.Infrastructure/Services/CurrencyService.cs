@@ -21,7 +21,8 @@ internal sealed class CurrencyService : ICurrencyService
 
     public async Task<CurrencyDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+        var currencyId = new CurrencyId(id);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(currencyId, cancellationToken)
                        ?? throw new NotFoundException();
 
         return _mapper.Map(currency);
@@ -49,7 +50,8 @@ internal sealed class CurrencyService : ICurrencyService
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var currency = await _unitOfWork.Currencies.GetByIdAsync(id, cancellationToken)
+        var currencyId = new CurrencyId(id);
+        var currency = await _unitOfWork.Currencies.GetByIdAsync(currencyId, cancellationToken)
                        ?? throw new NotFoundException();
 
         _unitOfWork.Currencies.Delete(currency);
@@ -58,7 +60,7 @@ internal sealed class CurrencyService : ICurrencyService
 
     public Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return _unitOfWork.Currencies.ExistsAsync(x => x.Id == id, cancellationToken);
+        return _unitOfWork.Currencies.ExistsAsync(x => x.Id.Value == id, cancellationToken);
     }
 
     public Task<bool> ExistsAsync(string code, CancellationToken cancellationToken = default)

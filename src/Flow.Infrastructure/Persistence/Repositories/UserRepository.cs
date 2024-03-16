@@ -3,4 +3,4 @@
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class UserRepository(FlowContext context)
-    : BaseRepository<User>(context), IUserRepository;
+    : BaseRepository<User, UserId>(context), IUserRepository;

@@ -20,4 +20,6 @@ internal partial class CashAccountMapper
     private string AccountNameToString(AccountName accountName) => accountName.Value;
 
     private string CategoryToString(UserCategory userCategory) => userCategory.Name.Value;
+
+    private Guid IdToGuid(AccountId id) => id.Value;
 }

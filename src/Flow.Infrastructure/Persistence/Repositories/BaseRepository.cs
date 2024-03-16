@@ -2,8 +2,9 @@
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
-internal abstract class BaseRepository<TEntity> : IRepository<TEntity>
-    where TEntity : Entity
+internal abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
+    where TEntity : Entity<TKey>
+    where TKey : EntityId
 {
     private readonly FlowContext _context;
     protected readonly DbSet<TEntity> All;
@@ -66,9 +67,9 @@ internal abstract class BaseRepository<TEntity> : IRepository<TEntity>
             : query.ToListAsync(cancellationToken);
     }
 
-    public Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default)
     {
-        return All.FindAsync(new object?[] { id }, cancellationToken).AsTask();
+        return All.FindAsync([id.Value], cancellationToken).AsTask();
     }
 
     public void Create(TEntity entity)

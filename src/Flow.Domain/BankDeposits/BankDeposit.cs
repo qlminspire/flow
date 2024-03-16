@@ -1,11 +1,12 @@
 ﻿using Flow.Domain.Accounts;
+using Flow.Domain.Banks;
 using Flow.Domain.Currencies;
 using Flow.Domain.UserCategories;
 using Flow.Domain.Users;
 
 namespace Flow.Domain.BankDeposits;
 
-public sealed class BankDeposit : Entity, IAuditable
+public sealed class BankDeposit : Entity<BankDepositId>, IAuditable
 {
     private BankDeposit()
     {
@@ -13,11 +14,11 @@ public sealed class BankDeposit : Entity, IAuditable
 
     public Money Amount { get; private set; }
 
-    public Guid CurrencyId { get; private set; }
+    public CurrencyId CurrencyId { get; private set; }
 
     public Currency? Currency { get; private set; }
 
-    public Guid UserId { get; private set; }
+    public UserId UserId { get; private set; }
 
     public User? User { get; private set; }
 
@@ -29,11 +30,11 @@ public sealed class BankDeposit : Entity, IAuditable
 
     public DateTimeOffset? EndDate { get; private set; }
 
-    public Guid RefundAccountId { get; private set; }
+    public AccountId RefundAccountId { get; private set; }
 
     public BankAccount? RefundAccount { get; private set; }
 
-    public Guid? CategoryId { get; private set; }
+    public UserCategoryId? CategoryId { get; private set; }
 
     public UserCategory? Category { get; private set; }
 

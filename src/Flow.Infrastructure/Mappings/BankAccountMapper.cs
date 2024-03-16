@@ -25,4 +25,6 @@ internal partial class BankAccountMapper
     private string BankToString(Bank bank) => bank.Name.Value;
 
     private string IbanToString(Iban iban) => iban.Value;
+
+    private Guid IdToGuid(AccountId id) => id.Value;
 }

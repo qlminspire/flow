@@ -1,19 +1,15 @@
-﻿using Ardalis.GuardClauses;
+﻿namespace Flow.Domain.Banks;
 
-namespace Flow.Domain.Banks;
-
-public sealed class Bank : AggregateRoot, IAuditable, IDeactivatable
+public sealed class Bank : AggregateRoot<BankId>, IAuditable, IDeactivatable
 {
     private Bank(
-        Guid id,
+        BankId id,
         BankName name,
         DateTime createdAt)
         : base(id)
     {
-        Guard.Against.NullOrWhiteSpace(name.Value);
-
         Name = name;
-        CreatedAt = Guard.Against.Default(createdAt);
+        CreatedAt = createdAt;
     }
 
     private Bank()
@@ -32,7 +28,7 @@ public sealed class Bank : AggregateRoot, IAuditable, IDeactivatable
 
     public static Result<Bank> Create(BankName bankName, DateTime createdAt)
     {
-        var bank = new Bank(Guid.NewGuid(), bankName, createdAt);
+        var bank = new Bank(new BankId(Guid.NewGuid()), bankName, createdAt);
 
         return bank;
     }

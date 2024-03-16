@@ -9,7 +9,7 @@ namespace Flow.Domain.Accounts;
 public sealed class BankAccount : Account
 {
     public BankAccount(
-        Guid id,
+        AccountId id,
         AccountName name,
         Money balance,
         Currency currency,
@@ -30,7 +30,7 @@ public sealed class BankAccount : Account
 
     public Iban Iban { get; private set; }
 
-    public Guid BankId { get; private set; }
+    public BankId BankId { get; private set; }
 
     public Bank? Bank { get; private set; }
 
@@ -40,6 +40,7 @@ public sealed class BankAccount : Account
         Iban iban,
         UserCategory? category, DateTime createdAt)
     {
-        return new BankAccount(Guid.NewGuid(), name, amount, currency, user, bank, iban, category, createdAt);
+        return new BankAccount(new AccountId(Guid.NewGuid()), name, amount, currency, user, bank, iban, category,
+            createdAt);
     }
 }

@@ -6,7 +6,8 @@ internal sealed class BankConfiguration : IEntityTypeConfiguration<Bank>
 {
     public void Configure(EntityTypeBuilder<Bank> builder)
     {
-        builder.Property(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasConversion(x => x.Value, x => new BankId(x));
 
         builder.HasIndex(x => x.Name)
             .IsUnique();
@@ -15,7 +16,5 @@ internal sealed class BankConfiguration : IEntityTypeConfiguration<Bank>
             .HasMaxLength(BankName.MaxLength)
             .HasConversion(x => x.Value,
                 x => BankName.Create(x).Value);
-
-        builder.Property(x => x.IsDeactivated);
     }
 }

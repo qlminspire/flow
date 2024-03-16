@@ -18,7 +18,8 @@ internal sealed class BankService : IBankService
 
     public async Task<BankDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+        var bankId = new BankId(id);
+        var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
                    ?? throw new NotFoundException();
 
         return _mapper.Map(bank);
@@ -45,7 +46,8 @@ internal sealed class BankService : IBankService
 
     public async Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+        var bankId = new BankId(id);
+        var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
                    ?? throw new NotFoundException();
 
         var activatedAt = _timeProvider.GetUtcNow().UtcDateTime;
@@ -56,7 +58,8 @@ internal sealed class BankService : IBankService
 
     public async Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+        var bankId = new BankId(id);
+        var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
                    ?? throw new NotFoundException();
 
         var deactivatedAt = _timeProvider.GetUtcNow().UtcDateTime;
@@ -67,7 +70,8 @@ internal sealed class BankService : IBankService
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var bank = await _unitOfWork.Banks.GetByIdAsync(id, cancellationToken)
+        var bankId = new BankId(id);
+        var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
                    ?? throw new NotFoundException();
 
         _unitOfWork.Banks.Delete(bank);

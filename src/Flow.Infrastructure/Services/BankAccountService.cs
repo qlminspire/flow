@@ -1,6 +1,9 @@
 ﻿using Flow.Application.Models.BankAccount;
 using Flow.Domain.Accounts;
+using Flow.Domain.Banks;
 using Flow.Domain.Currencies;
+using Flow.Domain.UserCategories;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;
 
@@ -22,8 +25,10 @@ internal sealed class BankAccountService : IBankAccountService
     public async Task<BankAccountDto> GetForUserAsync(Guid userId, Guid bankAccountId,
         CancellationToken cancellationToken = default)
     {
-        var bankAccount = await _unitOfWork.BankAccounts.GetForUserAsync(userId, bankAccountId, cancellationToken)
-                          ?? throw new NotFoundException(nameof(bankAccountId), bankAccountId.ToString());
+        var bankAccount =
+            await _unitOfWork.BankAccounts.GetForUserAsync(new UserId(userId), new AccountId(bankAccountId),
+                cancellationToken)
+            ?? throw new NotFoundException(nameof(bankAccountId), bankAccountId.ToString());
 
         return _mapper.Map(bankAccount);
     }
@@ -31,14 +36,14 @@ internal sealed class BankAccountService : IBankAccountService
     public async Task<List<BankAccountDto>> GetAllForUserAsync(Guid userId,
         CancellationToken cancellationToken = default)
     {
-        var banks = await _unitOfWork.BankAccounts.GetAllForUserAsync(userId, cancellationToken);
+        var banks = await _unitOfWork.BankAccounts.GetAllForUserAsync(new UserId(userId), cancellationToken);
         return _mapper.Map(banks);
     }
 
     public async Task<BankAccountDto> CreateAsync(Guid userId, CreateBankAccountDto createBankAccountDto,
         CancellationToken cancellationToken = default)
     {
-        var user = await _unitOfWork.Users.GetByIdAsync(userId, cancellationToken);
+        var user = await _unitOfWork.Users.GetByIdAsync(new UserId(userId), cancellationToken);
         if (user is null)
             throw new NotFoundException();
 
@@ -48,13 +53,14 @@ internal sealed class BankAccountService : IBankAccountService
         if (currency is null)
             throw new NotFoundException();
 
-        var bank = await _unitOfWork.Banks.GetByIdAsync(createBankAccountDto.BankId, cancellationToken);
+        var bankId = new BankId(createBankAccountDto.BankId);
+        var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken);
         if (bank is null)
             throw new NotFoundException();
 
         var userCategory = createBankAccountDto.CategoryId.HasValue
-            ? await _unitOfWork.UserCategories.GetForUserAsync(userId,
-                createBankAccountDto.CategoryId.Value, cancellationToken)
+            ? await _unitOfWork.UserCategories.GetForUserAsync(user.Id,
+                new UserCategoryId(createBankAccountDto.CategoryId.Value), cancellationToken)
             : null;
 
         var accountName = AccountName.Create(createBankAccountDto.Name);
@@ -73,7 +79,9 @@ internal sealed class BankAccountService : IBankAccountService
 
     public async Task DeleteAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken = default)
     {
-        var bankAccount = await _unitOfWork.CashAccounts.GetForUserAsync(userId, bankAccountId, cancellationToken);
+        var bankAccount =
+            await _unitOfWork.CashAccounts.GetForUserAsync(new UserId(userId), new AccountId(bankAccountId),
+                cancellationToken);
         if (bankAccount is null)
             throw new NotFoundException();
 

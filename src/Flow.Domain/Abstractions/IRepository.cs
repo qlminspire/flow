@@ -2,8 +2,9 @@
 
 namespace Flow.Domain.Abstractions;
 
-public interface IRepository<TEntity>
+public interface IRepository<TEntity, in TKey>
     where TEntity : class
+    where TKey : EntityId
 {
     Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
@@ -22,7 +23,7 @@ public interface IRepository<TEntity>
         bool disableTracking = true,
         CancellationToken cancellationToken = default);
 
-    Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default);
 
     void Create(TEntity entity);
 

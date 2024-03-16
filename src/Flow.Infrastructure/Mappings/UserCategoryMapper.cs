@@ -12,4 +12,6 @@ internal partial class UserCategoryMapper
     public partial List<UserCategoryDto> Map(List<UserCategory> userCategories);
 
     private string UserCategoryNameToString(UserCategoryName userCategoryName) => userCategoryName.Value;
+
+    private Guid IdToGuid(UserCategoryId id) => id.Value;
 }

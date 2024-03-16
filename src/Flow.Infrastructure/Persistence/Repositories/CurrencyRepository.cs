@@ -3,7 +3,7 @@
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class CurrencyRepository(FlowContext context)
-    : BaseRepository<Currency>(context), ICurrencyRepository
+    : BaseRepository<Currency, CurrencyId>(context), ICurrencyRepository
 {
     public Task<Currency?> GetByCurrencyCodeAsync(CurrencyCode currencyCode,
         CancellationToken cancellationToken = default)

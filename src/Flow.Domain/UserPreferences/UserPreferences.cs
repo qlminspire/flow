@@ -3,10 +3,10 @@ using Flow.Domain.Users;
 
 namespace Flow.Domain.UserPreferences;
 
-public sealed class UserPreferences : Entity, IAuditable
+public sealed class UserPreferences : Entity<UserPreferenceId>, IAuditable
 {
     private UserPreferences(
-        Guid id,
+        UserPreferenceId id,
         User user,
         Currency currency,
         DateTime createdAt)
@@ -22,11 +22,11 @@ public sealed class UserPreferences : Entity, IAuditable
     {
     }
 
-    public Guid CurrencyId { get; private set; }
+    public CurrencyId CurrencyId { get; private set; }
 
     public Currency? Currency { get; private set; }
 
-    public Guid UserId { get; private set; }
+    public UserId UserId { get; private set; }
 
     public User? User { get; private set; }
 
@@ -36,6 +36,6 @@ public sealed class UserPreferences : Entity, IAuditable
 
     public static Result<UserPreferences> Create(User user, Currency currency, DateTime createdAt)
     {
-        return new UserPreferences(Guid.NewGuid(), user, currency, createdAt);
+        return new UserPreferences(new UserPreferenceId(Guid.NewGuid()), user, currency, createdAt);
     }
 }

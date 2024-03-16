@@ -2,9 +2,10 @@
 
 namespace Flow.Domain.AccountOperations;
 
-public sealed class AccountOperation : Entity, IAuditable
+public sealed class AccountOperation : Entity<AccountOperationId>, IAuditable
 {
-    public AccountOperation(Guid id,
+    public AccountOperation(
+        AccountOperationId id,
         Account fromAccount,
         Account toAccount,
         Money amount,
@@ -23,11 +24,11 @@ public sealed class AccountOperation : Entity, IAuditable
 
     public Money Amount { get; private set; }
 
-    public Guid FromAccountId { get; private set; }
+    public AccountId FromAccountId { get; private set; }
 
     public Account? FromAccount { get; private set; }
 
-    public Guid ToAccountId { get; private set; }
+    public AccountId ToAccountId { get; private set; }
 
     public Account? ToAccount { get; private set; }
 
@@ -47,7 +48,7 @@ public sealed class AccountOperation : Entity, IAuditable
         if (money.IsZero())
             return Result.Failure<AccountOperation>(AccountOperationErrors.ZeroAmount);
 
-        var accountOperation = new AccountOperation(Guid.NewGuid(), fromAccount,
+        var accountOperation = new AccountOperation(new AccountOperationId(Guid.NewGuid()), fromAccount,
             toAccount, money, date);
 
         return accountOperation;

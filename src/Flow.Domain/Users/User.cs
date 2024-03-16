@@ -2,10 +2,10 @@
 
 namespace Flow.Domain.Users;
 
-public sealed class User : AggregateRoot, IAuditable
+public sealed class User : AggregateRoot<UserId>, IAuditable
 {
     private User(
-        Guid id,
+        UserId id,
         Email email,
         PasswordHash passwordHash,
         DateTime createdAt)
@@ -30,9 +30,9 @@ public sealed class User : AggregateRoot, IAuditable
 
     public static Result<User> Create(Email email, PasswordHash passwordHash, DateTime createdAt)
     {
-        var user = new User(Guid.NewGuid(), email, passwordHash, createdAt);
+        var user = new User(new UserId(Guid.NewGuid()), email, passwordHash, createdAt);
 
-        user.RaiseDomainEvent(new UserCreatedDomainEvent(new UserId(user.Id)));
+        user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id));
 
         return user;
     }
@@ -42,7 +42,7 @@ public sealed class User : AggregateRoot, IAuditable
         Email = email;
         UpdatedAt = updatedAt;
 
-        RaiseDomainEvent(new UserEmailChangedDomainEvent(new UserId(Id)));
+        RaiseDomainEvent(new UserEmailChangedDomainEvent(Id));
 
         return Result.Success();
     }

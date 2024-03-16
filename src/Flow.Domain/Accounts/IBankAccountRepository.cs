@@ -1,8 +1,11 @@
-﻿namespace Flow.Domain.Accounts;
+﻿using Flow.Domain.Users;
 
-public interface IBankAccountRepository : IRepository<BankAccount>
+namespace Flow.Domain.Accounts;
+
+public interface IBankAccountRepository : IRepository<BankAccount, AccountId>
 {
-    Task<BankAccount?> GetForUserAsync(Guid userId, Guid bankAccountId, CancellationToken cancellationToken = default);
+    Task<BankAccount?> GetForUserAsync(UserId userId, AccountId bankAccountId,
+        CancellationToken cancellationToken = default);
 
-    Task<List<BankAccount>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<List<BankAccount>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default);
 }

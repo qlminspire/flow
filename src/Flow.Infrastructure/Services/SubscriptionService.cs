@@ -1,6 +1,7 @@
 ﻿using Flow.Application.Models.Subscription;
 using Flow.Domain.Currencies;
 using Flow.Domain.Subscriptions;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;
 
@@ -24,7 +25,8 @@ internal sealed class SubscriptionService : ISubscriptionService
     public async Task<SubscriptionDto> GetForUserAsync(Guid userId, Guid subscriptionId,
         CancellationToken cancellationToken = default)
     {
-        var subscription = await _unitOfWork.Subscriptions.GetForUserAsync(userId, subscriptionId, cancellationToken)
+        var subscription = await _unitOfWork.Subscriptions.GetForUserAsync(new UserId(userId),
+                               new SubscriptionId(subscriptionId), cancellationToken)
                            ?? throw new NotFoundException();
         return _mapper.Map(subscription);
     }
@@ -32,7 +34,7 @@ internal sealed class SubscriptionService : ISubscriptionService
     public async Task<List<SubscriptionDto>> GetAllForUserAsync(Guid userId,
         CancellationToken cancellationToken = default)
     {
-        var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(userId, cancellationToken);
+        var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(new UserId(userId), cancellationToken);
         return _mapper.Map(subscriptions);
     }
 
@@ -41,7 +43,7 @@ internal sealed class SubscriptionService : ISubscriptionService
     {
         var targetCurrencyCode = CurrencyCode.Create(currency);
         // TODO: Check currency in database
-        var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(userId, cancellationToken);
+        var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(new UserId(userId), cancellationToken);
 
         var total = 0.0m;
         foreach (var subscription in subscriptions)
@@ -71,7 +73,7 @@ internal sealed class SubscriptionService : ISubscriptionService
         var paymentFrequency = PaymentFrequencyMonths.Create(createSubscriptionDto.PaymentFrequencyMonths);
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        var subscription = Subscription.Create(userId, name.Value, price.Value,
+        var subscription = Subscription.Create(new UserId(userId), name.Value, price.Value,
             paymentFrequency.Value, currency, createdAt);
 
         _unitOfWork.Subscriptions.Create(subscription.Value);
@@ -83,7 +85,8 @@ internal sealed class SubscriptionService : ISubscriptionService
     public async Task DeleteAsync(Guid userId, Guid subscriptionId, CancellationToken cancellationToken = default)
     {
         var existingSubscription =
-            await _unitOfWork.Subscriptions.GetForUserAsync(userId, subscriptionId, cancellationToken)
+            await _unitOfWork.Subscriptions.GetForUserAsync(new UserId(userId), new SubscriptionId(subscriptionId),
+                cancellationToken)
             ?? throw new NotFoundException();
 
         _unitOfWork.Subscriptions.Delete(existingSubscription);

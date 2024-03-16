@@ -1,11 +1,12 @@
 ﻿using Flow.Domain.Subscriptions;
+using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence.Repositories;
 
 internal sealed class SubscriptionRepository(FlowContext context)
-    : BaseRepository<Subscription>(context), ISubscriptionRepository
+    : BaseRepository<Subscription, SubscriptionId>(context), ISubscriptionRepository
 {
-    public Task<Subscription?> GetForUserAsync(Guid userId, Guid subscriptionId,
+    public Task<Subscription?> GetForUserAsync(UserId userId, SubscriptionId subscriptionId,
         CancellationToken cancellationToken = default)
     {
         return All
@@ -13,7 +14,7 @@ internal sealed class SubscriptionRepository(FlowContext context)
             .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == subscriptionId, cancellationToken);
     }
 
-    public Task<List<Subscription>> GetAllForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+    public Task<List<Subscription>> GetAllForUserAsync(UserId userId, CancellationToken cancellationToken = default)
     {
         return All.AsNoTrackingWithIdentityResolution()
             .Include(x => x.Currency)

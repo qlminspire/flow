@@ -1,3 +1,3 @@
 ﻿namespace Flow.Domain.UserPreferences;
 
-public interface IUserPreferencesRepository : IRepository<UserPreferences>;
+public interface IUserPreferencesRepository : IRepository<UserPreferences, UserPreferenceId>;

@@ -15,7 +15,7 @@ public abstract class AggregateRoot : Entity
 
     public List<IDomainEvent> GetDomainEvents()
     {
-        return _domainEvents;
+        return _domainEvents.ToList();
     }
 
     public void ClearDomainEvents()

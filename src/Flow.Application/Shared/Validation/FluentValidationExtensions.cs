@@ -6,8 +6,8 @@ namespace Flow.Application.Shared.Validation;
 
 public static class FluentValidationExtensions
 {
-    public static IRuleBuilderOptions<T, string> MustBeValueObject<T, TValueObject>(
-        this IRuleBuilder<T, string> ruleBui1der, Func<string, Result<TValueObject>> factoryMethod)
+    public static IRuleBuilderOptions<T, string?> MustBeValueObject<T, TValueObject>(
+        this IRuleBuilder<T, string?> ruleBui1der, Func<string?, Result<TValueObject>> factoryMethod)
         where TValueObject : IValueObject
     {
         return (IRuleBuilderOptions<T, string>)ruleBui1der.Custom((value, context) =>
@@ -18,8 +18,10 @@ public static class FluentValidationExtensions
 
             var failure = new ValidationFailure
             {
+                PropertyName = context.PropertyPath,
                 ErrorCode = result.Error.Code,
-                ErrorMessage = result.Error.Name
+                ErrorMessage = result.Error.Name,
+                AttemptedValue = value
             };
             context.AddFailure(failure);
         });

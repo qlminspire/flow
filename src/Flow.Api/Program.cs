@@ -3,13 +3,13 @@ using Flow.Api.Exceptions;
 using Flow.Api.Extensions;
 using Flow.Api.HealthChecks;
 using Flow.Api.Settings;
+using Flow.Application;
 using Flow.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddInfrastructure();
 
 builder.Services.AddOptions<DatabaseSettings>()
     .BindConfiguration(DatabaseSettings.ConfigurationSection)
@@ -18,6 +18,8 @@ builder.Services.AddOptions<DatabaseSettings>()
 
 var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
 builder.Services.AddDatabase(options => { options.UseNpgsql(connectionString); });
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
 builder.Services.AddControllers();
 

@@ -1,5 +1,4 @@
-﻿using Flow.Domain.Banks;
-using Flow.Domain.Users;
+﻿using Flow.Domain.Users;
 
 namespace Flow.Domain.BankDeposits;
 

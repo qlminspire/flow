@@ -4,9 +4,6 @@ public sealed record CurrencyCode : IValueObject
 {
     public const int Length = 3;
 
-    private static readonly Error IncorrectLength =
-        new("Error.IncorrectLength", "The provided string is not correct length");
-
     private CurrencyCode(string value)
     {
         Value = value;
@@ -17,11 +14,11 @@ public sealed record CurrencyCode : IValueObject
     public static Result<CurrencyCode> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<CurrencyCode>(Error.NullValue);
+            return Result.Failure<CurrencyCode>(Error.NullValueError);
 
         var code = value.Trim().ToUpperInvariant();
         if (code.Length is not Length)
-            return Result.Failure<CurrencyCode>(IncorrectLength);
+            return Result.Failure<CurrencyCode>(Error.ExactLengthError(Length));
 
         return new CurrencyCode(code);
     }

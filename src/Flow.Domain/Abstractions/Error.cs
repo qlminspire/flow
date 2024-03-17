@@ -4,11 +4,20 @@ public record Error(string Code, string Name)
 {
     public static readonly Error None = new(string.Empty, string.Empty);
 
-    public static readonly Error NullValue = new("Error.NullValue", "Null value was provided");
+    public static readonly Error NullValueError = new("Common.NullValue", "Value must not be null");
 
-    public static readonly Error LessThanMinValue =
-        new("Error.LessThanMinValue", "The provided value less than min value");
+    public static readonly Func<decimal, Error> MinValueError = value =>
+        new Error("Common.LessThanMinValue", $"Value must be larger than {value}");
 
-    public static readonly Error GreaterThanMaxValue =
-        new("Error.GreaterThanMaxValue", "The provided value greater than max value");
+    public static readonly Func<decimal, Error> MaxValueError = value =>
+        new Error("Common.GreaterThanMaxValue", $"Value must be less than {value}");
+
+    public static readonly Func<int, Error> MinLengthError = length =>
+        new Error("Common.LessThanMinLength", $"The length must be larger than {length}");
+
+    public static readonly Func<int, Error> MaxLengthError = length =>
+        new Error("Common.GreaterThanMaxLength", $"The length must be less than {length}");
+
+    public static readonly Func<int, Error> ExactLengthError =
+        length => new Error("Common.ExactLength", $"The length must be {length}");
 }

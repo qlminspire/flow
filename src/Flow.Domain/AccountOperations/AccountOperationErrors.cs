@@ -2,7 +2,7 @@
 
 public static class AccountOperationErrors
 {
-    private const string BaseErrorCode = "AccountOperation.Restricted";
+    private const string BaseErrorCode = "AccountOperation";
 
     public static readonly Error OperationDeleted = new(
         $"{BaseErrorCode}.Deleted", "The operation is deleted");

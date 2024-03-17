@@ -30,7 +30,7 @@ public class Result
 
     public static Result<TValue> Create<TValue>(TValue? value) => value is not null
         ? Success<TValue>(value)
-        : Failure<TValue>(Error.NullValue);
+        : Failure<TValue>(Error.NullValueError);
 }
 
 public class Result<TValue> : Result
@@ -49,7 +49,7 @@ public class Result<TValue> : Result
     [NotNull]
     public TValue Value => IsSuccess
         ? _value!
-        : throw new InvalidOperationException("The value of a failure result can not be accessed.");
+        : throw new InvalidOperationException("The value of a failure result can not be accessed");
 
     public static implicit operator Result<TValue>(TValue? value) => Create(value);
 }

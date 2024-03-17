@@ -5,10 +5,10 @@ public sealed record PaymentFrequencyMonths : IValueObject
     private const int OneMonth = 1;
     private const int TwoYears = 24;
 
-    public static readonly Error LessThanOneMonth = new("PaymentFrequencyMonths.LessThanOneMonth",
+    private static readonly Error LessThanOneMonthError = new("PaymentFrequencyMonths.LessThanOneMonth",
         "Payment frequency must be equal or larger than 1 month");
 
-    public static readonly Error MoreThanTwoYears = new("PaymentFrequencyMonths.MoreThanTwoYears",
+    private static readonly Error MoreThanTwoYearsError = new("PaymentFrequencyMonths.MoreThanTwoYears",
         "Payment frequency must be equal or less than 24 months");
 
     private PaymentFrequencyMonths(int value)
@@ -21,10 +21,10 @@ public sealed record PaymentFrequencyMonths : IValueObject
     public static Result<PaymentFrequencyMonths> Create(int value)
     {
         if (value < OneMonth)
-            return Result.Failure<PaymentFrequencyMonths>(LessThanOneMonth);
+            return Result.Failure<PaymentFrequencyMonths>(LessThanOneMonthError);
 
         if (value > TwoYears)
-            return Result.Failure<PaymentFrequencyMonths>(MoreThanTwoYears);
+            return Result.Failure<PaymentFrequencyMonths>(MoreThanTwoYearsError);
 
         return new PaymentFrequencyMonths(value);
     }

@@ -15,14 +15,14 @@ public sealed record SubscriptionName : IValueObject
     public static Result<SubscriptionName> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<SubscriptionName>(Error.NullValue);
+            return Result.Failure<SubscriptionName>(Error.NullValueError);
 
         var trimmedValue = value.Trim();
         if (trimmedValue.Length < MinLength)
-            return Result.Failure<SubscriptionName>(Error.LessThanMinValue);
+            return Result.Failure<SubscriptionName>(Error.MinLengthError(MinLength));
 
         if (trimmedValue.Length > MaxLength)
-            return Result.Failure<SubscriptionName>(Error.GreaterThanMaxValue);
+            return Result.Failure<SubscriptionName>(Error.MaxLengthError(MaxLength));
 
         return new SubscriptionName(trimmedValue);
     }

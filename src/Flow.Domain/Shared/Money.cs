@@ -2,7 +2,7 @@
 
 public record Money : IValueObject
 {
-    public static readonly Error Negative = new("Money.Negative", "Money must not be negative");
+    private const decimal MinValue = 0m;
 
     private Money(decimal value)
     {
@@ -23,8 +23,8 @@ public record Money : IValueObject
 
     public static Result<Money> Create(decimal value)
     {
-        if (value < 0)
-            return Result.Failure<Money>(Negative);
+        if (value < MinValue)
+            return Result.Failure<Money>(Error.MinValueError(MinValue));
 
         return new Money(value);
     }

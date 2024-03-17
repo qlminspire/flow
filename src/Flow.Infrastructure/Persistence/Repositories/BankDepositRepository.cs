@@ -1,5 +1,4 @@
 ﻿using Flow.Domain.BankDeposits;
-using Flow.Domain.Banks;
 using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Persistence.Repositories;

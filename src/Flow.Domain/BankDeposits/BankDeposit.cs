@@ -1,5 +1,4 @@
 ﻿using Flow.Domain.Accounts;
-using Flow.Domain.Banks;
 using Flow.Domain.Currencies;
 using Flow.Domain.UserCategories;
 using Flow.Domain.Users;

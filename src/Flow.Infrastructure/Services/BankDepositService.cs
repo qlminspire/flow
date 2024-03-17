@@ -1,6 +1,5 @@
 ﻿using Flow.Application.Models.BankDeposit;
 using Flow.Domain.BankDeposits;
-using Flow.Domain.Banks;
 using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;

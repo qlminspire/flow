@@ -15,15 +15,14 @@ public sealed record PlannedExpenseName : IValueObject
     public static Result<PlannedExpenseName> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<PlannedExpenseName>(Error.NullValue);
+            return Result.Failure<PlannedExpenseName>(Error.NullValueError);
 
         var trimmedValue = value.Trim();
-
         if (trimmedValue.Length < MinLength)
-            return Result.Failure<PlannedExpenseName>(Error.LessThanMinValue);
+            return Result.Failure<PlannedExpenseName>(Error.MinLengthError(MinLength));
 
         if (trimmedValue.Length > MaxLength)
-            return Result.Failure<PlannedExpenseName>(Error.GreaterThanMaxValue);
+            return Result.Failure<PlannedExpenseName>(Error.MaxLengthError(MaxLength));
 
         return new PlannedExpenseName(value);
     }

@@ -15,14 +15,14 @@ public sealed record PasswordHash : IValueObject
     public static Result<PasswordHash> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<PasswordHash>(Error.NullValue);
+            return Result.Failure<PasswordHash>(Error.NullValueError);
 
         var trimmedValue = value.Trim();
         if (trimmedValue.Length < MinLength)
-            return Result.Failure<PasswordHash>(Error.LessThanMinValue);
+            return Result.Failure<PasswordHash>(Error.MinLengthError(MinLength));
 
         if (trimmedValue.Length > MaxLength)
-            return Result.Failure<PasswordHash>(Error.GreaterThanMaxValue);
+            return Result.Failure<PasswordHash>(Error.MaxLengthError(MaxLength));
 
         return new PasswordHash(trimmedValue);
     }

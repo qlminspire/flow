@@ -15,14 +15,14 @@ public sealed record Iban : IValueObject
     public static Result<Iban> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<Iban>(Error.NullValue);
+            return Result.Failure<Iban>(Error.NullValueError);
 
-        var trimmedValue = value.Trim();
+        var trimmedValue = value.Trim().ToUpperInvariant();
         if (trimmedValue.Length < MinLength)
-            return Result.Failure<Iban>(Error.LessThanMinValue);
+            return Result.Failure<Iban>(Error.MinLengthError(MinLength));
 
         if (trimmedValue.Length > MaxLength)
-            return Result.Failure<Iban>(Error.GreaterThanMaxValue);
+            return Result.Failure<Iban>(Error.MaxLengthError(MaxLength));
 
         return new Iban(trimmedValue);
     }

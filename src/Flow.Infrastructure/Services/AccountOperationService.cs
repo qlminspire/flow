@@ -23,9 +23,8 @@ internal sealed class AccountOperationService : IAccountOperationService
     public async Task<AccountOperationDto> GetAsync(Guid userId, Guid accountOperationId,
         CancellationToken cancellationToken = default)
     {
-        var accountOperation =
-            await _unitOfWork.AccountOperations.GetForUserAsync(new UserId(userId),
-                new AccountOperationId(accountOperationId), cancellationToken);
+        var accountOperation = await _unitOfWork.AccountOperations.GetForUserAsync(new UserId(userId),
+            new AccountOperationId(accountOperationId), cancellationToken);
         if (accountOperation is null)
             throw new NotFoundException(accountOperationId);
 

@@ -15,14 +15,14 @@ public sealed record DebtName : IValueObject
     public static Result<DebtName> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<DebtName>(Error.NullValue);
+            return Result.Failure<DebtName>(Error.NullValueError);
 
         var trimmedValue = value.Trim();
         if (trimmedValue.Length < MinLength)
-            return Result.Failure<DebtName>(Error.LessThanMinValue);
+            return Result.Failure<DebtName>(Error.MinLengthError(MinLength));
 
         if (trimmedValue.Length > MaxLength)
-            return Result.Failure<DebtName>(Error.GreaterThanMaxValue);
+            return Result.Failure<DebtName>(Error.MaxLengthError(MaxLength));
 
         return new DebtName(trimmedValue);
     }

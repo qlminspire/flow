@@ -15,14 +15,14 @@ public sealed record AccountName : IValueObject
     public static Result<AccountName> Create(string? value)
     {
         if (value is null)
-            return Result.Failure<AccountName>(Error.NullValue);
+            return Result.Failure<AccountName>(Error.NullValueError);
 
         var trimmedValue = value.Trim();
         if (trimmedValue.Length < MinLength)
-            return Result.Failure<AccountName>(Error.LessThanMinValue);
+            return Result.Failure<AccountName>(Error.MinLengthError(MinLength));
 
         if (trimmedValue.Length > MaxLength)
-            return Result.Failure<AccountName>(Error.GreaterThanMaxValue);
+            return Result.Failure<AccountName>(Error.MaxLengthError(MaxLength));
 
         return new AccountName(trimmedValue);
     }

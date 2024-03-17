@@ -1,4 +1,5 @@
 ﻿using Flow.Application.Models.Currency;
+using Flow.Application.Shared.Validation;
 using Flow.Domain.Currencies;
 
 namespace Flow.Infrastructure.Services;
@@ -37,15 +38,18 @@ internal sealed class CurrencyService : ICurrencyService
     public async Task<CurrencyDto> CreateAsync(CreateCurrencyDto createCurrencyDto,
         CancellationToken cancellationToken = default)
     {
-        var currencyCode = CurrencyCode.Create(createCurrencyDto.Code);
+        var currencyCode = Ensure.Result.Success(CurrencyCode.Create(createCurrencyDto.Code));
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        var currency = Currency.Create(currencyCode.Value, createdAt);
+        var currencyExists = await _unitOfWork.Currencies.ExistsAsync(x => x.Code == currencyCode, cancellationToken);
+        Ensure.NotExists<Currency>(currencyExists);
 
-        _unitOfWork.Currencies.Create(currency.Value);
+        var currency = Ensure.Result.Success(Currency.Create(currencyCode, createdAt));
+
+        _unitOfWork.Currencies.Create(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(currency.Value);
+        return _mapper.Map(currency);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)

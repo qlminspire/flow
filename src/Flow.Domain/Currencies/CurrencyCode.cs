@@ -16,7 +16,7 @@ public sealed record CurrencyCode : IValueObject
         if (value is null)
             return Result.Failure<CurrencyCode>(Error.NullValueError);
 
-        var code = value.Trim().ToUpperInvariant();
+        var code = string.Join(string.Empty, value.Where(char.IsLetter)).ToUpperInvariant();
         if (code.Length is not Length)
             return Result.Failure<CurrencyCode>(Error.ExactLengthError(Length));
 

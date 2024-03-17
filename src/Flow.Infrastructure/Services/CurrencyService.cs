@@ -13,8 +13,6 @@ internal sealed class CurrencyService : ICurrencyService
 
     public CurrencyService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
-
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
         _mapper = new CurrencyMapper();

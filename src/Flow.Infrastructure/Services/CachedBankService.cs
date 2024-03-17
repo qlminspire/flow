@@ -13,9 +13,6 @@ internal sealed class CachedBankService : IBankService
 
     public CachedBankService(IBankService bankService, IMemoryCache memoryCache)
     {
-        ArgumentNullException.ThrowIfNull(bankService);
-        ArgumentNullException.ThrowIfNull(memoryCache);
-
         _bankService = bankService;
         _memoryCache = memoryCache;
     }

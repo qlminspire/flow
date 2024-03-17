@@ -13,8 +13,6 @@ internal sealed class AccountOperationService : IAccountOperationService
 
     public AccountOperationService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
-
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
         _mapper = new AccountOperationMapper();

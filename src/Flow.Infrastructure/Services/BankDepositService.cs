@@ -12,8 +12,6 @@ internal class BankDepositService : IBankDepositService
 
     public BankDepositService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
-
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
         _mapper = new BankDepositMapper();

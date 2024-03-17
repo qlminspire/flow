@@ -12,8 +12,6 @@ internal sealed class UserCategoryService : IUserCategoryService
 
     public UserCategoryService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
     {
-        ArgumentNullException.ThrowIfNull(unitOfWork);
-
         _unitOfWork = unitOfWork;
         _timeProvider = timeProvider;
 

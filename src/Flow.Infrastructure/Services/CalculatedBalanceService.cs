@@ -8,7 +8,6 @@ internal sealed class CalculatedBalanceService : ICalculatedBalanceService
 
     //public CalculatedBalanceService(IUnitOfWork unitOfWork)
     //{
-    //    ArgumentNullException.ThrowIfNull(unitOfWork);
 
     //    _unitOfWork = unitOfWork;
     //}

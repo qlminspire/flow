@@ -28,7 +28,7 @@ public class CashAccountsController : BaseController
     /// <returns>The user cash account</returns>
     [HttpGet("{id:guid}", Name = "GetCashAccountAsync")]
     [ProducesResponseType(typeof(CashAccountResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetCashAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         var account = await _cashAccountService.GetAsync(UserId, id, cancellationToken);
@@ -73,8 +73,8 @@ public class CashAccountsController : BaseController
     /// <returns>The newly created cash account</returns>
     [HttpPost]
     [ProducesResponseType(typeof(CashAccountResponse), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateCashAccountAsync(CreateCashAccountRequest request,
         CancellationToken cancellationToken)
     {
@@ -99,8 +99,8 @@ public class CashAccountsController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteCashAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         await _cashAccountService.DeleteAsync(UserId, id, cancellationToken);

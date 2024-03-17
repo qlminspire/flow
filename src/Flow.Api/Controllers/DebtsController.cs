@@ -28,7 +28,7 @@ public class DebtsController : BaseController
     /// <returns>The user debt</returns>
     [HttpGet("{id:guid}", Name = "GetDebtAsync")]
     [ProducesResponseType(typeof(DebtResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetDebtAsync(Guid id, CancellationToken cancellationToken)
     {
         var debt = await _debtService.GetAsync(UserId, id, cancellationToken);
@@ -71,8 +71,8 @@ public class DebtsController : BaseController
     /// <returns>The newly created user debt</returns>
     [HttpPost]
     [ProducesResponseType(typeof(DebtResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateDebtAsync(CreateDebtRequest request, CancellationToken cancellationToken)
     {
         var createDebtDto = _mapper.Map(request);

@@ -28,7 +28,7 @@ public class PlannedExpensesController : BaseController
     /// <returns>The planned expense</returns>
     [HttpGet("{id:guid}", Name = "GetPlannedExpenseAsync")]
     [ProducesResponseType(typeof(PlannedExpenseResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetPlannedExpenseAsync(Guid id, CancellationToken cancellationToken)
     {
         var plannedExpense = await _plannedExpenseService.GetAsync(UserId, id, cancellationToken);
@@ -90,8 +90,8 @@ public class PlannedExpensesController : BaseController
     /// <returns>The newly created planned expense</returns>
     [HttpPost]
     [ProducesResponseType(typeof(PlannedExpenseResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreatePlannedExpenseAsync([FromBody] CreatePlannedExpenseRequest request,
         CancellationToken cancellationToken)
     {
@@ -115,8 +115,8 @@ public class PlannedExpensesController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeletePlannedExpenseAsync(Guid id, CancellationToken cancellationToken)
     {
         await _plannedExpenseService.DeleteAsync(UserId, id, cancellationToken);

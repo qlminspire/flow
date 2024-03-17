@@ -1,4 +1,5 @@
 using System.Text;
+using Flow.Api.Exceptions;
 using Flow.Api.Extensions;
 using Flow.Api.HealthChecks;
 using Flow.Api.Settings;
@@ -8,20 +9,19 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddInfrastructure();
+
 builder.Services.AddOptions<DatabaseSettings>()
     .BindConfiguration(DatabaseSettings.ConfigurationSection)
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
 var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
-
-builder.Services.AddInfrastructure();
 builder.Services.AddDatabase(options => { options.UseNpgsql(connectionString); });
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddFlowSwagger();
 
 builder.Services.AddHealthChecks()
@@ -30,9 +30,14 @@ builder.Services.AddHealthChecks()
 builder.Host.UseSerilog((context, configuration) => { configuration.ReadFrom.Configuration(context.Configuration); });
 Console.OutputEncoding = Encoding.UTF8;
 
-var app = builder.Build();
+builder.Services.AddExceptionHandler<ExceptionLoggingHandler>();
+builder.Services.AddExceptionHandler<TimeoutExceptionHandler>();
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
-app.ConfigureExceptionHandler();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -41,6 +46,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseExceptionHandler();
 app.UseHealthChecks("/_health");
 
 app.UseSerilogRequestLogging();

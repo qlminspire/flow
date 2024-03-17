@@ -12,7 +12,7 @@ public class AccountOperationsController : BaseController
     public AccountOperationsController(IAccountOperationService accountOperationsService)
     {
         _accountOperationsService = accountOperationsService;
-        _mapper = new();
+        _mapper = new AccountOperationMapper();
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public class AccountOperationsController : BaseController
     /// <returns>The account operation</returns>
     [HttpGet("{id:guid}", Name = "GetAccountOperationAsync")]
     [ProducesResponseType(typeof(AccountOperationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetAccountOperationAsync(Guid id, CancellationToken cancellationToken)
     {
         var dto = await _accountOperationsService.GetAsync(UserId, id, cancellationToken);
@@ -53,8 +53,9 @@ public class AccountOperationsController : BaseController
     /// <returns>The newly created account operation</returns>
     [HttpPost]
     [ProducesResponseType(typeof(AccountOperationResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IResult> CreateAccountOperationAsync(CreateAccountOperationRequest request, CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IResult> CreateAccountOperationAsync(CreateAccountOperationRequest request,
+        CancellationToken cancellationToken)
     {
         var createDto = _mapper.Map(request);
         var dto = await _accountOperationsService.CreateAsync(UserId, createDto, cancellationToken);

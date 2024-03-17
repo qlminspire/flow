@@ -28,7 +28,7 @@ public class UserCategoriesController : BaseController
     /// <returns>The user category</returns>
     [HttpGet("{id:guid}", Name = "GetUserCategory")]
     [ProducesResponseType(typeof(UserCategoryResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetUserCategoryAsync(Guid id, CancellationToken cancellationToken)
     {
         var userCategory = await _userCategoryService.GetForUserAsync(UserId, id, cancellationToken);
@@ -69,8 +69,8 @@ public class UserCategoriesController : BaseController
     /// <returns>The newly created user category</returns>
     [HttpPost]
     [ProducesResponseType(typeof(UserCategoryResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateUserCategoryAsync([FromBody] CreateUserCategoryRequest request,
         CancellationToken cancellationToken)
     {
@@ -93,7 +93,7 @@ public class UserCategoriesController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteUserCategoryAsync(Guid id, CancellationToken cancellationToken)
     {
         await _userCategoryService.DeleteAsync(UserId, id, cancellationToken);

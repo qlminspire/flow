@@ -28,7 +28,7 @@ public class CurrenciesController : BaseController
     /// <returns>The currency</returns>
     [HttpGet("{id:guid}", Name = "GetCurrencyAsync")]
     [ProducesResponseType(typeof(CurrencyResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
         var currency = await _currencyService.GetAsync(id, cancellationToken);
@@ -69,8 +69,8 @@ public class CurrenciesController : BaseController
     /// <returns>The newly created currency</returns>
     [HttpPost]
     [ProducesResponseType(typeof(CurrencyResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateCurrencyAsync([FromBody] CreateCurrencyRequest request,
         CancellationToken cancellationToken)
     {
@@ -93,8 +93,8 @@ public class CurrenciesController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteCurrencyAsync(Guid id, CancellationToken cancellationToken)
     {
         await _currencyService.DeleteAsync(id, cancellationToken);

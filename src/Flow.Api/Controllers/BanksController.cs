@@ -32,7 +32,7 @@ public class BanksController : BaseController
     /// <returns>The bank</returns>
     [HttpGet("{id:guid}", Name = "GetBankAsync")]
     [ProducesResponseType(typeof(BankResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetBankAsync(Guid id, CancellationToken cancellationToken)
     {
         var bank = await _bankService.GetAsync(id, cancellationToken);
@@ -74,8 +74,8 @@ public class BanksController : BaseController
     /// <returns>The newly created bank</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ICollection<BankResponse>), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateBankAsync([FromBody] CreateBankRequest request,
         CancellationToken cancellationToken)
     {
@@ -100,8 +100,8 @@ public class BanksController : BaseController
     /// <returns></returns>
     [HttpPut("{id:guid}/activate")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> ActivateBankAsync(Guid id, CancellationToken cancellationToken)
     {
         await _bankService.ActivateAsync(id, cancellationToken);
@@ -121,8 +121,8 @@ public class BanksController : BaseController
     /// <returns></returns>
     [HttpPut("{id:guid}/deactivate")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeactivateBankAsync(Guid id, CancellationToken cancellationToken)
     {
         await _bankService.DeactivateAsync(id, cancellationToken);
@@ -142,8 +142,8 @@ public class BanksController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteBankAsync(Guid id, CancellationToken cancellationToken)
     {
         await _bankService.DeleteAsync(id, cancellationToken);

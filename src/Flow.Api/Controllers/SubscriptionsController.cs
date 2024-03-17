@@ -28,7 +28,7 @@ public class SubscriptionsController : BaseController
     /// <returns>The user subscription</returns>
     [HttpGet("{id:guid}", Name = "GetSubscriptionAsync")]
     [ProducesResponseType(typeof(SubscriptionResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
         var subscription = await _subscriptionService.GetForUserAsync(UserId, id, cancellationToken);
@@ -92,8 +92,8 @@ public class SubscriptionsController : BaseController
     /// <returns>The newly created user subscription</returns>
     [HttpPost]
     [ProducesResponseType(typeof(SubscriptionResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> CreateSubscriptionAsync([FromBody] CreateSubscriptionRequest request,
         CancellationToken cancellationToken)
     {
@@ -116,7 +116,7 @@ public class SubscriptionsController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(typeof(IResult), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteSubscriptionAsync(Guid id, CancellationToken cancellationToken)
     {
         await _subscriptionService.DeleteAsync(UserId, id, cancellationToken);

@@ -11,7 +11,7 @@ public class BalancesController : BaseController
     public BalancesController(ICalculatedBalanceService balanceService)
     {
         _balanceService = balanceService;
-        _mapper = new();
+        _mapper = new BalanceMapper();
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class BalancesController : BaseController
     /// <returns>The user calculated balance</returns>
     [HttpGet]
     [ProducesResponseType(typeof(CalculatedBalanceResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IResult> GetCalculatedBalanceAsync(CancellationToken cancellationToken)
     {
         var calculatedBalance = await _balanceService.GetAsync(UserId, cancellationToken);

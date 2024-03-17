@@ -28,8 +28,8 @@ public class BankAccountsController : BaseController
     /// <returns>The user bank account</returns>
     [HttpGet("{id:guid}", Name = "GetBankAccountAsync")]
     [ProducesResponseType(typeof(BankAccountResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetBankAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         var dto = await _bankAccountService.GetForUserAsync(UserId, id, cancellationToken);
@@ -77,7 +77,7 @@ public class BankAccountsController : BaseController
     /// <returns>The newly created user bank account</returns>
     [HttpPost]
     [ProducesResponseType(typeof(BankAccountResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IResult> CreateBankAccountAsync(CreateBankAccountRequest request,
         CancellationToken cancellationToken)
     {
@@ -103,8 +103,8 @@ public class BankAccountsController : BaseController
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> DeleteBankAccountAsync(Guid id, CancellationToken cancellationToken)
     {
         await _bankAccountService.DeleteAsync(UserId, id, cancellationToken);

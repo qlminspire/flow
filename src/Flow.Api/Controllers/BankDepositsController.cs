@@ -28,7 +28,7 @@ public sealed class BankDepositsController : BaseController
     /// <returns>The user bank deposit</returns>
     [HttpGet("{id:guid}", Name = "GetBankDepositAsync")]
     [ProducesResponseType(typeof(BankDepositResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IResult), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IResult> GetBankDepositAsync(Guid id, CancellationToken cancellationToken)
     {
         var deposit = await _bankDepositService.GetAsync(UserId, id, cancellationToken);
@@ -75,7 +75,7 @@ public sealed class BankDepositsController : BaseController
     /// <returns>The newly create user bank deposit</returns>
     [HttpPost]
     [ProducesResponseType(typeof(BankDepositResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IResult> CreateBankDepositAsync(CreateBankDepositRequest request,
         CancellationToken cancellationToken)
     {

@@ -22,4 +22,7 @@ public record Error(string Code, string Message)
 
     public static readonly Func<int, Error> ExactLengthError =
         length => new Error("Common.ExactLength", $"The length must be {length}");
+
+    public static readonly Error AlreadyExistsError =
+        new("Common.AlreadyExists", "The entity with same value is already exists");
 }

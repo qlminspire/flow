@@ -6,6 +6,22 @@ namespace Flow.Application.Shared.Validation;
 
 public static class Ensure
 {
+    public static void NotExists<T>(bool exists)
+    {
+        if (!exists)
+            return;
+
+        throw new ValidationException(new[]
+        {
+            new ValidationFailure
+            {
+                PropertyName = typeof(T).Name,
+                ErrorCode = Error.AlreadyExistsError.Code,
+                ErrorMessage = Error.AlreadyExistsError.Message
+            }
+        });
+    }
+
     public static class Result
     {
         public static T Success<T>(Result<T> result)

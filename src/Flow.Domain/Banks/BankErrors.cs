@@ -6,7 +6,4 @@ public static class BankErrors
 
     public static readonly Error NotFound = new(
         $"{BaseCode}.NotFound", "The bank with specified identifier was not found");
-
-    public static readonly Error AlreadyExists = new(
-        $"{BaseCode}.AlreadyExists", "The bank with the same name is already exists");
 }

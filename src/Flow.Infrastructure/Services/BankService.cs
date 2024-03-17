@@ -1,4 +1,5 @@
 ﻿using Flow.Application.Models.Bank;
+using Flow.Application.Shared.Validation;
 using Flow.Domain.Banks;
 
 namespace Flow.Infrastructure.Services;
@@ -33,15 +34,19 @@ internal sealed class BankService : IBankService
 
     public async Task<BankDto> CreateAsync(CreateBankDto createBankDto, CancellationToken cancellationToken = default)
     {
-        var name = BankName.Create(createBankDto.Name);
+        var name = Ensure.Result.Success(BankName.Create(createBankDto.Name));
+
+        var bankExists = await _unitOfWork.Banks.ExistsAsync(x => x.Name == name, cancellationToken);
+        Ensure.NotExists<Bank>(bankExists);
+
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;
 
-        var bank = Bank.Create(name.Value, createdAt);
+        var createdBank = Ensure.Result.Success(Bank.Create(name, createdAt));
 
-        _unitOfWork.Banks.Create(bank.Value);
+        _unitOfWork.Banks.Create(createdBank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map(bank.Value);
+        return _mapper.Map(createdBank);
     }
 
     public async Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
@@ -60,7 +65,7 @@ internal sealed class BankService : IBankService
     {
         var bankId = new BankId(id);
         var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
-                   ?? throw new NotFoundException(id);
+                   ?? throw new NotFoundException(bankId);
 
         var deactivatedAt = _timeProvider.GetUtcNow().UtcDateTime;
         bank.Deactivate(deactivatedAt);
@@ -80,7 +85,6 @@ internal sealed class BankService : IBankService
 
     public Task<bool> ExistsAsync(string name, CancellationToken cancellationToken = default)
     {
-        var bankName = BankName.Create(name);
-        return _unitOfWork.Banks.ExistsAsync(x => x.Name == bankName.Value, cancellationToken);
+        return _unitOfWork.Banks.ExistsAsync(x => x.Name.Value == name, cancellationToken);
     }
 }

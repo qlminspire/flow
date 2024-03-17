@@ -26,7 +26,7 @@ internal sealed class UserCategoryService : IUserCategoryService
         var userCategory =
             await _unitOfWork.UserCategories.GetForUserAsync(new UserId(userId), new UserCategoryId(userCategoryId),
                 cancellationToken)
-            ?? throw new NotFoundException();
+            ?? throw new NotFoundException(userCategoryId);
         return _mapper.Map(userCategory);
     }
 
@@ -58,7 +58,7 @@ internal sealed class UserCategoryService : IUserCategoryService
         var userCategory =
             await _unitOfWork.UserCategories.GetForUserAsync(new UserId(userId), new UserCategoryId(userCategoryId),
                 cancellationToken)
-            ?? throw new NotFoundException();
+            ?? throw new NotFoundException(userCategoryId);
 
         _unitOfWork.UserCategories.Delete(userCategory);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

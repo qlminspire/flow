@@ -31,7 +31,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var plannedExpense =
             await _unitOfWork.PlannedExpenses.GetForUserAsync(new UserId(userId),
                 new PlannedExpenseId(plannedExpenseId), cancellationToken)
-            ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
+            ?? throw new NotFoundException(plannedExpenseId);
 
         return _mapper.Map(plannedExpense);
     }
@@ -103,7 +103,7 @@ internal sealed class PlannedExpenseService : IPlannedExpenseService
         var plannedExpense =
             await _unitOfWork.PlannedExpenses.GetForUserAsync(new UserId(userId),
                 new PlannedExpenseId(plannedExpenseId), cancellationToken)
-            ?? throw new NotFoundException(nameof(plannedExpenseId), plannedExpenseId.ToString());
+            ?? throw new NotFoundException(plannedExpenseId);
 
         _unitOfWork.PlannedExpenses.Delete(plannedExpense);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

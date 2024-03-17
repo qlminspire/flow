@@ -23,7 +23,7 @@ internal sealed class DebtService : IDebtService
     public async Task<DebtDto> GetAsync(Guid userId, Guid debtId, CancellationToken cancellationToken = default)
     {
         var debt = await _unitOfWork.Debts.GetForUserAsync(new UserId(userId), new DebtId(debtId), cancellationToken)
-                   ?? throw new NotFoundException(nameof(debtId), debtId.ToString());
+                   ?? throw new NotFoundException(debtId);
 
         return _mapper.Map(debt);
     }
@@ -41,7 +41,7 @@ internal sealed class DebtService : IDebtService
 
         var user = await _unitOfWork.Users.GetByIdAsync(new UserId(userId), cancellationToken);
         if (user is null)
-            throw new NotFoundException();
+            throw new NotFoundException(userId);
 
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)

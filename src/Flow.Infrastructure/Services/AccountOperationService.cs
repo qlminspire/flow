@@ -27,7 +27,7 @@ internal sealed class AccountOperationService : IAccountOperationService
             await _unitOfWork.AccountOperations.GetForUserAsync(new UserId(userId),
                 new AccountOperationId(accountOperationId), cancellationToken);
         if (accountOperation is null)
-            throw new NotFoundException(nameof(accountOperation), accountOperationId.ToString());
+            throw new NotFoundException(accountOperationId);
 
         return _mapper.Map(accountOperation);
     }
@@ -39,13 +39,13 @@ internal sealed class AccountOperationService : IAccountOperationService
         var fromAccount = await
             _unitOfWork.Accounts.GetForUserAsync(new UserId(userId), fromAccountId, cancellationToken);
         if (fromAccount is null)
-            throw new NotFoundException();
+            throw new NotFoundException(fromAccountId);
 
         var toAccountId = new AccountId(createAccountOperationDto.ToAccountId);
         var toAccount = await
             _unitOfWork.Accounts.GetForUserAsync(new UserId(userId), toAccountId, cancellationToken);
         if (toAccount is null)
-            throw new NotFoundException();
+            throw new NotFoundException(toAccountId);
 
         var amount = Money.Create(createAccountOperationDto.Amount);
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;

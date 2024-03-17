@@ -25,7 +25,7 @@ internal class BankDepositService : IBankDepositService
     {
         var bankDeposit = await _unitOfWork.BankDeposits.GetForUserAsync(new UserId(userId),
                               new BankDepositId(bankDepositId), cancellationToken)
-                          ?? throw new NotFoundException();
+                          ?? throw new NotFoundException(bankDepositId);
 
         return _mapper.Map(bankDeposit);
     }

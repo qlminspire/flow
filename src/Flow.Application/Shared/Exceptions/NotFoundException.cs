@@ -1,4 +1,6 @@
-﻿namespace Flow.Application.Shared.Exceptions;
+﻿using Flow.Domain.Abstractions;
+
+namespace Flow.Application.Shared.Exceptions;
 
 [Serializable]
 public class NotFoundException : ApplicationException
@@ -7,18 +9,13 @@ public class NotFoundException : ApplicationException
     {
     }
 
-    public NotFoundException(string message)
-        : base(message)
+    public NotFoundException(Guid key)
+        : base($"Entity {key} not found")
     {
     }
 
-    public NotFoundException(string name, string key)
-        : base($"Entity \"{name}\" ({key}) not found.")
-    {
-    }
-
-    public NotFoundException(string message, Exception inner)
-        : base(message, inner)
+    public NotFoundException(EntityId key)
+        : base($"Entity {key.Value} not found")
     {
     }
 }

@@ -23,7 +23,7 @@ internal sealed class CurrencyService : ICurrencyService
     {
         var currencyId = new CurrencyId(id);
         var currency = await _unitOfWork.Currencies.GetByIdAsync(currencyId, cancellationToken)
-                       ?? throw new NotFoundException();
+                       ?? throw new NotFoundException(currencyId);
 
         return _mapper.Map(currency);
     }
@@ -52,7 +52,7 @@ internal sealed class CurrencyService : ICurrencyService
     {
         var currencyId = new CurrencyId(id);
         var currency = await _unitOfWork.Currencies.GetByIdAsync(currencyId, cancellationToken)
-                       ?? throw new NotFoundException();
+                       ?? throw new NotFoundException(currencyId);
 
         _unitOfWork.Currencies.Delete(currency);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

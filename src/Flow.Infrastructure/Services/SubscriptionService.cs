@@ -27,7 +27,7 @@ internal sealed class SubscriptionService : ISubscriptionService
     {
         var subscription = await _unitOfWork.Subscriptions.GetForUserAsync(new UserId(userId),
                                new SubscriptionId(subscriptionId), cancellationToken)
-                           ?? throw new NotFoundException();
+                           ?? throw new NotFoundException(subscriptionId);
         return _mapper.Map(subscription);
     }
 
@@ -87,7 +87,7 @@ internal sealed class SubscriptionService : ISubscriptionService
         var existingSubscription =
             await _unitOfWork.Subscriptions.GetForUserAsync(new UserId(userId), new SubscriptionId(subscriptionId),
                 cancellationToken)
-            ?? throw new NotFoundException();
+            ?? throw new NotFoundException(subscriptionId);
 
         _unitOfWork.Subscriptions.Delete(existingSubscription);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -20,7 +20,7 @@ internal sealed class BankService : IBankService
     {
         var bankId = new BankId(id);
         var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
-                   ?? throw new NotFoundException();
+                   ?? throw new NotFoundException(bankId);
 
         return _mapper.Map(bank);
     }
@@ -48,7 +48,7 @@ internal sealed class BankService : IBankService
     {
         var bankId = new BankId(id);
         var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
-                   ?? throw new NotFoundException();
+                   ?? throw new NotFoundException(bankId);
 
         var activatedAt = _timeProvider.GetUtcNow().UtcDateTime;
         bank.Activate(activatedAt);
@@ -60,7 +60,7 @@ internal sealed class BankService : IBankService
     {
         var bankId = new BankId(id);
         var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
-                   ?? throw new NotFoundException();
+                   ?? throw new NotFoundException(id);
 
         var deactivatedAt = _timeProvider.GetUtcNow().UtcDateTime;
         bank.Deactivate(deactivatedAt);
@@ -72,7 +72,7 @@ internal sealed class BankService : IBankService
     {
         var bankId = new BankId(id);
         var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken)
-                   ?? throw new NotFoundException();
+                   ?? throw new NotFoundException(bankId);
 
         _unitOfWork.Banks.Delete(bank);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

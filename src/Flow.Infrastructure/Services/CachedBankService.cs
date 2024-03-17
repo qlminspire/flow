@@ -29,7 +29,7 @@ internal sealed class CachedBankService : IBankService
             return _bankService.GetAsync(id, cancellationToken);
         });
 
-        return bank ?? throw new NotFoundException();
+        return bank ?? throw new NotFoundException(id);
     }
 
     public async Task<List<BankDto>> GetAsync(CancellationToken cancellationToken = default)

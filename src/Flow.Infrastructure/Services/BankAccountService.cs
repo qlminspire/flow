@@ -28,7 +28,7 @@ internal sealed class BankAccountService : IBankAccountService
         var bankAccount =
             await _unitOfWork.BankAccounts.GetForUserAsync(new UserId(userId), new AccountId(bankAccountId),
                 cancellationToken)
-            ?? throw new NotFoundException(nameof(bankAccountId), bankAccountId.ToString());
+            ?? throw new NotFoundException(bankAccountId);
 
         return _mapper.Map(bankAccount);
     }
@@ -45,7 +45,7 @@ internal sealed class BankAccountService : IBankAccountService
     {
         var user = await _unitOfWork.Users.GetByIdAsync(new UserId(userId), cancellationToken);
         if (user is null)
-            throw new NotFoundException();
+            throw new NotFoundException(userId);
 
         var currencyCode = CurrencyCode.Create(createBankAccountDto.Currency);
 
@@ -56,7 +56,7 @@ internal sealed class BankAccountService : IBankAccountService
         var bankId = new BankId(createBankAccountDto.BankId);
         var bank = await _unitOfWork.Banks.GetByIdAsync(bankId, cancellationToken);
         if (bank is null)
-            throw new NotFoundException();
+            throw new NotFoundException(bankId);
 
         var userCategory = createBankAccountDto.CategoryId.HasValue
             ? await _unitOfWork.UserCategories.GetForUserAsync(user.Id,
@@ -83,7 +83,7 @@ internal sealed class BankAccountService : IBankAccountService
             await _unitOfWork.CashAccounts.GetForUserAsync(new UserId(userId), new AccountId(bankAccountId),
                 cancellationToken);
         if (bankAccount is null)
-            throw new NotFoundException();
+            throw new NotFoundException(bankAccountId);
 
         _unitOfWork.CashAccounts.Delete(bankAccount);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

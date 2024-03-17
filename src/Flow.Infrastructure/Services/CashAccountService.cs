@@ -27,7 +27,7 @@ internal sealed class CashAccountService : ICashAccountService
         var cashAccount =
             await _unitOfWork.CashAccounts.GetForUserAsync(new UserId(userId), new AccountId(cashAccountId),
                 cancellationToken)
-            ?? throw new NotFoundException(nameof(cashAccountId), cashAccountId.ToString());
+            ?? throw new NotFoundException(cashAccountId);
 
         return _mapper.Map(cashAccount);
     }
@@ -46,7 +46,7 @@ internal sealed class CashAccountService : ICashAccountService
 
         var user = await _unitOfWork.Users.GetByIdAsync(userIdentifier, cancellationToken);
         if (user is null)
-            throw new NotFoundException();
+            throw new NotFoundException(userIdentifier);
 
         var currency = await _unitOfWork.Currencies.GetByCurrencyCodeAsync(currencyCode.Value, cancellationToken);
         if (currency is null)
@@ -76,7 +76,7 @@ internal sealed class CashAccountService : ICashAccountService
             await _unitOfWork.CashAccounts.GetForUserAsync(new UserId(userId), new AccountId(cashAccountId),
                 cancellationToken);
         if (cashAccount is null)
-            throw new NotFoundException();
+            throw new NotFoundException(cashAccountId);
 
         _unitOfWork.CashAccounts.Delete(cashAccount);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -20,7 +20,7 @@ public static class FluentValidationExtensions
             {
                 PropertyName = context.PropertyPath,
                 ErrorCode = result.Error.Code,
-                ErrorMessage = result.Error.Name,
+                ErrorMessage = result.Error.Message,
                 AttemptedValue = value
             };
             context.AddFailure(failure);

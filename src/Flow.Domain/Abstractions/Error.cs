@@ -15,13 +15,13 @@ public record Error(string Code, string Message)
         new Error("Common.GreaterThanMaxValue", $"The value must be less than {value}");
 
     public static readonly Func<int, Error> MinLengthError = length =>
-        new Error("Common.LessThanMinLength", $"The length must be larger than {length}");
+        new Error("Common.LessThanMinLength", $"The length must be larger than {length} characters");
 
     public static readonly Func<int, Error> MaxLengthError = length =>
-        new Error("Common.GreaterThanMaxLength", $"The length must be less than {length}");
+        new Error("Common.GreaterThanMaxLength", $"The length must be less than {length} characters");
 
     public static readonly Func<int, Error> ExactLengthError =
-        length => new Error("Common.ExactLength", $"The length must be {length}");
+        length => new Error("Common.ExactLength", $"The length must be {length} characters");
 
     public static readonly Error AlreadyExistsError =
         new("Common.AlreadyExists", "The entity with same value is already exists");

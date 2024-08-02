@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   flow.api:
     image: ${DOCKER_REGISTRY-}flowapi

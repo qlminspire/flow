@@ -8,4 +8,10 @@ public static class ApiConstants
     {
         public const string ApplicationJson = "application/json";
     }
+
+    public static class Swagger
+    {
+        public const string ApiTitle = "Flow API";
+        public const string ApiDocsUrl = "swagger";
+    }
 }

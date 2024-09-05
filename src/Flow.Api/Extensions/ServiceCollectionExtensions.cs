@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
 
             c.SwaggerDoc(ApiConstants.Version, new OpenApiInfo
             {
-                Title = SwaggerConstants.ApiTitle,
+                Title = ApiConstants.Swagger.ApiTitle,
                 Version = ApiConstants.Version,
                 Description = "The goal of this API to make personal finance tracking simple"
             });

@@ -10,7 +10,6 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddOptions<DatabaseSettings>()
     .BindConfiguration(DatabaseSettings.ConfigurationSection)
     .ValidateDataAnnotations()

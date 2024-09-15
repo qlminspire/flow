@@ -20,7 +20,9 @@ namespace Flow.Infrastructure.Persistence.Migrations
                 table: "UserPreferences",
                 type: "uuid",
                 nullable: false,
+#pragma warning disable S4581
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+#pragma warning restore S4581
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPreferences_UserId",

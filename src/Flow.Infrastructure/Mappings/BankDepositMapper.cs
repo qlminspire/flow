@@ -12,9 +12,9 @@ internal partial class BankDepositMapper
 
     public partial List<BankDepositDto> Map(List<BankDeposit> bankDeposits);
 
-    private decimal MoneyToDecimal(Money money) => money.Value;
+    private static decimal MoneyToDecimal(Money money) => money.Value;
 
-    private string CurrencyToString(Currency currency) => currency.Code.Value;
+    private static string CurrencyToString(Currency currency) => currency.Code.Value;
 
-    private Guid IdToGuid(BankDepositId id) => id.Value;
+    private static Guid IdToGuid(BankDepositId id) => id.Value;
 }

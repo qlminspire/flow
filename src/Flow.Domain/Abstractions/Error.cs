@@ -1,4 +1,6 @@
-﻿namespace Flow.Domain.Abstractions;
+﻿#pragma warning disable CA1716
+
+namespace Flow.Domain.Abstractions;
 
 public record Error(string Code, string Message)
 {

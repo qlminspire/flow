@@ -11,7 +11,7 @@ internal partial class BankMapper
 
     public partial List<BankDto> Map(List<Bank> banks);
 
-    private string BankNameToString(BankName bankName) => bankName.Value;
+    private static string BankNameToString(BankName bankName) => bankName.Value;
 
-    private Guid IdToGuid(BankId id) => id.Value;
+    private static Guid IdToGuid(BankId id) => id.Value;
 }

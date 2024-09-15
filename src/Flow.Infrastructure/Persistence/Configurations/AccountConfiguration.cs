@@ -28,7 +28,7 @@ internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasConversion(x => x.Value, x => new UserId(x));
 
         builder.Property(x => x.CategoryId)
-            .HasConversion(x => x.Value, x => new UserCategoryId(x));
+            .HasConversion(x => x!.Value, x => new UserCategoryId(x));
 
         builder.HasOne(x => x.Currency).WithMany().OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Restrict);

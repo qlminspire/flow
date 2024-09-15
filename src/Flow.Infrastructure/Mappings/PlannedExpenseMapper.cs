@@ -20,5 +20,5 @@ internal partial class PlannedExpenseMapper
 
     private static string CurrencyToCurrencyCodeString(Currency currency) => currency.Code.Value;
 
-    private Guid IdToGuid(PlannedExpenseId id) => id.Value;
+    private static Guid IdToGuid(PlannedExpenseId id) => id.Value;
 }

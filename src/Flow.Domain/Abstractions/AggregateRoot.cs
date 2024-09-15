@@ -1,3 +1,5 @@
+#pragma warning disable CA1030
+
 namespace Flow.Domain.Abstractions;
 
 public abstract class AggregateRoot<TKey> : Entity<TKey>

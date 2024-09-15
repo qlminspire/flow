@@ -7,13 +7,11 @@ namespace Flow.Infrastructure.Services;
 internal class BankDepositService : IBankDepositService
 {
     private readonly BankDepositMapper _mapper;
-    private readonly TimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BankDepositService(IUnitOfWork unitOfWork, TimeProvider timeProvider)
+    public BankDepositService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _timeProvider = timeProvider;
         _mapper = new BankDepositMapper();
     }
 
@@ -36,8 +34,6 @@ internal class BankDepositService : IBankDepositService
     public async Task<BankDepositDto> CreateAsync(Guid userId, CreateBankDepositDto createBankDepositDto,
         CancellationToken cancellationToken = default)
     {
-        // TODO: DO THE REST
-
         var bankDeposit = BankDeposit.Create();
 
         _unitOfWork.BankDeposits.Create(bankDeposit.Value);

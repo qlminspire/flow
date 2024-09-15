@@ -42,7 +42,6 @@ internal sealed class SubscriptionService : ISubscriptionService
         CancellationToken cancellationToken = default)
     {
         var targetCurrencyCode = CurrencyCode.Create(currency);
-        // TODO: Check currency in database
         var subscriptions = await _unitOfWork.Subscriptions.GetAllForUserAsync(new UserId(userId), cancellationToken);
 
         var total = 0.0m;

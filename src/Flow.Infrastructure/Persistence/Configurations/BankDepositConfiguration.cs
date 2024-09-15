@@ -26,6 +26,6 @@ internal sealed class BankDepositConfiguration : IEntityTypeConfiguration<BankDe
             .HasConversion(x => x.Value, x => new AccountId(x));
 
         builder.Property(x => x.CategoryId)
-            .HasConversion(x => x.Value, x => new UserCategoryId(x));
+            .HasConversion(x => x!.Value, x => new UserCategoryId(x));
     }
 }

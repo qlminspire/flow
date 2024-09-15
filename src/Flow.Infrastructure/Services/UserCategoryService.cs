@@ -39,6 +39,8 @@ internal sealed class UserCategoryService : IUserCategoryService
         CancellationToken cancellationToken = default)
     {
         var user = await _unitOfWork.Users.GetByIdAsync(new UserId(userId), cancellationToken);
+        if (user is null)
+            throw new NotFoundException();
 
         var userCategoryName = UserCategoryName.Create(createUserCategoryDto.Name);
         var createdAt = _timeProvider.GetUtcNow().UtcDateTime;

@@ -11,7 +11,7 @@ internal partial class CurrencyMapper
 
     public partial List<CurrencyDto> Map(List<Currency> currencies);
 
-    private string CurrencyCodeToString(CurrencyCode currencyCode) => currencyCode.Value;
-    
-    private Guid IdToGuid(CurrencyId id) => id.Value;
+    private static string CurrencyCodeToString(CurrencyCode currencyCode) => currencyCode.Value;
+
+    private static Guid IdToGuid(CurrencyId id) => id.Value;
 }

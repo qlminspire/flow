@@ -12,14 +12,14 @@ internal partial class SubscriptionMapper
 
     public partial List<SubscriptionDto> Map(List<Subscription> subscriptions);
 
-    private int PaymentFrequencyMonthsToInt(PaymentFrequencyMonths paymentFrequencyMonths) =>
+    private static int PaymentFrequencyMonthsToInt(PaymentFrequencyMonths paymentFrequencyMonths) =>
         paymentFrequencyMonths.Value;
 
-    private decimal MoneyToDecimal(Money money) => money.Value;
+    private static decimal MoneyToDecimal(Money money) => money.Value;
 
-    private string SubscriptionNameToString(SubscriptionName subscriptionName) => subscriptionName.Value;
+    private static string SubscriptionNameToString(SubscriptionName subscriptionName) => subscriptionName.Value;
 
-    private string CurrencyToString(Currency currency) => currency.Code.Value;
+    private static string CurrencyToString(Currency currency) => currency.Code.Value;
 
-    private Guid IdToGuid(SubscriptionId id) => id.Value;
+    private static Guid IdToGuid(SubscriptionId id) => id.Value;
 }

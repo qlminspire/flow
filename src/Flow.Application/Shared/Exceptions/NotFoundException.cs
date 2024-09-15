@@ -18,4 +18,12 @@ public class NotFoundException : ApplicationException
         : base($"Entity {key.Value} not found")
     {
     }
+
+    public NotFoundException(string message) : base(message)
+    {
+    }
+
+    public NotFoundException(string message, Exception innerException) : base(message, innerException)
+    {
+    }
 }

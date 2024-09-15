@@ -29,7 +29,7 @@ internal sealed class PlannedExpenseRepository(FlowContext context)
         return All.AsNoTracking()
             .Include(x => x.Currency)
             .Where(x => x.UserId == userId &&
-                        x.CreatedAt >= fromDate) // TODO: Replace with separated Date field on PlannedExpense model
+                        x.CreatedAt >= fromDate)
             .ToListAsync(cancellationToken);
     }
 

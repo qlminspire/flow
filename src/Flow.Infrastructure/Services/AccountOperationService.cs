@@ -49,8 +49,8 @@ internal sealed class AccountOperationService : IAccountOperationService
 
         var accountOperation = AccountOperation.Create(fromAccount, toAccount, amount.Value, createdAt);
 
-        var withdrawMoneyResult = fromAccount.Withdraw(amount.Value, createdAt);
-        var addMoneyResult = toAccount.Deposit(amount.Value, createdAt);
+        // var withdrawMoneyResult = fromAccount.Withdraw(amount.Value, createdAt);
+        // var addMoneyResult = toAccount.Deposit(amount.Value, createdAt);
 
         _unitOfWork.AccountOperations.Create(accountOperation.Value);
 

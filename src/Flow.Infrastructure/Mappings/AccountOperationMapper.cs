@@ -9,7 +9,7 @@ internal partial class AccountOperationMapper
 {
     public partial AccountOperationDto Map(AccountOperation accountOperation);
 
-    private decimal MoneyToDecimal(Money money) => money.Value;
+    private static decimal MoneyToDecimal(Money money) => money.Value;
 
-    private Guid IdToGuid(AccountOperationId id) => id.Value;
+    private static Guid IdToGuid(AccountOperationId id) => id.Value;
 }

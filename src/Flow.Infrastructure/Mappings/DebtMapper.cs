@@ -6,7 +6,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-internal partial class DebtMapper
+internal sealed partial class DebtMapper
 {
     public partial DebtDto Map(Debt debt);
 

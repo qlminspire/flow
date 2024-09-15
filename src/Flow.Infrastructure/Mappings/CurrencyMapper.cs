@@ -5,7 +5,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-internal partial class CurrencyMapper
+internal sealed partial class CurrencyMapper
 {
     public partial CurrencyDto Map(Currency currency);
 

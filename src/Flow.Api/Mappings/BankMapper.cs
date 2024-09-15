@@ -6,7 +6,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Api.Mappings;
 
 [Mapper]
-internal partial class BankMapper
+internal sealed partial class BankMapper
 {
     public partial BankResponse Map(BankDto bankDto);
 

@@ -5,7 +5,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-internal partial class AccountOperationMapper
+internal sealed partial class AccountOperationMapper
 {
     public partial AccountOperationDto Map(AccountOperation accountOperation);
 

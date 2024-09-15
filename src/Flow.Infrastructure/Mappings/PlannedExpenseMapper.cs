@@ -6,7 +6,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-internal partial class PlannedExpenseMapper
+internal sealed partial class PlannedExpenseMapper
 {
     public partial PlannedExpenseDto Map(PlannedExpense plannedExpense);
 

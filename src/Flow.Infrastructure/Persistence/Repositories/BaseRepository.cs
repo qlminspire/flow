@@ -48,7 +48,7 @@ internal abstract class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKe
 
     public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        List<Expression<Func<TEntity, object>>>? includes = null, bool disableTracking = true,
+        ICollection<Expression<Func<TEntity, object>>>? includes = null, bool disableTracking = true,
         CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> query = All;

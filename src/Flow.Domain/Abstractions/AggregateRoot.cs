@@ -16,7 +16,7 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>
     {
     }
 
-    public List<IDomainEvent> GetDomainEvents()
+    public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
     {
         return _domainEvents.ToList();
     }

@@ -131,6 +131,8 @@ csharp_style_var_for_built_in_types = true:silent
 csharp_style_var_when_type_is_apparent = true:silent
 csharp_style_var_elsewhere = false:silent
 
+# diagnostic
+
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none
 
@@ -146,58 +148,30 @@ dotnet_diagnostic.CA2007.severity = none
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = none
 
-# IDE0058: Expression value is never used
-dotnet_diagnostic.IDE0058.severity = none
-
 # CA1861: Avoid constant arrays as arguments
 dotnet_diagnostic.CA1861.severity = none
 
 # CA1034: Nested types should not be visible
 dotnet_diagnostic.CA1034.severity = none
 
-# CA2227: Collection properties should be read only
-dotnet_diagnostic.CA2227.severity = none
-
-# CA2229: Implement serialization constructors
-dotnet_diagnostic.CA2229.severity = none
-
-# CA1058: Types should not extend certain base types
-dotnet_diagnostic.CA1058.severity = none
-
-# CA1002: Do not expose generic lists
-dotnet_diagnostic.CA1002.severity = suggestion
-
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = suggestion
 
 # CA1308: Normalize strings to uppercase
-dotnet_diagnostic.CA1308.severity = suggestion
+dotnet_diagnostic.CA1308.severity = none
 
 # CA1848: Use the LoggerMessage delegates
 dotnet_diagnostic.CA1848.severity = suggestion
 
-# CA1852: Seal internal types
-dotnet_diagnostic.CA1852.severity = suggestion
+# S3925: "ISerializable" should be implemented correctly
+dotnet_diagnostic.S3925.severity = suggestion
+
+# TODO: REVIEW
+
+dotnet_diagnostic.CA1724.severity = suggestion
 
 # S125: Sections of code should not be commented out
 dotnet_diagnostic.S125.severity = suggestion
 
 # CS8618: Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-dotnet_diagnostic.CS8618.severity = suggestion # TODO: CHANGE TO WARNING !!!
-
-# CS8601: Possible null reference assignment.
-dotnet_diagnostic.CS8601.severity = suggestion # TODO: CHANGE TO WARNING !!!
-
-# CA1036: Override methods on comparable types
-dotnet_diagnostic.CA1036.severity = suggestion
-
-# S1210: "Equals" and the comparison operators should be overridden when implementing "IComparable"
-dotnet_diagnostic.S1210.severity = suggestion
-
-# S3925: "ISerializable" should be implemented correctly
-dotnet_diagnostic.S3925.severity = suggestion
-
-# S6562: Always set the "DateTimeKind" when creating new "DateTime" instances
-dotnet_diagnostic.S6562.severity = suggestion
-
-dotnet_diagnostic.CA1724.severity = suggestion
+dotnet_diagnostic.CS8618.severity = suggestion

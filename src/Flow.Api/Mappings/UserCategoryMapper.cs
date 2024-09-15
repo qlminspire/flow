@@ -6,7 +6,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Api.Mappings;
 
 [Mapper]
-internal partial class UserCategoryMapper
+internal sealed partial class UserCategoryMapper
 {
     public partial UserCategoryResponse Map(UserCategoryDto userCategoryDto);
 

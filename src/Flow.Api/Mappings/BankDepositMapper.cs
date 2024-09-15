@@ -1,12 +1,12 @@
-﻿using Riok.Mapperly.Abstractions;
-using Flow.Application.Models.BankDeposit;
+﻿using Flow.Application.Models.BankDeposit;
 using Flow.Contracts.Requests.BankDeposit;
 using Flow.Contracts.Responses.BankDeposit;
+using Riok.Mapperly.Abstractions;
 
 namespace Flow.Api.Mappings;
 
 [Mapper]
-internal partial class BankDepositMapper
+internal sealed partial class BankDepositMapper
 {
     public partial BankDepositResponse Map(BankDepositDto bankDepositDto);
 

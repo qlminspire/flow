@@ -19,7 +19,7 @@ public interface IRepository<TEntity, in TKey>
 
     Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        List<Expression<Func<TEntity, object>>>? includes = null,
+        ICollection<Expression<Func<TEntity, object>>>? includes = null,
         bool disableTracking = true,
         CancellationToken cancellationToken = default);
 

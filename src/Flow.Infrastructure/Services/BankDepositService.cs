@@ -4,7 +4,7 @@ using Flow.Domain.Users;
 
 namespace Flow.Infrastructure.Services;
 
-internal class BankDepositService : IBankDepositService
+internal sealed class BankDepositService : IBankDepositService
 {
     private readonly BankDepositMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;

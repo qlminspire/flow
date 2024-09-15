@@ -6,7 +6,7 @@ using Riok.Mapperly.Abstractions;
 namespace Flow.Infrastructure.Mappings;
 
 [Mapper]
-internal partial class SubscriptionMapper
+internal sealed partial class SubscriptionMapper
 {
     public partial SubscriptionDto Map(Subscription subscription);
 

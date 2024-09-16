@@ -56,3 +56,5 @@ services:
     ports:
       - "5341:5341"
       - "8082:80"
+    volumes:
+      - seq_data:/data

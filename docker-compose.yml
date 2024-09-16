@@ -21,3 +21,4 @@ volumes:
   postgres_data:
   pgadmin_data:
   portainer_data:
+  seq_data:

@@ -9,7 +9,7 @@ public class BankNameTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("VA")]
-    public void Should_ReturnIsFailureTrue_WhenValueIsInvalid(string value)
+    public void Should_ReturnIsFailureTrue_WhenValueIsInvalid(string? value)
     {
         // Arrange
         // Act

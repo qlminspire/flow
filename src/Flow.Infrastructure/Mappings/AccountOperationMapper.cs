@@ -1,5 +1,6 @@
 ﻿using Flow.Application.Models.AccountOperation;
 using Flow.Domain.AccountOperations;
+using Flow.Domain.Accounts;
 using Riok.Mapperly.Abstractions;
 
 namespace Flow.Infrastructure.Mappings;
@@ -12,4 +13,6 @@ internal sealed partial class AccountOperationMapper
     private static decimal MoneyToDecimal(Money money) => money.Value;
 
     private static Guid IdToGuid(AccountOperationId id) => id.Value;
+
+    private static Guid AccountIdToGuid(AccountId id) => id.Value;
 }

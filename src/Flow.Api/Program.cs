@@ -1,4 +1,3 @@
-using System.Text;
 using Flow.Api.Exceptions;
 using Flow.Api.Extensions;
 using Flow.Api.HealthChecks;
@@ -29,7 +28,6 @@ builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
 
 builder.Host.UseSerilog((context, configuration) => { configuration.ReadFrom.Configuration(context.Configuration); });
-Console.OutputEncoding = Encoding.UTF8;
 
 builder.Services.AddExceptionHandler<ExceptionLoggingHandler>();
 builder.Services.AddExceptionHandler<TimeoutExceptionHandler>();

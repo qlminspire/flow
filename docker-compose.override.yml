@@ -3,11 +3,10 @@ services:
     container_name: flow.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # - ASPNETCORE_URLS=https://+:443;http://+:80
+      - "Serilog:WriteTo:2:Args:serverUrl=http://seq:5341"
       - "DatabaseSettings:ConnectionString=Server=flow.db;Port=5432;Database=Flow;User Id=admin;Password=admin1234;"
     ports:
       - "80:8080"
-      # - "443"
     volumes:
       - ./.containers/logs:/app/logs
       # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
@@ -49,3 +48,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+  
+  seq:
+    container_name: seq
+    environment:
+      - "ACCEPT_EULA=Y"
+    ports:
+      - "5341:5341"
+      - "8082:80"

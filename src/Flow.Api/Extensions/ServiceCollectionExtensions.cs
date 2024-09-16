@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Flow.Api.Exceptions;
 using Microsoft.OpenApi.Models;
 
 namespace Flow.Api.Extensions;
@@ -20,6 +21,18 @@ public static class ServiceCollectionExtensions
                 Description = "The goal of this API to make personal finance tracking simple"
             });
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddFlowExceptionHandlers(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<ExceptionLoggingHandler>();
+        services.AddExceptionHandler<TimeoutExceptionHandler>();
+        services.AddExceptionHandler<ValidationExceptionHandler>();
+        services.AddExceptionHandler<NotFoundExceptionHandler>();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
 
         return services;
     }

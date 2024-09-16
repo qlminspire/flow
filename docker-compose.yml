@@ -13,6 +13,9 @@ services:
 
   portainer:
     image: portainer/portainer-ce
+  
+  seq:
+    image: datalust/seq:latest
 
 volumes:
   postgres_data:

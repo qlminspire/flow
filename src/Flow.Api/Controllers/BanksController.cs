@@ -54,7 +54,7 @@ public class BanksController : BaseController
     public async Task<IResult> GetBanksAsync(CancellationToken cancellationToken)
     {
         var banks = await _bankService.GetAsync(cancellationToken);
-        _logger.LogInformation("The total banks amount is {@amount}. Banks: {@banks}", banks.Count, banks);
+        _logger.LogInformation("The total banks amount is {Amount}. Banks: {@Banks}", banks.Count, banks);
         return Results.Ok(_mapper.Map(banks));
     }
 

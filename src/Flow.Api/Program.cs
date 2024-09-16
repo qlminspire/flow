@@ -23,6 +23,7 @@ try
         .ValidateOnStart();
 
     var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
+
     builder.Services.AddDatabase(options => { options.UseNpgsql(connectionString); });
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure();
@@ -65,6 +66,7 @@ try
 catch (Exception exc)
 {
     Log.Logger.Fatal(exc, "Application terminated unexpectedly");
+    throw;
 }
 finally
 {

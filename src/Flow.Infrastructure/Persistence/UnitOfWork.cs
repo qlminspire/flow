@@ -41,7 +41,9 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(FlowContext context)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        ArgumentNullException.ThrowIfNull(context);
+
+        _context = context;
     }
 
     public IUserRepository Users => _userRepository ??= new UserRepository(_context);

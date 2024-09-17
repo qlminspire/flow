@@ -1,4 +1,6 @@
-﻿namespace Flow.Domain.Currencies;
+﻿using Flow.Domain.Currencies.Events;
+
+namespace Flow.Domain.Currencies;
 
 public sealed class Currency : AggregateRoot<CurrencyId>, IAuditable, IDeactivatable
 {
@@ -10,6 +12,8 @@ public sealed class Currency : AggregateRoot<CurrencyId>, IAuditable, IDeactivat
     {
         Code = code;
         CreatedAt = createdAt;
+
+        RaiseDomainEvent(new CurrencyCreatedDomainEvent(code, createdAt));
     }
 
     private Currency()
@@ -29,6 +33,30 @@ public sealed class Currency : AggregateRoot<CurrencyId>, IAuditable, IDeactivat
     public static Result<Currency> Create(CurrencyCode code, DateTime createdAt)
     {
         var currency = new Currency(new CurrencyId(Guid.NewGuid()), code, createdAt);
+
         return currency;
+    }
+
+    public void Activate(DateTime date)
+    {
+        if (!IsDeactivated)
+            return;
+
+        IsDeactivated = false;
+        UpdatedAt = date;
+        DeactivatedAt = null;
+
+        RaiseDomainEvent(new CurrencyActivatedDomainEvent(Code, date));
+    }
+
+    public void Deactivate(DateTime date)
+    {
+        if (IsDeactivated)
+            return;
+
+        IsDeactivated = true;
+        DeactivatedAt = date;
+
+        RaiseDomainEvent(new CurrencyDeactivatedDomainEvent(Code, date));
     }
 }

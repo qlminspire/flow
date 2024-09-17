@@ -24,7 +24,7 @@ public class BanksController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The Id of the bank</param>
@@ -44,7 +44,7 @@ public class BanksController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/banks
     /// </remarks>
     /// <param name="cancellationToken">The cancellation token</param>
@@ -63,7 +63,7 @@ public class BanksController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     POST: api/banks
     ///     {
     ///        "name": "Alphabank",
@@ -92,7 +92,7 @@ public class BanksController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     PUT: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4/activate
     /// </remarks>
     /// <param name="id">The Id of the bank</param>
@@ -113,7 +113,7 @@ public class BanksController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     PUT: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4/deactivate
     /// </remarks>
     /// <param name="id">The Id of the bank</param>
@@ -134,7 +134,7 @@ public class BanksController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     DELETE: api/banks/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The id of the bank</param>

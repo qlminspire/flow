@@ -30,7 +30,7 @@ namespace Flow.Infrastructure.Persistence.Migrations
                 type: "character varying(128)",
                 maxLength: 128,
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "character varying(128)",
                 oldMaxLength: 128,

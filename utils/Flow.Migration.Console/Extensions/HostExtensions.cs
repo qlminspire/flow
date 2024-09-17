@@ -12,6 +12,8 @@ public static class HostExtensions
         CancellationToken cancellationToken = default)
         where TContext : DbContext
     {
+        ArgumentNullException.ThrowIfNull(host);
+
         using var scope = host.Services.CreateScope();
 
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
@@ -20,13 +22,15 @@ public static class HostExtensions
 
         try
         {
-            logger.LogInformation("Start migrating database associated with context {DbContextName}.",
+            logger.LogInformation(
+                "Start migrating database associated with context {DbContextName}.",
                 typeof(TContext).Name);
 
             await context.Database.MigrateAsync(cancellationToken);
             await seeder.SeedAsync(cancellationToken);
 
-            logger.LogInformation("End migrating database associated with context {DbContextName}.",
+            logger.LogInformation(
+                "End migrating database associated with context {DbContextName}.",
                 typeof(TContext).Name);
         }
         catch (Exception exc)

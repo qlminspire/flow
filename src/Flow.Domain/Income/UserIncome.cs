@@ -10,8 +10,8 @@ public sealed class UserIncome : Entity<UserIncomeId>, IAuditable
         IncomeSource source,
         Account account,
         DateTime? date,
-        DateTime createdAt
-    ) : base(id)
+        DateTime createdAt)
+        : base(id)
     {
         Amount = amount;
         Source = source;

@@ -71,7 +71,8 @@ public class UserCategoriesController : BaseController
     [ProducesResponseType(typeof(UserCategoryResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    public async Task<IResult> CreateUserCategoryAsync([FromBody] CreateUserCategoryRequest request,
+    public async Task<IResult> CreateUserCategoryAsync(
+        [FromBody] CreateUserCategoryRequest request,
         CancellationToken cancellationToken)
     {
         var createUserCategoryDto = _mapper.Map(request);

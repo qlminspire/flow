@@ -14,7 +14,6 @@ internal sealed class BankConfiguration : IEntityTypeConfiguration<Bank>
 
         builder.Property(x => x.Name)
             .HasMaxLength(BankName.MaxLength)
-            .HasConversion(x => x.Value,
-                x => BankName.Create(x).Value);
+            .HasConversion(x => x.Value, x => BankName.Create(x).Value);
     }
 }

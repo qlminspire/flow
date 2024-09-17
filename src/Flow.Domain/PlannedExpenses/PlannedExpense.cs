@@ -11,8 +11,8 @@ public sealed class PlannedExpense : AggregateRoot<PlannedExpenseId>, IAuditable
         Money amount,
         UserId userId,
         CurrencyId currencyId,
-        DateTime createdAt
-    ) : base(id)
+        DateTime createdAt)
+        : base(id)
     {
         Name = name;
         Amount = amount;

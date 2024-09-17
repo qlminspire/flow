@@ -8,8 +8,7 @@ public sealed class UserCategory : Entity<UserCategoryId>, IAuditable
         UserCategoryId id,
         User user,
         UserCategoryName name,
-        DateTime createdAt
-    )
+        DateTime createdAt)
         : base(id)
     {
         UserId = user.Id;

@@ -50,7 +50,7 @@ dotnet_style_null_propagation = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_auto_properties = true:silent
 dotnet_style_object_initializer = true:suggestion
-dotnet_style_prefer_collection_expression = true:suggestion
+dotnet_style_prefer_collection_expression = when_types_exactly_match:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
@@ -136,16 +136,16 @@ dotnet_diagnostic.CA1031.severity = suggestion
 dotnet_diagnostic.CA1034.severity = none
 
 # CA1062: Validate arguments of public methods
-dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1062.severity = suggestion
 
 # CA1305: Specify IFormatProvider
-dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1305.severity = silent
 
 # CA1308: Normalize strings to uppercase
 dotnet_diagnostic.CA1308.severity = none
 
 # CA1716: Identifiers should not match keywords
-dotnet_diagnostic.CA1716.severity = none
+dotnet_diagnostic.CA1716.severity = suggestion
 
 # CA1724: Type names should not match namespaces
 dotnet_diagnostic.CA1724.severity = suggestion
@@ -157,7 +157,7 @@ dotnet_diagnostic.CA1812.severity = none
 dotnet_diagnostic.CA1848.severity = suggestion
 
 # CA1861: Avoid constant arrays as arguments
-dotnet_diagnostic.CA1861.severity = none
+dotnet_diagnostic.CA1861.severity = suggestion
 
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
@@ -175,3 +175,65 @@ dotnet_diagnostic.S125.severity = suggestion
 
 # S3925: "ISerializable" should be implemented correctly
 dotnet_diagnostic.S3925.severity = suggestion
+
+# StyleCop.Analyzers
+
+# SA0001: XmlCommentAnalysisDisabled
+dotnet_diagnostic.SA0001.severity = none
+
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = none
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1116: Split parameters should start on line after declaration
+dotnet_diagnostic.SA1116.severity = none
+
+# SA1117: Parameters should be on same line or separate lines
+dotnet_diagnostic.SA1117.severity = none
+
+# SA1201: Elements should appear in the correct order
+dotnet_diagnostic.SA1201.severity = suggestion
+
+# SA1202: Elements should be ordered by access
+dotnet_diagnostic.SA1202.severity = suggestion
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = none
+
+# SA1401: Fields should be private
+dotnet_diagnostic.SA1401.severity = suggestion
+
+# SA1402: File may only contain a single type
+dotnet_diagnostic.SA1402.severity = suggestion
+
+# SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1413.severity = none
+
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = suggestion
+
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = none
+
+#SA1515 : Single-line comment should be preceded by blank line
+dotnet_diagnostic.SA1515.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = silent
+
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = silent
+
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = none
+
+# SA1616: Element return value documentation should have text
+dotnet_diagnostic.SA1616.severity = suggestion
+
+# SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1629.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = silent

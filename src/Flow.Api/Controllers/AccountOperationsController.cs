@@ -20,7 +20,7 @@ public class AccountOperationsController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/accountOperations/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The Id of the account operation</param>
@@ -40,7 +40,7 @@ public class AccountOperationsController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     POST: api/accountOperations
     ///     {
     ///         "fromAccountId": "751bd4bb-437c-44d4-a344-2625cd3921ff",
@@ -54,7 +54,8 @@ public class AccountOperationsController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(AccountOperationResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<IResult> CreateAccountOperationAsync(CreateAccountOperationRequest request,
+    public async Task<IResult> CreateAccountOperationAsync(
+        CreateAccountOperationRequest request,
         CancellationToken cancellationToken)
     {
         var createDto = _mapper.Map(request);

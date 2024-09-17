@@ -89,13 +89,12 @@ public class BankAccountsController : BaseController
         return Results.CreatedAtRoute("GetBankAccountAsync", new { response.Id }, response);
     }
 
-
     /// <summary>
     /// Delete bank account
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     DELETE: api/bankAccounts/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The id of the bank account</param>

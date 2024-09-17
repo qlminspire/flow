@@ -20,7 +20,7 @@ public class PlannedExpensesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/plannedExpenses/485834cf-2488-44fe-a24d-dafc2d097830
     /// </remarks>
     /// <param name="id">The Id of planned expense</param>
@@ -40,7 +40,7 @@ public class PlannedExpensesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/plannedExpenses
     /// </remarks>
     /// <param name="cancellationToken">The cancellation token</param>
@@ -58,10 +58,10 @@ public class PlannedExpensesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET api/plannedExpenses/monthly/total/usd
     /// </remarks>
-    /// <param name="currency"></param>
+    /// <param name="currency">The currency</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The list of planned expenses for current month</returns>
     [HttpGet("Monthly/Total/{currency}")]
@@ -77,7 +77,7 @@ public class PlannedExpensesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     POST: api/plannedExpenses
     ///     {
     ///         "name": "IPhone 14 Pro",

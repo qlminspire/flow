@@ -17,8 +17,7 @@ public static class DependencyInjection
                     false)
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
-                .WithScopedLifetime()
-        );
+                .WithScopedLifetime());
 
         services.Decorate<IBankService, CachedBankService>();
 

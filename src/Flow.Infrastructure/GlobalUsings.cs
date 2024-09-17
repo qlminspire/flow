@@ -2,7 +2,7 @@
 global using Flow.Application.Shared.Exceptions;
 global using Flow.Domain.Abstractions;
 global using Flow.Domain.Shared;
-global using Flow.Infrastructure.Persistence.Repositories;
 global using Flow.Infrastructure.Mappings;
+global using Flow.Infrastructure.Persistence.Repositories;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

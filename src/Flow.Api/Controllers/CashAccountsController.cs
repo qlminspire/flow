@@ -35,7 +35,6 @@ public class CashAccountsController : BaseController
         return Results.Ok(_mapper.Map(account));
     }
 
-
     /// <summary>
     /// Get list of user cash accounts
     /// </summary>
@@ -91,7 +90,7 @@ public class CashAccountsController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     DELETE: api/cashAccounts/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The id of the cash account</param>

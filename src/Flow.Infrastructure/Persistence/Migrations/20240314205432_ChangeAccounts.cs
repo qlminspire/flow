@@ -29,7 +29,7 @@ namespace Flow.Infrastructure.Persistence.Migrations
                 type: "character varying(64)",
                 maxLength: 64,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         /// <inheritdoc />

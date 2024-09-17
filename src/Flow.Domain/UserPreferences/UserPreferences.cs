@@ -17,7 +17,6 @@ public sealed class UserPreferences : Entity<UserPreferenceId>, IAuditable
         CreatedAt = createdAt;
     }
 
-
     private UserPreferences()
     {
     }

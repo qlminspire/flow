@@ -20,7 +20,7 @@ public class CurrenciesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/currencies/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The Id of the currency</param>
@@ -40,7 +40,7 @@ public class CurrenciesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/currencies
     /// </remarks>
     /// <param name="cancellationToken">The cancellation token</param>
@@ -58,7 +58,7 @@ public class CurrenciesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     POST: api/currencies
     ///     {
     ///        "code": "USD",
@@ -85,7 +85,7 @@ public class CurrenciesController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     DELETE: api/currencies/ff11ff3e-01e3-435c-9e4f-47ecf06778b4
     /// </remarks>
     /// <param name="id">The id of the currency</param>

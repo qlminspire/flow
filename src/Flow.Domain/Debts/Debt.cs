@@ -11,8 +11,8 @@ public sealed class Debt : Entity<DebtId>, IAuditable
         DebtName name,
         Money amount,
         Currency currency,
-        DateTime createdAt
-    ) : base(id)
+        DateTime createdAt)
+        : base(id)
     {
         UserId = user.Id;
         Name = name;

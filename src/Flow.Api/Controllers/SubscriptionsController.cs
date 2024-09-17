@@ -58,10 +58,10 @@ public class SubscriptionsController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// 
+    ///
     ///     GET: api/subscriptions/monthly/total/usd
     /// </remarks>
-    /// <param name="currency"></param>
+    /// <param name="currency">The currency</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>The monthly total subscriptions price for user</returns>
     [HttpGet("Monthly/Total/{currency}")]

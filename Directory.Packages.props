@@ -48,7 +48,7 @@
         <PackageVersion Include="FluentAssertions" Version="6.12.1"/>
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1"/>
     </ItemGroup>
-    <ItemGroup>
+    <ItemGroup Condition="'$(MSBuildProjectExtension)' != '.dcproj'">
         <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all"/>
         <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982" PrivateAssets="all"/>
         <GlobalPackageReference Include="SerilogAnalyzer" Version="0.15.0" PrivateAssets="all"/>

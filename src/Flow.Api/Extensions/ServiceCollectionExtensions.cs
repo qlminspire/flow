@@ -49,7 +49,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddFlowOpenTelemetry(this IServiceCollection services)
     {
         services.AddOpenTelemetry()
-            .ConfigureResource(resource => resource.AddService(DiagnosticsConfig.ServiceName))
+            .ConfigureResource(resource =>
+                resource.AddService(DiagnosticsConfig.ServiceName, autoGenerateServiceInstanceId: false,
+                    serviceInstanceId: Environment.MachineName))
             .WithMetrics(metrics =>
             {
                 metrics.AddAspNetCoreInstrumentation()

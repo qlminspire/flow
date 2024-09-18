@@ -1,5 +1,4 @@
 using Flow.Api.Extensions;
-using Flow.Api.HealthChecks;
 using Flow.Application;
 using Flow.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -34,8 +33,7 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddFlowSwagger();
 
-    builder.Services.AddHealthChecks()
-        .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
+    builder.Services.AddFlowHealthChecks();
 
     builder.Services.AddFlowExceptionHandlers();
 
@@ -50,7 +48,7 @@ try
 
 // app.UseHttpsRedirection();
     app.UseExceptionHandler();
-    app.UseHealthChecks("/_health");
+    app.MapDefaultEndpoints();
 
     app.UseSerilogRequestLogging();
 

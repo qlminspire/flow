@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using Flow.Api.Exceptions;
+using Flow.Api.HealthChecks;
 using Flow.Api.Metrics;
 using Flow.Api.Settings;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
@@ -71,6 +73,16 @@ public static class ServiceCollectionExtensions
             .BindConfiguration(DatabaseSettings.ConfigurationSection)
             .ValidateDataAnnotations()
             .ValidateOnStart();
+
+        return services;
+    }
+
+    public static IServiceCollection AddFlowHealthChecks(this IServiceCollection services)
+    {
+        services.AddHealthChecks()
+            .AddCheck("self", () => HealthCheckResult.Healthy(),
+                ["live"]) // Add a default liveness check to ensure app is responsive
+            .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
 
         return services;
     }

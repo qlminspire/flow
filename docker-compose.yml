@@ -16,6 +16,9 @@ services:
   
   seq:
     image: datalust/seq:latest
+  
+  aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
 
 volumes:
   postgres_data:

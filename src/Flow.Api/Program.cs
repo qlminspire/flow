@@ -1,6 +1,5 @@
 using Flow.Api.Extensions;
 using Flow.Api.HealthChecks;
-using Flow.Api.Settings;
 using Flow.Application;
 using Flow.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +12,19 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
-    Log.Logger.Information("Starting application...");
+    Log.Logger.Information("Starting application");
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddOptions<DatabaseSettings>()
-        .BindConfiguration(DatabaseSettings.ConfigurationSection)
-        .ValidateDataAnnotations()
-        .ValidateOnStart();
+    builder.Services.AddFlowOpenTelemetry();
+
+    builder.Services.AddHttpContextAccessor();
+    builder.Host.UseSerilog(
+        (context, configuration) => { configuration.ReadFrom.Configuration(context.Configuration); });
+
+    builder.Services.AddFlowConfiguration();
 
     var connectionString = builder.Configuration["DatabaseSettings:ConnectionString"];
-
     builder.Services.AddDatabase(options => { options.UseNpgsql(connectionString); });
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure();
@@ -36,10 +37,6 @@ try
     builder.Services.AddHealthChecks()
         .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
 
-    builder.Services.AddHttpContextAccessor();
-    builder.Host.UseSerilog(
-        (context, configuration) => { configuration.ReadFrom.Configuration(context.Configuration); });
-
     builder.Services.AddFlowExceptionHandlers();
 
     Log.Logger.Information("Total services: {Count}", builder.Services.Count);
@@ -51,7 +48,7 @@ try
         app.UseFlowSwagger();
     }
 
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
     app.UseExceptionHandler();
     app.UseHealthChecks("/_health");
 

@@ -1,4 +1,5 @@
-﻿using Flow.Contracts.Requests.BankAccount;
+﻿using Flow.Api.Metrics;
+using Flow.Contracts.Requests.BankAccount;
 using Flow.Contracts.Responses.BankAccount;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,6 +85,8 @@ public class BankAccountsController : BaseController
         var createDto = _mapper.Map(request);
 
         var dto = await _bankAccountService.CreateAsync(UserId, createDto, cancellationToken);
+
+        DiagnosticsConfig.BankAccountsCounter.Add(1);
 
         var response = _mapper.Map(dto);
         return Results.CreatedAtRoute("GetBankAccountAsync", new { response.Id }, response);

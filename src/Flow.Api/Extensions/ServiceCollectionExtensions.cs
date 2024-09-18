@@ -1,6 +1,12 @@
 ﻿using System.Reflection;
 using Flow.Api.Exceptions;
+using Flow.Api.Metrics;
+using Flow.Api.Settings;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace Flow.Api.Extensions;
 
@@ -8,13 +14,14 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddFlowSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(c =>
+        services.AddSwaggerGen(options =>
         {
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            c.IncludeXmlComments(xmlPath);
 
-            c.SwaggerDoc(ApiConstants.Version, new OpenApiInfo
+            options.IncludeXmlComments(xmlPath);
+
+            options.SwaggerDoc(ApiConstants.Version, new OpenApiInfo
             {
                 Title = ApiConstants.Swagger.ApiTitle,
                 Version = ApiConstants.Version,
@@ -33,6 +40,37 @@ public static class ServiceCollectionExtensions
         services.AddExceptionHandler<NotFoundExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+
+        return services;
+    }
+
+    public static IServiceCollection AddFlowOpenTelemetry(this IServiceCollection services)
+    {
+        services.AddOpenTelemetry()
+            .ConfigureResource(resource => resource.AddService(DiagnosticsConfig.ServiceName))
+            .WithMetrics(metrics =>
+            {
+                metrics.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation();
+
+                metrics.AddMeter(DiagnosticsConfig.Meter.Name);
+            }).WithTracing(tracing =>
+            {
+                tracing.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddEntityFrameworkCoreInstrumentation();
+            }).UseOtlpExporter();
+
+        return services;
+    }
+
+    public static IServiceCollection AddFlowConfiguration(this IServiceCollection services)
+    {
+        services.AddOptions<DatabaseSettings>()
+            .BindConfiguration(DatabaseSettings.ConfigurationSection)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         return services;
     }

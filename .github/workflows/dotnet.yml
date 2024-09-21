@@ -38,5 +38,6 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
+        context: ./src/Flow.Api/
         push: true
         tags: vladislavqlm/flow:latest

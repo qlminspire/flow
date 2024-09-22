@@ -37,6 +37,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flow.Tests.Integration", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flow.Tests.Unit", "tests\Flow.Tests.Unit\Flow.Tests.Unit.csproj", "{43A172D9-63A9-44BE-AA6D-8BB1E7742808}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1DEB319A-E7EE-49E4-8B40-B3CF0C4A0EBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{1B6F8BA3-5333-4F22-B2A6-BE169BD9A559}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +100,8 @@ Global
 		{75039EE0-F602-4B53-832B-C94A211AACAC} = {A0E55A5C-BAA0-4BBE-A7FB-7AC101C685FC}
 		{43A172D9-63A9-44BE-AA6D-8BB1E7742808} = {A0E55A5C-BAA0-4BBE-A7FB-7AC101C685FC}
 		{05D08194-350B-4520-AE3F-09B57F2FAE07} = {95F67F92-F53D-41E0-9D19-C78571D9EC0D}
+		{1DEB319A-E7EE-49E4-8B40-B3CF0C4A0EBE} = {95F67F92-F53D-41E0-9D19-C78571D9EC0D}
+		{1B6F8BA3-5333-4F22-B2A6-BE169BD9A559} = {1DEB319A-E7EE-49E4-8B40-B3CF0C4A0EBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {08D92713-E93A-4A18-B1F4-060CD09ED098}

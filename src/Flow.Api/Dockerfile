@@ -9,7 +9,6 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["nuget.config", "."]
 COPY ["Directory.Build.props", "."]
 COPY ["Directory.Packages.props", "."]
 COPY ["src/Flow.Api/Flow.Api.csproj", "src/Flow.Api/"]
